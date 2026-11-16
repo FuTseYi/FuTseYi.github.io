@@ -1,32 +1,32 @@
 <?xml version='1.0' encoding='utf-8'?>
-<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>FuTseYi (Shine) · Blog</title><link>https://www.futseyi.com/blog/</link><description>FuTseYi (Shine) — MPhil student at The Hong Kong University of Science and Technology (HKUST), Guangzhou Campus. Interested in AI, computer vision, robotics, and edge intelligence.</description><language>en</language><item><title>GitHub README 透明图片出现灰底的解决方法</title><link>https://www.futseyi.com/blog/github-readme-transparent-image-background/</link><guid isPermaLink="true">https://www.futseyi.com/blog/github-readme-transparent-image-background/</guid><pubDate>Mon, 02 Nov 2026 00:00:00 +0000</pubDate><description>在 GitHub README 中展示透明 Logo 时，有时会遇到一个不太直观的问题：图片文件本身没有丢失透明通道，在普通网页和编辑器预览中也显示正常，到了 GitHub 页面却出现了灰色背景。</description><content:encoded>&lt;h2 id="1"&gt;1 问题现象&lt;/h2&gt;
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>FuTseYi (Shine) · Blog</title><link>https://www.futseyi.com/blog/</link><description>FuTseYi (Shine) — MPhil student at The Hong Kong University of Science and Technology (HKUST), Guangzhou Campus. Interested in AI, computer vision, robotics, and edge intelligence.</description><language>en</language><item><title>GitHub README 透明图片出现灰底的解决方法</title><link>https://www.futseyi.com/blog/github-readme-transparent-image-background/</link><guid isPermaLink="true">https://www.futseyi.com/blog/github-readme-transparent-image-background/</guid><pubDate>Mon, 02 Nov 2026 00:00:00 +0000</pubDate><description>在 GitHub README 中展示透明 Logo 时，有时会遇到一个不太直观的问题：图片文件本身没有丢失透明通道，在普通网页和编辑器预览中也显示正常，到了 GitHub 页面却出现了灰色背景。</description><content:encoded>&lt;h2 id="_1"&gt;问题现象&lt;/h2&gt;
 &lt;p&gt;在 GitHub README 中展示透明 Logo 时，有时会遇到一个不太直观的问题：图片文件本身没有丢失透明通道，在普通网页和编辑器预览中也显示正常，到了 GitHub 页面却出现了灰色背景。&lt;/p&gt;
 &lt;p&gt;我是在整理 README 中的组织 Logo 时碰到这个现象的。最初我怀疑是图片代理缓存或资源格式问题，但对比原图、网页和 README 的渲染结果后，才把排查重点转向 GitHub 最终处理的 HTML 属性。&lt;/p&gt;
-&lt;h2 id="2-readme"&gt;2 定位到 README 的图片属性&lt;/h2&gt;
+&lt;h2 id="readme"&gt;定位到 README 的图片属性&lt;/h2&gt;
 &lt;p&gt;README 由脚本从网站内容自动生成。检查生成的 HTML，发现每张 Logo 都同时指定了宽度和高度：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;img&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"logo.svg"&lt;/span&gt; &lt;span class="na"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;""&lt;/span&gt; &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"32"&lt;/span&gt; &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"32"&lt;/span&gt; &lt;span class="na"&gt;align&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"middle"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;在 &lt;a href="https://github.com/orgs/community/discussions/192847"&gt;GitHub Community 的相关讨论&lt;/a&gt; 中，也有人报告了相同的表现：README 的 &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 同时设置 &lt;code&gt;width&lt;/code&gt; 和 &lt;code&gt;height&lt;/code&gt; 时，GitHub 渲染页面会出现额外的灰色背景，并提出移除其中一个尺寸属性作为规避方式。&lt;/p&gt;
 &lt;p&gt;这并不意味着 HTML 不应该同时声明图片宽高。在一般网页中，明确宽高有助于预留布局空间；这里遇到的是 GitHub Markdown 渲染环境下的具体表现。&lt;/p&gt;
-&lt;h2 id="3"&gt;3 最小修复&lt;/h2&gt;
+&lt;h2 id="_2"&gt;最小修复&lt;/h2&gt;
 &lt;p&gt;我只修改了 README 生成脚本，保留宽度，移除高度：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gd"&gt;- &amp;lt;img src="https://www.futseyi.com/blog/github-readme-transparent-image-background/logo.svg" alt="" width="32" height="32" align="middle"&amp;gt;&lt;/span&gt;
 &lt;span class="gi"&gt;+ &amp;lt;img src="https://www.futseyi.com/blog/github-readme-transparent-image-background/logo.svg" alt="" width="32" align="middle"&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;图片高度因此由自身的宽高比决定，不需要修改 SVG、PNG、图片 URL 或网站的 CSS。更重要的是，修复写在同步脚本中，后续自动生成网站仓库 README 和个人 Profile README 时都会沿用同一规则。&lt;/p&gt;
-&lt;h2 id="4"&gt;4 验证与总结&lt;/h2&gt;
+&lt;h2 id="_3"&gt;验证与总结&lt;/h2&gt;
 &lt;p&gt;重新同步两个 README 后，GitHub 页面上的灰色背景都消失了。网站原有的 Logo 布局没有变化，图片也仍然由同一套资源提供。&lt;/p&gt;
 &lt;p&gt;这次问题的关键不在于图片是否透明，而在于&lt;strong&gt;同一段 HTML 在普通网页、编辑器预览和 GitHub README 中可能有不同的渲染结果&lt;/strong&gt;。遇到类似现象时，除了检查图片本身，也值得检查最终生成的标签和属性。&lt;/p&gt;
-&lt;p&gt;参考：&lt;a href="https://github.com/orgs/community/discussions/192847"&gt;GitHub Community — GitHub adds grey background color to img in markdown&lt;/a&gt;。&lt;/p&gt;</content:encoded></item><item><title>把 GitHub 变成内容后台：HKUST-ELPA 的 Serverless 实践</title><link>https://www.futseyi.com/blog/hkust-elpa-serverless-github-native-cms/</link><guid isPermaLink="true">https://www.futseyi.com/blog/hkust-elpa-serverless-github-native-cms/</guid><pubDate>Mon, 19 Oct 2026 00:00:00 +0000</pubDate><description>最近，我把自己整理的 ELPA 口语备考资料做成了一个网站： HKUST-ELPA 。</description><content:encoded>&lt;h2 id="1"&gt;1 前言&lt;/h2&gt;
+&lt;p&gt;参考：&lt;a href="https://github.com/orgs/community/discussions/192847"&gt;GitHub Community — GitHub adds grey background color to img in markdown&lt;/a&gt;。&lt;/p&gt;</content:encoded></item><item><title>把 GitHub 变成内容后台：HKUST-ELPA 的 Serverless 实践</title><link>https://www.futseyi.com/blog/hkust-elpa-serverless-github-native-cms/</link><guid isPermaLink="true">https://www.futseyi.com/blog/hkust-elpa-serverless-github-native-cms/</guid><pubDate>Mon, 19 Oct 2026 00:00:00 +0000</pubDate><description>最近，我把自己整理的 ELPA 口语备考资料做成了一个网站： HKUST-ELPA 。</description><content:encoded>&lt;h2 id="_1"&gt;前言&lt;/h2&gt;
 &lt;p&gt;最近，我把自己整理的 ELPA 口语备考资料做成了一个网站：&lt;a href="https://hkust-elpa.vercel.app/"&gt;HKUST-ELPA&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;ELPA 是香港科技大学及香港科技大学（广州）相关的英语能力评估。准备考试时，我发现不少题目回忆和经验分散在聊天记录、文档与往届同学的分享中。资料并不缺少，真正麻烦的是&lt;strong&gt;查找、练习，以及后续持续更新&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;最初我只打算做一个能搜索题目、随机抽题和记笔记的静态网页。但做着做着，出现了更有意思的问题：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;能不能不搭建传统业务数据库和管理后台，也让一个静态题库具备完整的社区投稿、审核和持续发布能力？&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;最终，我采用了原生 JavaScript、Cloudflare Workers 与 GitHub 原生协作机制相结合的方案。项目已经发布 &lt;a href="https://github.com/FuTseYi/HKUST-ELPA/releases/tag/v1.0.0"&gt;v1.0.0 正式版&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;这篇文章主要记录项目的架构、数据设计和实际工程取舍，也给以后维护类似的轻量内容平台留一份参考。&lt;/p&gt;
-&lt;h2 id="2"&gt;2 技术选型：把复杂度留给真正需要的环节&lt;/h2&gt;
+&lt;h2 id="_2"&gt;技术选型：把复杂度留给真正需要的环节&lt;/h2&gt;
 &lt;p&gt;决定技术方案前，我先把项目数据分成两类：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;公共内容&lt;/strong&gt;：题目、考试经历、相似问法、提示小问、备考经验和来源记录，需要共享、审核与追溯。&lt;/li&gt;
@@ -87,8 +87,8 @@
 &lt;/table&gt;&lt;/div&gt;
 &lt;p&gt;整个网站没有前端框架和构建步骤，克隆仓库后启动静态 HTTP 服务就能预览；只有投稿时才需要调用边缘 API。&lt;/p&gt;
 &lt;p&gt;对这个项目来说，&lt;strong&gt;静态优先不是功能妥协，而是明确区分本地交互与公共内容写入之后的自然选择。&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id="3"&gt;3 系统架构：两条数据链路&lt;/h2&gt;
-&lt;h3 id="31"&gt;3.1 个人练习留在浏览器&lt;/h3&gt;
+&lt;h2 id="_3"&gt;系统架构：两条数据链路&lt;/h2&gt;
+&lt;h3 id="_4"&gt;个人练习留在浏览器&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;静态题库 → 浏览器加载
               ↓
        搜索 / 筛选 / 抽题 / 计时
@@ -101,7 +101,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;浏览题目、随机抽题、模拟计时和保存笔记都是客户端操作，无需登录，也不需要请求业务服务器。&lt;/p&gt;
-&lt;h3 id="32-github"&gt;3.2 社区内容通过 GitHub 审核发布&lt;/h3&gt;
+&lt;h3 id="github"&gt;社区内容通过 GitHub 审核发布&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;用户填写投稿
       ↓
 Cloudflare Turnstile
@@ -129,9 +129,9 @@ GitHub Actions + 受信任的导入脚本
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这个流程最关键的边界是：&lt;strong&gt;投稿只是提交一条待审核记录，不等于修改正式题库。&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id="4-github-native-cms"&gt;4 核心设计：GitHub-Native CMS&lt;/h2&gt;
+&lt;h2 id="github-native-cms"&gt;核心设计：GitHub-Native CMS&lt;/h2&gt;
 &lt;p&gt;这是项目里我认为最值得复用的部分。&lt;/p&gt;
-&lt;h3 id="41-issue"&gt;4.1 Issue 同时承担投稿队列与来源记录&lt;/h3&gt;
+&lt;h3 id="issue"&gt;Issue 同时承担投稿队列与来源记录&lt;/h3&gt;
 &lt;p&gt;传统内容管理系统一般需要单独维护内容表、审核状态和后台页面。我直接使用 GitHub Issue 作为公开投稿入口。&lt;/p&gt;
 &lt;p&gt;当 Cloudflare Worker 校验通过后，会创建一条附带 &lt;code&gt;submission:pending&lt;/code&gt; 标签的 Issue。内容包含两部分：&lt;/p&gt;
 &lt;ol&gt;
@@ -140,7 +140,7 @@ GitHub Actions + 受信任的导入脚本
 &lt;/ol&gt;
 &lt;p&gt;结构化记录通过 &lt;code&gt;elpa-submission-v2&lt;/code&gt; 标记封装在 Issue 中；Turnstile Token 不会随投稿记录写入 GitHub。&lt;/p&gt;
 &lt;p&gt;这种设计不需要自建数据库来保存投稿队列，而且每条投稿天然保留 GitHub Issue 链接，之后可以直接回溯内容来源和审核过程。&lt;/p&gt;
-&lt;h3 id="42-pr"&gt;4.2 审核通过后自动生成 PR，而不是自动发布&lt;/h3&gt;
+&lt;h3 id="pr"&gt;审核通过后自动生成 PR，而不是自动发布&lt;/h3&gt;
 &lt;p&gt;审核时，我只需要检查投稿是否准确、是否重复、有没有隐私信息，以及题目分类和表达是否合理。&lt;/p&gt;
 &lt;p&gt;确认后，由仓库所有者给开放中的 Issue 添加：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;submission:approved
@@ -158,14 +158,14 @@ GitHub Actions + 受信任的导入脚本
 
 &lt;p&gt;最终的 PR 依然由人审核、合并，不会因为一个标签就直接把投稿发布到线上。&lt;/p&gt;
 &lt;p&gt;这里的 GitHub &lt;strong&gt;不是运行时查询的数据库&lt;/strong&gt;，而是承担内容协作、审核和版本管理；正式题库仍由仓库中的结构化文件提供，随静态站点一起发布。&lt;/p&gt;
-&lt;h3 id="43"&gt;4.3 用文件白名单控制自动化边界&lt;/h3&gt;
+&lt;h3 id="_5"&gt;用文件白名单控制自动化边界&lt;/h3&gt;
 &lt;p&gt;自动化导入程序还配有专门的差异检查脚本：&lt;code&gt;scripts/check-submission-diff.cjs&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;它限制生成的投稿 PR 只能修改预先允许的题库和内容文件，而不能顺带修改前端脚本、工作流或部署配置。&lt;/p&gt;
 &lt;p&gt;与此同时，Issue 中的用户输入始终按&lt;strong&gt;不可信数据&lt;/strong&gt;处理，不作为命令执行；字段会在 Worker 与导入器中重复校验。&lt;/p&gt;
 &lt;p&gt;自动化负责减少重复劳动，发布控制仍留在维护者手中。&lt;/p&gt;
-&lt;h2 id="5-id"&gt;5 数据设计：稳定 ID、考试经历与内容补充分离&lt;/h2&gt;
+&lt;h2 id="id"&gt;数据设计：稳定 ID、考试经历与内容补充分离&lt;/h2&gt;
 &lt;p&gt;题库持续更新后，我发现比“如何新增一道题”更难的是：&lt;strong&gt;如何保证后续更新不会破坏旧数据。&lt;/strong&gt;&lt;/p&gt;
-&lt;h3 id="51-stable-ids"&gt;5.1 Stable IDs：题目排序不等于题目身份&lt;/h3&gt;
+&lt;h3 id="stable-ids"&gt;Stable IDs：题目排序不等于题目身份&lt;/h3&gt;
 &lt;p&gt;题目使用稳定 ID 关联学习记录，例如：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;D-1   GZ Regular ELPA
 F-2   GZ Fast Track
@@ -175,7 +175,7 @@ T-*   HK Fast Track
 
 &lt;p&gt;不同校区和考试类型有对应的数据分区。新导入题目的编号采用与原始 Issue 编号相关的确定性规则；已有题目的 ID 则保持不变。&lt;/p&gt;
 &lt;p&gt;这样，题库排序、筛选、归档方式即使调整，也不会让用户之前记录的笔记突然关联到另一道题上。&lt;/p&gt;
-&lt;h3 id="52-encounter-supplement"&gt;5.2 Encounter 与 Supplement：反馈次数要有明确含义&lt;/h3&gt;
+&lt;h3 id="encounter-supplement"&gt;Encounter 与 Supplement：反馈次数要有明确含义&lt;/h3&gt;
 &lt;p&gt;假设一位同学分享了某道已有题目的考试经历，另一位同学只补充了新的追问。&lt;/p&gt;
 &lt;p&gt;这不应该被当成两次相同的考试出现记录。&lt;/p&gt;
 &lt;p&gt;因此，投稿模型明确区分：&lt;/p&gt;
@@ -203,12 +203,12 @@ T-*   HK Fast Track
 &lt;p&gt;对已有题目，系统会基于题目 ID、校区、类型和规范化英文内容确认关联；新考试经历附加到原题，内容补充则更新相关信息。&lt;/p&gt;
 &lt;p&gt;同一条 Issue 的记录也会检查是否已经导入，避免重复处理。&lt;/p&gt;
 &lt;p&gt;因此，&lt;strong&gt;题目是一个稳定实体，考试经历是可追加的记录，补充问法是另一种数据更新&lt;/strong&gt;。这三者不能混为一谈。&lt;/p&gt;
-&lt;h3 id="53-provenance"&gt;5.3 Provenance：来源和考试场次不能靠猜&lt;/h3&gt;
+&lt;h3 id="provenance"&gt;Provenance：来源和考试场次不能靠猜&lt;/h3&gt;
 &lt;p&gt;另一个容易被忽略的问题是资料来源。&lt;/p&gt;
 &lt;p&gt;有的题目保留了学生回忆中的英文表达，有的只是根据中文回忆整理成适合练习的英文问法；资料整理日期也不等于考试发生日期。&lt;/p&gt;
 &lt;p&gt;项目因此将题目内容、历史场次和来源说明分开管理。对有依据的考试记录保留学期与阶段，对尚未核实的场次不强行补齐。&lt;/p&gt;
 &lt;p&gt;这一点让社区题库在持续积累内容的同时，仍能保持清晰的来源边界。&lt;/p&gt;
-&lt;h2 id="6-local-first"&gt;6 Local-First：无需账号的学习记录&lt;/h2&gt;
+&lt;h2 id="local-first"&gt;Local-First：无需账号的学习记录&lt;/h2&gt;
 &lt;p&gt;既然个人学习状态没有社区共享需求，就没必要为它专门搭建账号系统。&lt;/p&gt;
 &lt;p&gt;HKUST-ELPA 允许用户直接在浏览器里：&lt;/p&gt;
 &lt;ul&gt;
@@ -222,7 +222,7 @@ T-*   HK Fast Track
 &lt;p&gt;需要注意的是，本地记录按浏览器和网站来源隔离：Vercel 与 GitHub Pages 可以部署同一套代码，但两边的 &lt;code&gt;localStorage&lt;/code&gt; 不会自动同步。因此我保留了显式的备份与恢复入口。&lt;/p&gt;
 &lt;p&gt;未完成的社区投稿则使用 &lt;code&gt;sessionStorage&lt;/code&gt; 暂存，在当前标签页刷新后仍可恢复，提交成功后清除。&lt;/p&gt;
 &lt;p&gt;这套设计的思路是：&lt;strong&gt;共享内容走审核发布链路，个人状态留在用户设备上。&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id="7-edge-security"&gt;7 Edge Security：给静态网站增加可信写入入口&lt;/h2&gt;
+&lt;h2 id="edge-security"&gt;Edge Security：给静态网站增加可信写入入口&lt;/h2&gt;
 &lt;p&gt;前端静态化并不意味着所有操作都应该由浏览器直接完成。&lt;/p&gt;
 &lt;p&gt;投稿时，浏览器只调用 Cloudflare Worker，真正的 GitHub Token 和 Turnstile Secret 保存在 Worker Secrets 中。&lt;/p&gt;
 &lt;p&gt;当前接口主要实施以下控制：&lt;/p&gt;
@@ -267,16 +267,16 @@ T-*   HK Fast Track
 &lt;p&gt;Worker 不会仅凭前端显示“验证成功”就信任请求；Cloudflare Turnstile 的校验发生在服务端。&lt;/p&gt;
 &lt;p&gt;GitHub Actions 导入时又会对结构化数据重新验证。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;浏览器、边缘接口、Issue 和正式题库之间有清楚的信任边界。&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id="8"&gt;8 测试与发布：让小步迭代可重复验证&lt;/h2&gt;
+&lt;h2 id="_6"&gt;测试与发布：让小步迭代可重复验证&lt;/h2&gt;
 &lt;p&gt;这个项目后期经历了不少细节调整。我逐渐发现，小型项目同样需要自动化测试，否则一个看似简单的 UI 修改也可能影响数据关联和使用流程。&lt;/p&gt;
-&lt;h3 id="81-nodejs"&gt;8.1 Node.js 逻辑测试&lt;/h3&gt;
+&lt;h3 id="nodejs"&gt;Node.js 逻辑测试&lt;/h3&gt;
 &lt;p&gt;项目使用 Node.js 内置测试工具覆盖题库数据、投稿校验、Worker 行为和数据导入器。&lt;/p&gt;
 &lt;p&gt;本地可以直接执行：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;npm&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;check
 npm&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="82-playwright"&gt;8.2 Playwright 浏览器回归&lt;/h3&gt;
+&lt;h3 id="playwright"&gt;Playwright 浏览器回归&lt;/h3&gt;
 &lt;p&gt;浏览器测试使用 Playwright + Chromium，覆盖以下八种宽度：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;320 / 375 / 390 / 430
 700 / 768 / 1024 / 1280 px
@@ -288,12 +288,12 @@ npm&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;
 &lt;p&gt;另一个问题出现在跨校区投稿：从某道题的分享链接进入表单后，如果用户更改校区，原来的题目关联就不再合法。最终在前端切换时清除不兼容的关联，同时由导入器复核对应的校区与题目。&lt;/p&gt;
 &lt;p&gt;这些都是&lt;strong&gt;单个函数很容易看起来正确，但整条用户操作链路仍可能出错&lt;/strong&gt;的例子。&lt;/p&gt;
 &lt;p&gt;测试运行时会隔离外部验证与真实投稿请求，不会因为回归测试而向公开仓库写入虚构题目。&lt;/p&gt;
-&lt;h3 id="83"&gt;8.3 发布与持续维护&lt;/h3&gt;
+&lt;h3 id="_7"&gt;发布与持续维护&lt;/h3&gt;
 &lt;p&gt;代码通过 GitHub Actions 检查后合并到 &lt;code&gt;main&lt;/code&gt;，静态站点随部署更新；Cloudflare Worker 独立管理投稿入口。&lt;/p&gt;
 &lt;p&gt;项目同时部署在 Vercel 和 GitHub Pages，方便保留备用访问入口。&lt;/p&gt;
 &lt;p&gt;2026 年 10 月，我发布了首个正式版本 &lt;a href="https://github.com/FuTseYi/HKUST-ELPA/releases/tag/v1.0.0"&gt;v1.0.0 — Initial Public Release&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;后续日常题库更新仍然通过小步 PR 完成，不需要为了每次内容调整都发布一个新版本。&lt;/p&gt;
-&lt;h2 id="9"&gt;9 总结：让系统复杂度与真实需求匹配&lt;/h2&gt;
+&lt;h2 id="_8"&gt;总结：让系统复杂度与真实需求匹配&lt;/h2&gt;
 &lt;p&gt;这次开发给我最大的收获，是重新思考“一个完整应用到底需要哪些基础设施”。&lt;/p&gt;
 &lt;p&gt;HKUST-ELPA 当然也有后端：Cloudflare Worker 承担了必要的写入校验。但它不需要常驻业务服务器，不需要自己搭建账户体系、内容审核后台或业务数据库。&lt;/p&gt;
 &lt;p&gt;我把不同职责交给了最合适的位置：&lt;/p&gt;
@@ -311,7 +311,7 @@ Vercel / Pages      → 静态发布
 &lt;p&gt;&lt;strong&gt;好的技术选型不是堆叠更多组件，而是让系统只承担真实需要的复杂度。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;HKUST-ELPA 从最初的一份备考笔记，逐渐成为了一次关于 Serverless Architecture、GitHub-Native Collaboration 和 Local-First Design 的工程实践。&lt;/p&gt;
 &lt;p&gt;我也希望它之后仍然保持最初的状态：轻量、开放、可维护。&lt;/p&gt;
-&lt;h2 id="10"&gt;10 项目与参考资料&lt;/h2&gt;
+&lt;h2 id="_9"&gt;项目与参考资料&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://hkust-elpa.vercel.app/"&gt;HKUST-ELPA 在线网站&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/FuTseYi/HKUST-ELPA"&gt;GitHub 开源仓库&lt;/a&gt;&lt;/li&gt;
@@ -323,7 +323,7 @@ Vercel / Pages      → 静态发布
 &lt;/ul&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;em&gt;Built with Passion. Shared with Everyone.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;为爱发电 · 开源共建 · 互帮互助&lt;/em&gt;&lt;/p&gt;</content:encoded></item><item><title>Cloudflare Email Routing：自有域名邮件转发实践</title><link>https://www.futseyi.com/blog/cloudflare-email-routing-outlook-forwarding/</link><guid isPermaLink="true">https://www.futseyi.com/blog/cloudflare-email-routing-outlook-forwarding/</guid><pubDate>Wed, 14 Oct 2026 00:00:00 +0000</pubDate><description>一直想给自己的域名配一套邮箱地址：对外使用简洁的自定义地址，收到的邮件仍然由熟悉的 Outlook 统一管理。</description><content:encoded>&lt;h2 id="1"&gt;1 前言&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;为爱发电 · 开源共建 · 互帮互助&lt;/em&gt;&lt;/p&gt;</content:encoded></item><item><title>Cloudflare Email Routing：自有域名邮件转发实践</title><link>https://www.futseyi.com/blog/cloudflare-email-routing-outlook-forwarding/</link><guid isPermaLink="true">https://www.futseyi.com/blog/cloudflare-email-routing-outlook-forwarding/</guid><pubDate>Wed, 14 Oct 2026 00:00:00 +0000</pubDate><description>一直想给自己的域名配一套邮箱地址：对外使用简洁的自定义地址，收到的邮件仍然由熟悉的 Outlook 统一管理。</description><content:encoded>&lt;h2 id="_1"&gt;前言&lt;/h2&gt;
 &lt;p&gt;一直想给自己的域名配一套邮箱地址：对外使用简洁的自定义地址，收到的邮件仍然由熟悉的 Outlook 统一管理。&lt;/p&gt;
 &lt;p&gt;但仔细想想，我现阶段并不需要用域名&lt;strong&gt;发送&lt;/strong&gt;邮件，也不需要为它单独开一个邮箱客户端、购买存储空间或维护邮件服务器。真正需要的只有一件事：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;别人给自有域名发信，邮件可以自动转发到现有的 Outlook 收件箱。&lt;/strong&gt;&lt;/p&gt;
@@ -332,7 +332,7 @@ Vercel / Pages      → 静态发布
 &lt;blockquote&gt;
 &lt;p&gt;文中邮箱与域名统一使用 &lt;code&gt;example.com&lt;/code&gt; 等示例值；实际操作时替换为自己的域名和已验证的收件邮箱即可。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="2"&gt;2 先理解：这是邮件转发，不是独立邮箱&lt;/h2&gt;
+&lt;h2 id="_2"&gt;先理解：这是邮件转发，不是独立邮箱&lt;/h2&gt;
 &lt;p&gt;这套方案的邮件路径很简单：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;发件人
    ↓
@@ -352,7 +352,7 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 &lt;li&gt;&lt;strong&gt;通过 Outlook 直接回复时，默认显示的仍是 Outlook 发件地址。&lt;/strong&gt; 如果未来想以自有域名发信，需要另外配置合适的发信服务；这与本文的免费收信转发是两回事。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;对目前只需要收信的我来说，这样反而更轻量。&lt;/p&gt;
-&lt;h2 id="3"&gt;3 准备条件&lt;/h2&gt;
+&lt;h2 id="_3"&gt;准备条件&lt;/h2&gt;
 &lt;p&gt;我只准备了三样东西：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;一个自己的域名&lt;/strong&gt;：域名已经添加到 Cloudflare，并且 DNS 托管状态为 &lt;code&gt;Active&lt;/code&gt;。&lt;/li&gt;
@@ -361,8 +361,8 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 &lt;/ol&gt;
 &lt;p&gt;需要提前确认的一点是：&lt;strong&gt;同一个域名的 MX 记录决定入站邮件交给谁处理。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;如果域名已经接入 Microsoft 365、Google Workspace 等邮箱服务，不要直接覆盖正在使用的 MX 记录。否则原本的收信系统可能受到影响。这次我的域名没有需要保留的其他收信服务，所以可以直接启用 Cloudflare 的邮件路由。&lt;/p&gt;
-&lt;h2 id="4-cloudflare-email-routing"&gt;4 Cloudflare Email Routing 配置过程&lt;/h2&gt;
-&lt;h3 id="41"&gt;4.1 启用邮件路由&lt;/h3&gt;
+&lt;h2 id="cloudflare-email-routing"&gt;Cloudflare Email Routing 配置过程&lt;/h2&gt;
+&lt;h3 id="_4"&gt;启用邮件路由&lt;/h3&gt;
 &lt;p&gt;进入 &lt;a href="https://dash.cloudflare.com/"&gt;Cloudflare Dashboard&lt;/a&gt;：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Cloudflare Dashboard
 → Email / 电子邮件服务
@@ -373,7 +373,7 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 
 &lt;p&gt;不同版本的控制台可能在菜单命名上略有差异，核心是找到对应域名的 &lt;strong&gt;Email Routing&lt;/strong&gt; 页面。&lt;/p&gt;
 &lt;p&gt;启用后，我先检查域名状态是否为 &lt;code&gt;Enabled&lt;/code&gt; / &lt;code&gt;Ready&lt;/code&gt;，再查看 DNS 是否已经同步。&lt;strong&gt;仅显示“邮件路由已启用”，还不代表某个自定义邮箱地址已经可以收信&lt;/strong&gt;，后面必须继续创建转发规则。&lt;/p&gt;
-&lt;h3 id="42-dnsmxspfdkim"&gt;4.2 检查 DNS：MX、SPF、DKIM&lt;/h3&gt;
+&lt;h3 id="dnsmxspfdkim"&gt;检查 DNS：MX、SPF、DKIM&lt;/h3&gt;
 &lt;p&gt;Cloudflare 会提示配置邮件路由所需的 DNS 记录。我的配置中，启用后相关记录已经自动同步，没有必要逐条手动复制。&lt;/p&gt;
 &lt;p&gt;其中最重要的是：&lt;/p&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
@@ -404,7 +404,7 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 &lt;/table&gt;&lt;/div&gt;
 &lt;p&gt;在 DNS 页面能看到 Cloudflare 对应的 MX 服务器记录，是检查是否接管收信入口的直观方式。&lt;strong&gt;MX 优先级以控制台生成的值为准&lt;/strong&gt;，不要照搬其他人的数字。&lt;/p&gt;
 &lt;p&gt;如果域名已经有 SPF 记录，也应当合并所需机制，而不是额外再创建一条独立的 &lt;code&gt;v=spf1&lt;/code&gt; 记录。&lt;/p&gt;
-&lt;h3 id="43-outlook"&gt;4.3 添加并验证 Outlook 目标邮箱&lt;/h3&gt;
+&lt;h3 id="outlook"&gt;添加并验证 Outlook 目标邮箱&lt;/h3&gt;
 &lt;p&gt;这一步非常关键，也是我实际配置过程中碰到的一个限制。&lt;/p&gt;
 &lt;p&gt;进入：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Email Routing
@@ -419,7 +419,7 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 
 &lt;p&gt;点击邮件中的 &lt;strong&gt;Verify email address&lt;/strong&gt;，再回 Cloudflare 检查状态是否已经变成 &lt;code&gt;Verified&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;要先验证目标地址，再创建转发规则。&lt;/strong&gt; 未验证时直接创建规则，可能会收到 &lt;code&gt;Destination address is not verified&lt;/code&gt; 这样的错误提示。&lt;/p&gt;
-&lt;h3 id="44"&gt;4.4 创建四个自定义邮箱地址&lt;/h3&gt;
+&lt;h3 id="_5"&gt;创建四个自定义邮箱地址&lt;/h3&gt;
 &lt;p&gt;目标地址验证完成后，进入域名的 &lt;strong&gt;Routing Rules / 路由规则&lt;/strong&gt; 页面，点击 &lt;strong&gt;Create routing rule / 创建路由规则&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;在我的中文控制台里，创建规则时主要填写三项：&lt;/p&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
@@ -474,11 +474,11 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 &lt;/table&gt;&lt;/div&gt;
 &lt;p&gt;这四条规则的操作都相同：&lt;strong&gt;转发至同一个已验证的 Outlook 收件箱&lt;/strong&gt;。创建完成后，确认每条规则的状态均为 &lt;code&gt;Active&lt;/code&gt; / &lt;code&gt;已启用&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;我没有继续增加更多用途相近的别名。对个人使用来说，能覆盖真实场景、又不会增加额外管理负担，比追求地址数量更重要。&lt;/p&gt;
-&lt;h3 id="45-catch-all"&gt;4.5 保持 Catch-all 关闭&lt;/h3&gt;
+&lt;h3 id="catch-all"&gt;保持 Catch-all 关闭&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;Catch-all&lt;/code&gt; 是通配符收件规则，可以处理那些没有被明确创建的地址，例如有人发信到 &lt;code&gt;random@example.com&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;这个功能听上去很方便，但也可能扩大垃圾邮件的入口。&lt;/p&gt;
 &lt;p&gt;我更倾向于&lt;strong&gt;只启用明确创建的四条规则，Catch-all 保持关闭&lt;/strong&gt;。这样每一个对外地址都有清晰用途，也方便以后按需调整。&lt;/p&gt;
-&lt;h2 id="5"&gt;5 实际验证：确保邮件真的能收到&lt;/h2&gt;
+&lt;h2 id="_6"&gt;实际验证：确保邮件真的能收到&lt;/h2&gt;
 &lt;p&gt;规则显示为 &lt;code&gt;Active&lt;/code&gt; 后，我没有直接把它当成配置完成，而是从其他邮箱向自定义地址发送测试信，再到 Outlook 检查收件结果。&lt;/p&gt;
 &lt;p&gt;我的检查顺序是：&lt;/p&gt;
 &lt;ol&gt;
@@ -488,20 +488,20 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 &lt;li&gt;如果收件箱未显示，就检查垃圾邮件文件夹，以及 Cloudflare 的邮件活动日志。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;实际收信测试成功后，这套方案才算真正可用。它不需要 Outlook 做任何特殊的收件服务器配置，仍然按原来的方式使用 Outlook 即可。&lt;/p&gt;
-&lt;h2 id="6"&gt;6 几个值得记住的细节&lt;/h2&gt;
-&lt;h3 id="61"&gt;6.1 目标邮箱没验证，规则可能无法创建&lt;/h3&gt;
+&lt;h2 id="_7"&gt;几个值得记住的细节&lt;/h2&gt;
+&lt;h3 id="_8"&gt;目标邮箱没验证，规则可能无法创建&lt;/h3&gt;
 &lt;p&gt;这是最容易漏掉的一步。Cloudflare 发出的验证邮件需要在&lt;strong&gt;最终收件邮箱&lt;/strong&gt;里点击确认，仅仅添加目标地址还不够。&lt;/p&gt;
-&lt;h3 id="62"&gt;6.2 路由开启不等于地址已创建&lt;/h3&gt;
+&lt;h3 id="_9"&gt;路由开启不等于地址已创建&lt;/h3&gt;
 &lt;p&gt;DNS 正常、Email Routing 显示已启用，只说明域名层面的邮件入口已经准备好。只有添加匹配特定地址的转发规则，邮件才能按预期转发到目标邮箱。&lt;/p&gt;
-&lt;h3 id="63"&gt;6.3 邮件认证与转发不是百分之百无损&lt;/h3&gt;
+&lt;h3 id="_10"&gt;邮件认证与转发不是百分之百无损&lt;/h3&gt;
 &lt;p&gt;Cloudflare 会对来信进行身份认证和反滥用检查。少数发送方的 SPF、DKIM、DMARC 配置不规范时，邮件可能被拒收；部分邮件也可能被 Outlook 归类为垃圾邮件。&lt;/p&gt;
 &lt;p&gt;因此，准备将域名邮箱用于申请通知、账户验证或其他重要事务前，最好用不同发件方实际测试，并保留一个可用的备用联系方式。&lt;/p&gt;
-&lt;h3 id="64"&gt;6.4 这套方案只解决“收”，不解决“发”&lt;/h3&gt;
+&lt;h3 id="_11"&gt;这套方案只解决“收”，不解决“发”&lt;/h3&gt;
 &lt;p&gt;例如别人发邮件给 &lt;code&gt;contact@example.com&lt;/code&gt;，我能在 Outlook 收到；但直接点击回复，默认发件地址依然是原来的 Outlook 邮箱。&lt;/p&gt;
 &lt;p&gt;如果以后需要以 &lt;code&gt;contact@example.com&lt;/code&gt; 的身份发送或回复邮件，就要另外研究域名发信的 SMTP 或邮件服务配置。本文并没有配置这部分，也不建议仅为了收信需求而增加不必要的复杂度。&lt;/p&gt;
-&lt;h3 id="65"&gt;6.5 不在公开教程里放真实邮箱和控制台截图&lt;/h3&gt;
+&lt;h3 id="_12"&gt;不在公开教程里放真实邮箱和控制台截图&lt;/h3&gt;
 &lt;p&gt;邮箱地址、账户标识及 DNS 之外的后台信息，没必要为了写教程完整公开。使用 &lt;code&gt;example.com&lt;/code&gt; 这样的示例域名，既能把步骤讲明白，也更利于读者直接迁移到自己的配置中。&lt;/p&gt;
-&lt;h2 id="7"&gt;7 总结&lt;/h2&gt;
+&lt;h2 id="_13"&gt;总结&lt;/h2&gt;
 &lt;p&gt;这次折腾下来，我觉得 Cloudflare Email Routing 非常适合已经拥有域名、同时又习惯使用 Outlook 或其他成熟邮箱服务的人。&lt;/p&gt;
 &lt;p&gt;整个思路其实只有四步：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;域名接入 Cloudflare
@@ -512,74 +512,24 @@ Cloudflare Email Routing（接收、匹配规则并转发）
 
 &lt;p&gt;我最终保留了四个用途清晰的域名邮箱地址，所有来信统一由一个 Outlook 收件箱管理，Catch-all 关闭，也没有为了“看起来更专业”去购买暂时用不到的企业邮箱。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;用自己的域名作为稳定的对外入口，用成熟的邮箱服务负责日常收件。&lt;/strong&gt; 对现阶段的我来说，这已经是简洁、可维护且足够实用的方案。&lt;/p&gt;
-&lt;h2 id="8"&gt;8 参考资料&lt;/h2&gt;
+&lt;h2 id="_14"&gt;参考资料&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://developers.cloudflare.com/email-service/"&gt;Cloudflare Email Service 文档&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://developers.cloudflare.com/email-service/get-started/route-emails/"&gt;Cloudflare：开始配置邮件路由&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/"&gt;Cloudflare：邮箱地址与转发规则&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://developers.cloudflare.com/email-service/configuration/domains/"&gt;Cloudflare：邮件路由 DNS 配置&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://developers.cloudflare.com/email-service/concepts/email-lifecycle/"&gt;Cloudflare：邮件处理流程&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title>Git 仓库与百度网盘同步冲突排查</title><link>https://www.futseyi.com/blog/git-baidu-netdisk-sync-conflict/</link><guid isPermaLink="true">https://www.futseyi.com/blog/git-baidu-netdisk-sync-conflict/</guid><pubDate>Mon, 12 Oct 2026 00:00:00 +0000</pubDate><description>把 Git 仓库放进网盘同步目录，看起来可以同时获得跨设备访问和云端保存，但这并不等于为仓库建立了可靠备份。多数普通网盘同步工具主要依据文件变化进行同步，并不了解 Git 对 .git 目录中对象和引用的更新语义；如果两者同时读写同一仓库，就可能产生难以定位的异常。</description><content:encoded>&lt;h2 id="1"&gt;1 问题背景&lt;/h2&gt;
-&lt;p&gt;把 Git 仓库放进网盘同步目录，看起来可以同时获得跨设备访问和云端保存，但这并不等于为仓库建立了可靠备份。多数普通网盘同步工具主要依据文件变化进行同步，并不了解 Git 对 &lt;code&gt;.git&lt;/code&gt; 目录中对象和引用的更新语义；如果两者同时读写同一仓库，就可能产生难以定位的异常。&lt;/p&gt;
-&lt;p&gt;我在整理个人归档目录时遇到了这类问题。下面结合当时的报错，说明它可能如何发生、我采取了什么处理，以及怎样划分同步、版本管理和备份的边界。&lt;/p&gt;
-&lt;h2 id="2"&gt;2 遇到的错误&lt;/h2&gt;
-&lt;p&gt;2026 年 10 月 12 日，我在仓库中执行：&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;pull&lt;span class="w"&gt; &lt;/span&gt;--tags&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;main
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Git 返回：&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fatal: bad object refs/heads/main.baiduyun.uploading.cfg
-error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessary objects
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;其中值得注意的是：&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;refs/heads/main.baiduyun.uploading.cfg
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;这个文件名带有百度网盘同步过程中的临时标记。问题并不是普通的远端分支冲突，而是 Git 读取本地引用时，遇到了同步客户端正在处理的文件。&lt;/p&gt;
-&lt;h2 id="3"&gt;3 原因与处理&lt;/h2&gt;
-&lt;p&gt;Git 的 &lt;code&gt;.git&lt;/code&gt; 目录保存提交对象、引用和索引等内部数据。网盘同步工具看到的只是普通文件，并不知道 Git 可能正在更新引用、写入对象或重建索引。&lt;/p&gt;
-&lt;p&gt;如果同步客户端恰好在 Git 操作期间处理这些文件，就可能出现短暂的临时文件、引用状态不一致，甚至对象缺失等异常。&lt;/p&gt;
-&lt;p&gt;这次我采用的处理方式很简单：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;暂停或退出百度网盘同步客户端，避免它继续处理仓库目录&lt;/li&gt;
-&lt;li&gt;等待 Git 操作和文件写入完全停止&lt;/li&gt;
-&lt;li&gt;重新启动同步客户端，让它完成当前同步状态的整理&lt;/li&gt;
-&lt;li&gt;再次执行 Git 操作，确认仓库恢复正常&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;当时关闭同步后重新同步，问题便不再出现。这个结果说明冲突与同步时序有关，但不应据此认定所有类似错误都由网盘造成。&lt;/p&gt;
-&lt;h2 id="4"&gt;4 更稳妥的目录管理方式&lt;/h2&gt;
-&lt;p&gt;对于同时使用 Git 和网盘的个人归档，我更倾向于把两者的职责分开：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Git 仓库&lt;/strong&gt;：负责代码版本、提交历史、分支和远端协作&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;网盘同步空间&lt;/strong&gt;：负责普通文件在设备之间的同步&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;独立备份&lt;/strong&gt;：负责保存可恢复的历史副本&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如果确实需要把仓库放在同步空间中，尽量避免多个设备同时操作同一个仓库，也不要让同步客户端在 Git 正在执行 pull、checkout、rebase 或 commit 时改写 &lt;code&gt;.git&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;更稳妥的做法，是把正在开发的仓库放在本地普通目录，完成提交和推送后，再将需要归档的文件或仓库快照复制到网盘。若需要完整 Git 历史，可以使用 Git bundle 或镜像方式保存，而不只是下载源码 ZIP。&lt;/p&gt;
-&lt;h2 id="5"&gt;5 验证与日常检查&lt;/h2&gt;
-&lt;p&gt;遇到类似问题时，可以先检查仓库状态：&lt;/p&gt;
-&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;status
-git&lt;span class="w"&gt; &lt;/span&gt;branch&lt;span class="w"&gt; &lt;/span&gt;-avv
-git&lt;span class="w"&gt; &lt;/span&gt;fsck&lt;span class="w"&gt; &lt;/span&gt;--full
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;其中 &lt;code&gt;git fsck --full&lt;/code&gt; 可以帮助检查对象数据库的一致性。执行修复或清理前，建议先保留当前目录副本，不要直接删除不认识的 &lt;code&gt;.git&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;p&gt;如果问题只在网盘同步期间出现，先暂停同步、确认 Git 状态，再恢复同步，比反复执行 pull 或 reset 更稳妥。&lt;/p&gt;
-&lt;h2 id="6"&gt;6 总结&lt;/h2&gt;
-&lt;p&gt;这次排查让我更明确了一点：&lt;strong&gt;同步不等于版本控制，版本控制也不等于备份。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Git 需要对仓库内部状态进行有序、原子的更新，而普通网盘同步工具并不具备 Git 感知能力。把两者放在同一目录时，关键不是简单地让它们同时工作，而是明确操作边界和先后顺序。&lt;/p&gt;
-&lt;p&gt;对需要长期维护的个人归档来说，让 Git 管理版本、让网盘管理普通文件同步，再单独保留可恢复的备份，会更容易维护。&lt;/p&gt;</content:encoded></item><item><title>百度网盘与 OneDrive 的文件同步与备份实践</title><link>https://www.futseyi.com/blog/baidu-netdisk-onedrive-sync-backup/</link><guid isPermaLink="true">https://www.futseyi.com/blog/baidu-netdisk-onedrive-sync-backup/</guid><pubDate>Mon, 12 Oct 2026 00:00:00 +0000</pubDate><description>随着个人项目、学习资料和归档文件越来越多，我希望找到一种能够兼顾多设备访问、自动同步和本地空间管理的方案。</description><content:encoded>&lt;h2 id="1"&gt;1 我为什么重新整理云盘方案&lt;/h2&gt;
+&lt;/ul&gt;</content:encoded></item><item><title>百度网盘与 OneDrive 的文件同步与备份实践</title><link>https://www.futseyi.com/blog/baidu-netdisk-onedrive-sync-backup/</link><guid isPermaLink="true">https://www.futseyi.com/blog/baidu-netdisk-onedrive-sync-backup/</guid><pubDate>Mon, 12 Oct 2026 00:00:00 +0000</pubDate><description>随着个人项目、学习资料和归档文件越来越多，我希望找到一种能够兼顾多设备访问、自动同步和本地空间管理的方案。</description><content:encoded>&lt;h2 id="_1"&gt;我为什么重新整理云盘方案&lt;/h2&gt;
 &lt;p&gt;随着个人项目、学习资料和归档文件越来越多，我希望找到一种能够兼顾多设备访问、自动同步和本地空间管理的方案。&lt;/p&gt;
 &lt;p&gt;之前我主要使用 OneDrive，也尝试过让不同网盘共同管理同一个文件夹。但实际使用后发现，云盘同步、Git 版本管理和独立备份是三件不同的事，不能简单地把多个同步客户端叠在一起。&lt;/p&gt;
 &lt;p&gt;这次整理的重点，是让每种工具承担清晰的职责。&lt;/p&gt;
-&lt;h2 id="2-onedrive"&gt;2 OneDrive 与百度网盘的使用体验&lt;/h2&gt;
+&lt;h2 id="onedrive"&gt;OneDrive 与百度网盘的使用体验&lt;/h2&gt;
 &lt;p&gt;我分别从日常同步和文件管理的角度使用两种服务。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;OneDrive&lt;/strong&gt; 更适合与 Windows 系统和 Microsoft 生态配合。按需文件功能可以释放本地空间，需要时再下载云端内容。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;百度网盘同步空间&lt;/strong&gt; 则提供了另一种管理体验：可以把指定文件夹纳入同步空间，也可以按需释放本地文件。对我来说，它在手机端上传文件、电脑端统一归档的流程比较顺手。&lt;/p&gt;
 &lt;p&gt;还有一个实际差异是，我发现百度网盘可以存取 Live Photo 格式的照片，这也是我在整理个人照片时比较看重的一点。&lt;/p&gt;
 &lt;p&gt;两者并不是非此即彼。是否保留某个服务，应取决于设备生态、文件类型、同步体验和实际成本，而不是只看容量。&lt;/p&gt;
-&lt;h2 id="3-git"&gt;3 同步空间与 Git 仓库的边界&lt;/h2&gt;
+&lt;h2 id="git"&gt;同步空间与 Git 仓库的边界&lt;/h2&gt;
 &lt;p&gt;我曾把 Git 管理的个人归档仓库放进百度网盘同步空间。2026 年 10 月 12 日执行：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;pull&lt;span class="w"&gt; &lt;/span&gt;--tags&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;main
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -597,7 +547,7 @@ error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessar
 &lt;li&gt;需要备份 Git 历史时，额外保存 Git bundle 或镜像&lt;/li&gt;
 &lt;li&gt;避免多个设备同时打开并修改同一个同步目录中的仓库&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="4"&gt;4 释放本地空间时需要注意什么&lt;/h2&gt;
+&lt;h2 id="_2"&gt;释放本地空间时需要注意什么&lt;/h2&gt;
 &lt;p&gt;百度网盘和 OneDrive 的按需文件机制，能够减少本地磁盘占用，但它们并不意味着文件永远不会重新下载。&lt;/p&gt;
 &lt;p&gt;我还观察到一个情况：手机端向百度网盘同步空间上传文件后，即使电脑端此前选择了释放空间，Git 访问相关目录时仍可能触发文件重新下载。等本地 Git 操作完成并推送到远端后，再释放空间就比较顺畅。&lt;/p&gt;
 &lt;p&gt;这提醒我，释放空间与本地程序访问之间存在关联。只要某个应用需要读取文件，云盘客户端就可能重新将它下载到本地。&lt;/p&gt;
@@ -608,7 +558,7 @@ error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessar
 &lt;li&gt;Git 操作完成后再执行空间释放&lt;/li&gt;
 &lt;li&gt;不要在同步进行时强制移动、删除或批量改写文件&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="5"&gt;5 同步不等于备份&lt;/h2&gt;
+&lt;h2 id="_3"&gt;同步不等于备份&lt;/h2&gt;
 &lt;p&gt;这是整套方案里最重要的原则。&lt;/p&gt;
 &lt;p&gt;同步的目标是让多个位置保持一致；备份的目标是在误删、覆盖、损坏或账号异常后，仍然能够恢复到过去的状态。&lt;/p&gt;
 &lt;p&gt;如果一个文件被误删，同步服务可能会把删除操作传播到其他设备。因此，单纯拥有两个同步客户端，并不等于拥有两份独立备份。&lt;/p&gt;
@@ -620,7 +570,7 @@ error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessar
 &lt;li&gt;关键资料：定期检查备份是否能够实际恢复&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;例如，仓库快照可以采用带日期的命名方式，避免新备份覆盖旧版本。备份是否可靠，最终要通过恢复测试确认，而不是只看上传是否成功。&lt;/p&gt;
-&lt;h2 id="6"&gt;6 最终分工&lt;/h2&gt;
+&lt;h2 id="_4"&gt;最终分工&lt;/h2&gt;
 &lt;p&gt;经过这轮实践，我更倾向于使用下面的结构：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;GitHub
   └─ 代码版本、提交历史、协作
@@ -636,9 +586,9 @@ OneDrive
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;不需要让每个文件夹同时被所有服务接管。按内容和用途选择一个主要同步位置，再为重要数据建立独立备份，整体会更清晰。&lt;/p&gt;
-&lt;h2 id="7"&gt;7 总结&lt;/h2&gt;
+&lt;h2 id="_5"&gt;总结&lt;/h2&gt;
 &lt;p&gt;云盘的价值不只是容量，而是让文件在不同设备之间更容易流动。但同步工具、版本控制和备份工具有不同的目标，混用时必须划清边界。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;同步负责可访问，Git 负责可追溯，备份负责可恢复。&lt;/strong&gt; 把这三件事分开设计，才能让个人文件归档长期稳定地运行。&lt;/p&gt;</content:encoded></item><item><title>使用 Raindrop.io 统一管理跨浏览器书签</title><link>https://www.futseyi.com/blog/raindrop-cross-browser-bookmarks/</link><guid isPermaLink="true">https://www.futseyi.com/blog/raindrop-cross-browser-bookmarks/</guid><pubDate>Sat, 26 Sep 2026 00:00:00 +0000</pubDate><description>日常使用浏览器时，我的书签分散在 Google Chrome、Safari 等不同环境中。每个浏览器都有自己的收藏夹体系，分类、整理和同步也各自独立。</description><content:encoded>&lt;h2 id="1"&gt;1 为什么需要独立的书签管理工具&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;同步负责可访问，Git 负责可追溯，备份负责可恢复。&lt;/strong&gt; 把这三件事分开设计，才能让个人文件归档长期稳定地运行。&lt;/p&gt;</content:encoded></item><item><title>使用 Raindrop.io 统一管理跨浏览器书签</title><link>https://www.futseyi.com/blog/raindrop-cross-browser-bookmarks/</link><guid isPermaLink="true">https://www.futseyi.com/blog/raindrop-cross-browser-bookmarks/</guid><pubDate>Sat, 26 Sep 2026 00:00:00 +0000</pubDate><description>日常使用浏览器时，我的书签分散在 Google Chrome、Safari 等不同环境中。每个浏览器都有自己的收藏夹体系，分类、整理和同步也各自独立。</description><content:encoded>&lt;h2 id="_1"&gt;为什么需要独立的书签管理工具&lt;/h2&gt;
 &lt;p&gt;日常使用浏览器时，我的书签分散在 Google Chrome、Safari 等不同环境中。每个浏览器都有自己的收藏夹体系，分类、整理和同步也各自独立。&lt;/p&gt;
 &lt;p&gt;短期看，直接使用浏览器自带书签最方便；但当设备和浏览器逐渐增多，就会遇到几个问题：&lt;/p&gt;
 &lt;ul&gt;
@@ -648,7 +598,7 @@ OneDrive
 &lt;li&gt;收藏内容越来越多，靠手动分类和搜索变得低效&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;我希望把书签从浏览器中解耦出来，形成一个独立、长期可迁移的收藏入口。&lt;/p&gt;
-&lt;h2 id="2-raindropio"&gt;2 为什么选择 Raindrop.io&lt;/h2&gt;
+&lt;h2 id="raindropio"&gt;为什么选择 Raindrop.io&lt;/h2&gt;
 &lt;p&gt;我最终关注的是 &lt;a href="https://raindrop.io/"&gt;Raindrop.io&lt;/a&gt; 这类独立书签管理服务。&lt;/p&gt;
 &lt;p&gt;它的核心价值不是再造一个浏览器收藏夹，而是把收藏内容集中管理：&lt;/p&gt;
 &lt;ul&gt;
@@ -660,7 +610,7 @@ OneDrive
 &lt;li&gt;通过导出功能保留自己的书签数据&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这样，浏览器只负责访问网页和提供保存入口，真正的收藏体系由独立工具维护。&lt;/p&gt;
-&lt;h2 id="3"&gt;3 一套容易长期维护的组织方式&lt;/h2&gt;
+&lt;h2 id="_2"&gt;一套容易长期维护的组织方式&lt;/h2&gt;
 &lt;p&gt;我更建议从少量稳定的 Collection 开始，而不是一开始就建立非常细碎的文件夹。&lt;/p&gt;
 &lt;p&gt;例如可以按内容用途划分：&lt;/p&gt;
 &lt;ul&gt;
@@ -672,7 +622,7 @@ OneDrive
 &lt;/ul&gt;
 &lt;p&gt;Collection 负责主要归属，Tag 则用于跨主题检索。例如一篇关于 AI 产品的文章，可以放在 Research，同时添加 &lt;code&gt;AI&lt;/code&gt;、&lt;code&gt;Product&lt;/code&gt; 等标签。&lt;/p&gt;
 &lt;p&gt;不要把每个网站都建成一个 Collection。分类越细，维护成本越高；能用搜索和标签解决的问题，就不必继续增加层级。&lt;/p&gt;
-&lt;h2 id="4"&gt;4 从浏览器迁移到统一收藏库&lt;/h2&gt;
+&lt;h2 id="_3"&gt;从浏览器迁移到统一收藏库&lt;/h2&gt;
 &lt;p&gt;迁移时可以先从原浏览器导出书签，再导入 Raindrop.io。不同浏览器的导出入口和文件格式可能略有差异，通常可以使用 HTML 书签文件完成迁移。&lt;/p&gt;
 &lt;p&gt;建议按这个顺序操作：&lt;/p&gt;
 &lt;ol&gt;
@@ -684,27 +634,27 @@ OneDrive
 &lt;li&gt;后续新增收藏统一保存到 Raindrop&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;迁移完成后，不必立刻删除浏览器原有书签。先并行使用一段时间，确认收藏完整、搜索顺手，再逐步把独立服务作为主要入口。&lt;/p&gt;
-&lt;h2 id="5"&gt;5 不把收藏库绑定在单一平台&lt;/h2&gt;
+&lt;h2 id="_4"&gt;不把收藏库绑定在单一平台&lt;/h2&gt;
 &lt;p&gt;书签本质上是自己长期积累的网页索引，不应该因为使用某个服务就失去迁移能力。&lt;/p&gt;
 &lt;p&gt;我会保留定期导出的书签文件，并把重要资料进一步沉淀到自己的笔记或项目归档中。Raindrop 适合管理“以后可能还会打开的网页”，但不应该代替论文管理、项目文档或本地知识库。&lt;/p&gt;
 &lt;p&gt;平台的免费额度、同步能力和导出选项可能随时间调整，实际使用前应以官方说明为准。&lt;/p&gt;
-&lt;h2 id="6"&gt;6 总结&lt;/h2&gt;
+&lt;h2 id="_5"&gt;总结&lt;/h2&gt;
 &lt;p&gt;对我来说，Raindrop.io 的意义在于把书签从某一个浏览器中独立出来。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;浏览器是入口，收藏库是长期资产。&lt;/strong&gt; 用一个跨平台的服务集中保存，再通过少量 Collection、标签和搜索管理，能减少在多个浏览器之间重复整理的成本。&lt;/p&gt;</content:encoded></item><item><title>Codex Browser 与 Computer Use 网络异常排查</title><link>https://www.futseyi.com/blog/codex-browser-computer-use-network-issue/</link><guid isPermaLink="true">https://www.futseyi.com/blog/codex-browser-computer-use-network-issue/</guid><pubDate>Sat, 26 Sep 2026 00:00:00 +0000</pubDate><description>2026 年 9 月，我在使用 Codex 桌面端的 Browser / Computer Use 功能时，遇到过一个比较特殊的网络问题：普通网页访问和常规代理连接基本正常，但相关自动化能力无法正常发起网络请求。</description><content:encoded>&lt;h2 id="1"&gt;1 问题现象&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;浏览器是入口，收藏库是长期资产。&lt;/strong&gt; 用一个跨平台的服务集中保存，再通过少量 Collection、标签和搜索管理，能减少在多个浏览器之间重复整理的成本。&lt;/p&gt;</content:encoded></item><item><title>Codex Browser 与 Computer Use 网络异常排查</title><link>https://www.futseyi.com/blog/codex-browser-computer-use-network-issue/</link><guid isPermaLink="true">https://www.futseyi.com/blog/codex-browser-computer-use-network-issue/</guid><pubDate>Sat, 26 Sep 2026 00:00:00 +0000</pubDate><description>2026 年 9 月，我在使用 Codex 桌面端的 Browser / Computer Use 功能时，遇到过一个比较特殊的网络问题：普通网页访问和常规代理连接基本正常，但相关自动化能力无法正常发起网络请求。</description><content:encoded>&lt;h2 id="_1"&gt;问题现象&lt;/h2&gt;
 &lt;p&gt;2026 年 9 月，我在使用 Codex 桌面端的 Browser / Computer Use 功能时，遇到过一个比较特殊的网络问题：普通网页访问和常规代理连接基本正常，但相关自动化能力无法正常发起网络请求。&lt;/p&gt;
 &lt;p&gt;当时出现的错误是：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;nodeRepl.fetch request failed
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这类报错很容易让人先怀疑 Codex 本身、浏览器环境或服务端状态。不过，我当时使用的是 Clash Verge 的代理环境，问题也可能出在应用流量的转发方式上。&lt;/p&gt;
-&lt;h2 id="2"&gt;2 排查思路&lt;/h2&gt;
+&lt;h2 id="_2"&gt;排查思路&lt;/h2&gt;
 &lt;p&gt;代理客户端通常提供系统代理和 TUN 两种不同的接管方式。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;系统代理&lt;/strong&gt;：主要通过系统代理设置，让遵循系统代理配置的应用转发流量&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;TUN 模式&lt;/strong&gt;：通过虚拟网络接口接管更广泛的网络流量，覆盖部分不读取系统代理设置的应用或进程&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;桌面应用中的自动化组件不一定与普通浏览器采用相同的网络请求路径。即使浏览器已经可以通过系统代理访问网页，也不能据此判断 Browser / Computer Use 使用的所有网络请求都已被代理接管。&lt;/p&gt;
-&lt;h2 id="3"&gt;3 实际解决方式&lt;/h2&gt;
+&lt;h2 id="_3"&gt;实际解决方式&lt;/h2&gt;
 &lt;p&gt;我当时使用的代理配置并非 TUN 模式。排查后，直接在 Clash Verge 中开启 TUN 模式，再重新测试 Codex 的 Browser / Computer Use，相关功能便恢复正常。&lt;/p&gt;
 &lt;p&gt;这次问题的处理过程可以概括为：&lt;/p&gt;
 &lt;ol&gt;
@@ -715,7 +665,7 @@ OneDrive
 &lt;li&gt;确认原来的 &lt;code&gt;nodeRepl.fetch request failed&lt;/code&gt; 不再出现&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;这只是我当时设备与网络环境下验证有效的解决办法，不代表所有 Codex 网络异常都需要开启 TUN。&lt;/p&gt;
-&lt;h2 id="4"&gt;4 如果仍然失败&lt;/h2&gt;
+&lt;h2 id="_4"&gt;如果仍然失败&lt;/h2&gt;
 &lt;p&gt;可以按下面的顺序缩小范围：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;先确认代理节点本身能够正常访问目标服务&lt;/li&gt;
@@ -725,19 +675,19 @@ OneDrive
 &lt;li&gt;如果普通浏览器正常而自动化请求仍失败，再进一步检查应用自身的网络环境&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;不建议一开始就反复重装 Codex 或重置全部代理配置。先区分“普通浏览器流量”和“自动化组件流量”，通常更容易定位问题。&lt;/p&gt;
-&lt;h2 id="5"&gt;5 总结&lt;/h2&gt;
+&lt;h2 id="_5"&gt;总结&lt;/h2&gt;
 &lt;p&gt;这次排查最有价值的地方，是意识到&lt;strong&gt;系统代理可用，不代表应用中的每一个网络组件都能自动使用它&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;对于 Browser、Computer Use 或其他桌面自动化功能，网络请求可能来自独立进程或运行环境。遇到类似的 fetch 错误时，除了检查服务状态，也应该确认代理接管范围是否覆盖了实际发起请求的组件。&lt;/p&gt;</content:encoded></item><item><title>Windows 代理环境下 OneDrive 登录异常排查</title><link>https://www.futseyi.com/blog/onedrive-proxy-login-uwp/</link><guid isPermaLink="true">https://www.futseyi.com/blog/onedrive-proxy-login-uwp/</guid><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><description>在 Windows 使用代理工具时，浏览器可以正常访问 Microsoft 网站，但 OneDrive 或部分 Microsoft 应用仍然可能出现登录异常。</description><content:encoded>&lt;h2 id="1"&gt;1 问题背景&lt;/h2&gt;
+&lt;p&gt;对于 Browser、Computer Use 或其他桌面自动化功能，网络请求可能来自独立进程或运行环境。遇到类似的 fetch 错误时，除了检查服务状态，也应该确认代理接管范围是否覆盖了实际发起请求的组件。&lt;/p&gt;</content:encoded></item><item><title>Windows 代理环境下 OneDrive 登录异常排查</title><link>https://www.futseyi.com/blog/onedrive-proxy-login-uwp/</link><guid isPermaLink="true">https://www.futseyi.com/blog/onedrive-proxy-login-uwp/</guid><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><description>在 Windows 使用代理工具时，浏览器可以正常访问 Microsoft 网站，但 OneDrive 或部分 Microsoft 应用仍然可能出现登录异常。</description><content:encoded>&lt;h2 id="_1"&gt;问题背景&lt;/h2&gt;
 &lt;p&gt;在 Windows 使用代理工具时，浏览器可以正常访问 Microsoft 网站，但 OneDrive 或部分 Microsoft 应用仍然可能出现登录异常。&lt;/p&gt;
 &lt;p&gt;这类问题不一定是账号密码错误，也不一定是 OneDrive 客户端损坏。Windows 中部分应用使用 UWP / AppContainer 网络隔离机制，网络请求路径与普通桌面浏览器并不完全相同。&lt;/p&gt;
 &lt;p&gt;如果代理客户端没有允许相关应用通过本地代理通信，就可能出现浏览器正常、应用无法登录的情况。&lt;/p&gt;
-&lt;h2 id="2"&gt;2 问题定位&lt;/h2&gt;
+&lt;h2 id="_2"&gt;问题定位&lt;/h2&gt;
 &lt;p&gt;Windows 的 AppContainer Loopback 限制会影响 UWP 应用访问本机回环地址。代理工具提供的 UWP 网络环回豁免功能，可以允许指定应用访问本机代理服务。&lt;/p&gt;
 &lt;p&gt;我当时使用 Clash Verge，并通过它提供的 UWP 工具进行设置。工具名称为：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;AppContainer Loopback Exemption Utility
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="3"&gt;3 实际解决步骤&lt;/h2&gt;
+&lt;h2 id="_3"&gt;实际解决步骤&lt;/h2&gt;
 &lt;p&gt;我当时按以下方式处理：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;打开 Clash Verge&lt;/li&gt;
@@ -753,10 +703,10 @@ OneDrive
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;它参与 Windows 的 Microsoft 账号身份验证流程。允许相关 AppContainer 访问本地代理后，登录请求才有机会沿着预期的网络路径完成。&lt;/p&gt;
-&lt;h2 id="4-onedrive"&gt;4 为什么不是只设置 OneDrive&lt;/h2&gt;
+&lt;h2 id="onedrive"&gt;为什么不是只设置 OneDrive&lt;/h2&gt;
 &lt;p&gt;Microsoft 登录并不总是由 OneDrive 主程序独立完成。Windows 的账号凭据和身份验证流程可能涉及系统组件，因此只处理 OneDrive 本身，不一定能解决登录窗口或账号授权阶段的问题。&lt;/p&gt;
 &lt;p&gt;这也是我当时同时选择“工作或学校帐户”和“邮件和日历”的原因。实际勾选范围应以当前系统和工具列出的应用为准，不需要为了排查而把所有应用都加入豁免。&lt;/p&gt;
-&lt;h2 id="5"&gt;5 注意事项&lt;/h2&gt;
+&lt;h2 id="_4"&gt;注意事项&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;只从可信来源运行 UWP 网络环回工具&lt;/li&gt;
 &lt;li&gt;只勾选确实需要通过本地代理通信的应用&lt;/li&gt;
@@ -764,9 +714,9 @@ OneDrive
 &lt;li&gt;如果仍然失败，继续检查代理节点、系统时间、Microsoft 账号状态和客户端更新&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;环回豁免只是允许应用访问本机回环地址，并不会自动修复账号问题，也不意味着所有 Microsoft 登录故障都由它引起。&lt;/p&gt;
-&lt;h2 id="6"&gt;6 总结&lt;/h2&gt;
+&lt;h2 id="_5"&gt;总结&lt;/h2&gt;
 &lt;p&gt;这次排查让我注意到，Windows 中的网络问题不能只看浏览器是否能访问网页。&lt;strong&gt;浏览器、传统桌面程序和 UWP / AppContainer 应用，可能采用不同的网络访问路径。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;当浏览器正常、Microsoft 应用却无法完成登录时，可以把应用网络隔离和本地代理访问权限纳入排查范围。&lt;/p&gt;</content:encoded></item><item><title>Clash Verge 校园网代理连接异常排查</title><link>https://www.futseyi.com/blog/clash-verge-campus-network-proxy/</link><guid isPermaLink="true">https://www.futseyi.com/blog/clash-verge-campus-network-proxy/</guid><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><description>同一台电脑、同一套 Clash Verge 配置，在手机热点下可以正常连接，切换到校园网后却出现大量节点连接失败。遇到这种反差时，很容易先怀疑订阅或节点失效，但网络环境、请求路由和代理模式同样值得检查。</description><content:encoded>&lt;h2 id="1"&gt;1 问题现象&lt;/h2&gt;
+&lt;p&gt;当浏览器正常、Microsoft 应用却无法完成登录时，可以把应用网络隔离和本地代理访问权限纳入排查范围。&lt;/p&gt;</content:encoded></item><item><title>Clash Verge 校园网代理连接异常排查</title><link>https://www.futseyi.com/blog/clash-verge-campus-network-proxy/</link><guid isPermaLink="true">https://www.futseyi.com/blog/clash-verge-campus-network-proxy/</guid><pubDate>Thu, 24 Sep 2026 00:00:00 +0000</pubDate><description>同一台电脑、同一套 Clash Verge 配置，在手机热点下可以正常连接，切换到校园网后却出现大量节点连接失败。遇到这种反差时，很容易先怀疑订阅或节点失效，但网络环境、请求路由和代理模式同样值得检查。</description><content:encoded>&lt;h2 id="_1"&gt;问题现象&lt;/h2&gt;
 &lt;p&gt;同一台电脑、同一套 Clash Verge 配置，在手机热点下可以正常连接，切换到校园网后却出现大量节点连接失败。遇到这种反差时，很容易先怀疑订阅或节点失效，但网络环境、请求路由和代理模式同样值得检查。&lt;/p&gt;
 &lt;p&gt;我在一次校园网使用过程中碰到了这个问题。下面记录当时的网络表现、日志线索和实际处理过程，并整理一套更有针对性的排查顺序。&lt;/p&gt;
 &lt;p&gt;当时的情况比较明确：&lt;/p&gt;
@@ -784,11 +734,11 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这说明当时至少有一部分请求在直连路径上遇到了网络不可达问题，但不能仅凭这一条日志就断定是节点失效。&lt;/p&gt;
-&lt;h2 id="2"&gt;2 为什么手机热点正常、校园网异常&lt;/h2&gt;
+&lt;h2 id="_2"&gt;为什么手机热点正常、校园网异常&lt;/h2&gt;
 &lt;p&gt;同一台设备、同一个代理客户端，在不同网络下表现不同，说明问题不一定出在代理订阅或节点本身。&lt;/p&gt;
 &lt;p&gt;校园网和移动热点可能在网络出口、DNS、IPv6、路由策略以及访问限制方面存在差异。代理客户端的规则也会影响请求究竟走代理还是 DIRECT。&lt;/p&gt;
 &lt;p&gt;因此，排查时应该把网络环境、代理模式和规则命中情况分开看，而不是一味地刷新订阅或更换节点。&lt;/p&gt;
-&lt;h2 id="3"&gt;3 我的实际处理过程&lt;/h2&gt;
+&lt;h2 id="_3"&gt;我的实际处理过程&lt;/h2&gt;
 &lt;p&gt;当时我先保持原有配置，没有立即重置所有规则。&lt;/p&gt;
 &lt;p&gt;在切换到校园网后，我退出 Clash Verge，再重新打开客户端。随后能够重新显示一部分正常节点，虽然可用节点仍然少于手机热点环境，但至少说明重新建立连接后，情况有所改善。&lt;/p&gt;
 &lt;p&gt;这次观察到的有效操作是：&lt;/p&gt;
@@ -800,7 +750,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;再测试目标服务&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;此前我也曾在校园网环境下开启过 TUN 模式，并使用过 UWP 网络环回相关工具，因此排查时也把这些配置变化纳入考虑，但没有证据表明它们就是这次故障的唯一原因。&lt;/p&gt;
-&lt;h2 id="4"&gt;4 更有针对性的排查顺序&lt;/h2&gt;
+&lt;h2 id="_4"&gt;更有针对性的排查顺序&lt;/h2&gt;
 &lt;p&gt;如果遇到相同现象，可以按以下顺序检查：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;第一步：确认网络本身&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;先关闭代理，确认校园网是否能够正常访问国内网站。如果基础网络已经不可用，就应先处理校园网连接，而不是继续排查代理节点。&lt;/p&gt;
@@ -812,9 +762,9 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;p&gt;切换网络后，可以完全退出并重新启动 Clash Verge，让客户端重新初始化连接和节点状态。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;第五步：再考虑 TUN 与系统代理&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;如果部分应用不遵循系统代理，或者校园网下的路由行为不同，可以再测试 TUN 模式。但应一次只调整一个变量，避免同时更改 DNS、规则、TUN 和系统代理，导致无法判断真正原因。&lt;/p&gt;
-&lt;h2 id="5"&gt;5 总结&lt;/h2&gt;
+&lt;h2 id="_5"&gt;总结&lt;/h2&gt;
 &lt;p&gt;这次问题并没有一个适用于所有校园网的固定配置。我的实际经验是：&lt;strong&gt;当同一节点在移动热点正常、校园网异常时，应优先比较网络环境与请求路由，而不是直接认定节点失效。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;保留日志、记录当前代理模式，并一次只调整一个配置项，会比反复重置客户端更容易找到问题所在。&lt;/p&gt;</content:encoded></item><item><title>土耳其 Apple ID 注册与跨区家庭共享实践</title><link>https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/</link><guid isPermaLink="true">https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/</guid><pubDate>Sat, 16 May 2026 00:00:00 +0000</pubDate><description>最近重新折腾了一遍土耳其区 Apple ID，并成功完成：</description><content:encoded>&lt;p&gt;最近重新折腾了一遍土耳其区 Apple ID，并成功完成：&lt;/p&gt;
+&lt;p&gt;保留日志、记录当前代理模式，并一次只调整一个配置项，会比反复重置客户端更容易找到问题所在。&lt;/p&gt;</content:encoded></item><item><title>土区 Apple ID 订阅 ChatGPT Plus</title><link>https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/</link><guid isPermaLink="true">https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/</guid><pubDate>Sat, 16 May 2026 00:00:00 +0000</pubDate><description>最近重新折腾了一遍土耳其区 Apple ID，并成功完成：</description><content:encoded>&lt;p&gt;最近重新折腾了一遍土耳其区 Apple ID，并成功完成：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;注册土耳其 Apple ID&lt;/li&gt;
 &lt;li&gt;购买土区苹果礼品卡&lt;/li&gt;
@@ -853,14 +803,14 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;hr /&gt;
 &lt;h2 id="_2"&gt;前期准备&lt;/h2&gt;
 &lt;p&gt;开始之前，需要准备以下内容。&lt;/p&gt;
-&lt;h3 id="1"&gt;1. 一个全新的邮箱&lt;/h3&gt;
+&lt;h3 id="_3"&gt;一个全新的邮箱&lt;/h3&gt;
 &lt;p&gt;要求：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;没注册过 Apple ID&lt;/li&gt;
 &lt;li&gt;推荐 Gmail / Outlook&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="2"&gt;2. 一个手机号&lt;/h3&gt;
+&lt;h3 id="_4"&gt;一个手机号&lt;/h3&gt;
 &lt;p&gt;最好：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;没绑定过 Apple ID&lt;/li&gt;
@@ -872,7 +822,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/ul&gt;
 &lt;p&gt;属于“看运气”的部分。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="3"&gt;3. 一份土耳其地址信息&lt;/h3&gt;
+&lt;h3 id="_5"&gt;一份土耳其地址信息&lt;/h3&gt;
 &lt;p&gt;这里推荐直接使用在线生成器：&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://1ktools.com/zh-cn/tools/developer/turkey-address-generator"&gt;https://1ktools.com/zh-cn/tools/developer/turkey-address-generator&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;随机生成一份即可。&lt;/p&gt;
@@ -883,7 +833,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/ul&gt;
 &lt;p&gt;都可能会用到。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="4-apple"&gt;4. 一台 Apple 设备&lt;/h3&gt;
+&lt;h3 id="apple"&gt;一台 Apple 设备&lt;/h3&gt;
 &lt;p&gt;支持：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;iPhone&lt;/li&gt;
@@ -906,8 +856,8 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;或 iPad&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h2 id="apple-id"&gt;一、注册土耳其 Apple ID&lt;/h2&gt;
-&lt;h3 id="1-apple"&gt;1. 打开 Apple 官网&lt;/h3&gt;
+&lt;h2 id="apple-id"&gt;注册土耳其 Apple ID&lt;/h2&gt;
+&lt;h3 id="apple_1"&gt;打开 Apple 官网&lt;/h3&gt;
 &lt;p&gt;进入：&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://account.apple.com/"&gt;https://account.apple.com/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;建议：&lt;/p&gt;
@@ -921,7 +871,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;不挂也可以&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="2-apple"&gt;2. 创建 Apple 账户&lt;/h3&gt;
+&lt;h3 id="apple_2"&gt;创建 Apple 账户&lt;/h3&gt;
 &lt;p&gt;进入后点击：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;创建你的 Apple 账户&lt;/p&gt;
@@ -935,7 +885,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;手机号：国内手机号即可&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="3_1"&gt;3. 验证信息&lt;/h3&gt;
+&lt;h3 id="_6"&gt;验证信息&lt;/h3&gt;
 &lt;p&gt;填写验证码后，正常情况下就能完成注册。&lt;/p&gt;
 &lt;p&gt;这里会看到：&lt;/p&gt;
 &lt;ul&gt;
@@ -947,9 +897,9 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/blockquote&gt;
 &lt;p&gt;这是很多人容易踩坑的地方。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="pasted image 20260516114141" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/pasted-image-20260516114141.png" loading="lazy" decoding="async"  width="2254" height="1404" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pasted image 20260516114141" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/pasted-image-20260516114141.png" loading="lazy" decoding="async"  width="2254" height="1404" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2 id="app-store"&gt;二、真正切换 App Store 到土耳其区（关键步骤）&lt;/h2&gt;
+&lt;h2 id="app-store"&gt;真正切换 App Store 到土耳其区（关键步骤）&lt;/h2&gt;
 &lt;p&gt;很多人：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;明明注册的是土区账号&lt;/li&gt;
@@ -1008,7 +958,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
 &lt;hr /&gt;
-&lt;h3 id="1-app-store"&gt;1. 退出当前 App Store 账号&lt;/h3&gt;
+&lt;h3 id="app-store_2"&gt;退出当前 App Store 账号&lt;/h3&gt;
 &lt;p&gt;路径：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;App Store → 头像 → 退出登录&lt;/p&gt;
@@ -1019,7 +969,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;不需要退出 iCloud&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="2-safari"&gt;2. 使用 Safari 打开土区跳转链接&lt;/h3&gt;
+&lt;h3 id="safari"&gt;使用 Safari 打开土区跳转链接&lt;/h3&gt;
 &lt;p&gt;直接复制到 Safari：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143480&amp;amp;cc=tr
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1029,7 +979,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;土耳其区 App Store&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="3_2"&gt;3. 直接登录刚注册的土区账号&lt;/h3&gt;
+&lt;h3 id="_7"&gt;直接登录刚注册的土区账号&lt;/h3&gt;
 &lt;p&gt;登录后检查：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;App Store 地区是否为 Turkey（土耳其）&lt;/li&gt;
@@ -1039,12 +989,12 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;p&gt;说明土区 Apple ID 已真正注册成功。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="img 1646" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/img_1646.png" loading="lazy" decoding="async"  width="2388" height="1668" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="img 1646" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/img_1646.png" loading="lazy" decoding="async"  width="2388" height="1668" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2 id="apple"&gt;三、购买土耳其 Apple 礼品卡&lt;/h2&gt;
+&lt;h2 id="apple_3"&gt;购买土耳其 Apple 礼品卡&lt;/h2&gt;
 &lt;p&gt;接下来需要给账号充值。&lt;/p&gt;
 &lt;p&gt;这里推荐两种方式：&lt;/p&gt;
-&lt;h3 id="_3"&gt;方案一：正规虚拟卡平台（推荐）&lt;/h3&gt;
+&lt;h3 id="_8"&gt;方案一：正规虚拟卡平台（推荐）&lt;/h3&gt;
 &lt;p&gt;推荐：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://www.oyunfor.com/"&gt;https://www.oyunfor.com/&lt;/a&gt;&lt;/li&gt;
@@ -1057,7 +1007,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/ul&gt;
 &lt;p&gt;所以我这里直接使用 SEAGM。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_4"&gt;方案二：国内二手平台&lt;/h3&gt;
+&lt;h3 id="_9"&gt;方案二：国内二手平台&lt;/h3&gt;
 &lt;p&gt;比如：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;小黄鱼&lt;/li&gt;
@@ -1071,8 +1021,8 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;有一定封号风险&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h2 id="_5"&gt;四、购买礼品卡并充值&lt;/h2&gt;
-&lt;h3 id="1-seagm"&gt;1. 使用支持支付宝的 SEAGM 购买礼品卡&lt;/h3&gt;
+&lt;h2 id="_10"&gt;购买礼品卡并充值&lt;/h2&gt;
+&lt;h3 id="seagm"&gt;使用支持支付宝的 SEAGM 购买礼品卡&lt;/h3&gt;
 &lt;p&gt;建议：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;网站语言切换中文&lt;/li&gt;
@@ -1083,18 +1033,18 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;支付宝扫码付款&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="pasted image 20260516141519" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/pasted-image-20260516141519.png" loading="lazy" decoding="async"  width="1716" height="949" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pasted image 20260516141519" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/pasted-image-20260516141519.png" loading="lazy" decoding="async"  width="1716" height="949" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="2_1"&gt;2. 获取礼品卡代码&lt;/h3&gt;
+&lt;h3 id="_11"&gt;获取礼品卡代码&lt;/h3&gt;
 &lt;p&gt;付款完成后：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;我的卡密 → 显示卡片&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;即可看到兑换码。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="pasted image 20260516141701" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/pasted-image-20260516141701.png" loading="lazy" decoding="async"  width="1716" height="949" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pasted image 20260516141701" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/pasted-image-20260516141701.png" loading="lazy" decoding="async"  width="1716" height="949" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="3-app-store"&gt;3. App Store 兑换礼品卡&lt;/h3&gt;
+&lt;h3 id="app-store_3"&gt;App Store 兑换礼品卡&lt;/h3&gt;
 &lt;p&gt;路径：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;App Store → 头像 → 最底部 → 兑换礼品卡或代码&lt;/p&gt;
@@ -1105,9 +1055,9 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;Apple 余额会显示对应里拉金额&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="pasted image 20260516142528" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/pasted-image-20260516142528.png" loading="lazy" decoding="async"  width="617" height="710" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pasted image 20260516142528" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/pasted-image-20260516142528.png" loading="lazy" decoding="async"  width="617" height="710" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2 id="none"&gt;五、关于付款信息：不需要提前选择 None&lt;/h2&gt;
+&lt;h2 id="none"&gt;关于付款信息：不需要提前选择 None&lt;/h2&gt;
 &lt;p&gt;这里需要特别说明一个很多教程都会提到的问题。&lt;/p&gt;
 &lt;p&gt;网上不少教程会说：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -1137,7 +1087,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;p&gt;地址可以继续使用前面生成的土耳其地址。&lt;/p&gt;
 &lt;p&gt;填写完成后，系统会直接从 Apple ID 余额中扣款完成订阅。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2 id="chatgpt-plus"&gt;六、订阅 ChatGPT Plus&lt;/h2&gt;
+&lt;h2 id="chatgpt-plus"&gt;订阅 ChatGPT Plus&lt;/h2&gt;
 &lt;p&gt;充值完成后：&lt;/p&gt;
 &lt;p&gt;直接打开 ChatGPT App。&lt;/p&gt;
 &lt;p&gt;然后：&lt;/p&gt;
@@ -1162,9 +1112,9 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;hr /&gt;
 &lt;p&gt;我这里之前已经订阅过 Plus，所以用 Pro 做演示。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="pasted image 20260516142849" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/pasted-image-20260516142849.png" loading="lazy" decoding="async"  width="623" height="1364" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pasted image 20260516142849" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/pasted-image-20260516142849.png" loading="lazy" decoding="async"  width="623" height="1364" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2 id="apple_1"&gt;七、将土区账号加入中国区 Apple 家庭（附加功能）&lt;/h2&gt;
+&lt;h2 id="apple_4"&gt;将土区账号加入中国区 Apple 家庭（附加功能）&lt;/h2&gt;
 &lt;p&gt;这一部分：&lt;/p&gt;
 &lt;h3 id="gpt-plus"&gt;和 GPT Plus 共享无关&lt;/h3&gt;
 &lt;p&gt;这里真正的意义是：&lt;/p&gt;
@@ -1172,14 +1122,14 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;p&gt;后续可以共享土区 iCloud / Apple One 等订阅服务。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr /&gt;
-&lt;h3 id="apple_2"&gt;方案：将土区账号加入中国区 Apple 家庭&lt;/h3&gt;
+&lt;h3 id="apple_5"&gt;方案：将土区账号加入中国区 Apple 家庭&lt;/h3&gt;
 &lt;p&gt;正常邀请会提示：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;不能将其他地区账号加入家庭。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;所以这里推荐两个稳定方法。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_6"&gt;方法一：隔空投送邀请&lt;/h3&gt;
+&lt;h3 id="_12"&gt;方法一：隔空投送邀请&lt;/h3&gt;
 &lt;p&gt;在中国区家庭管理员设备上：&lt;/p&gt;
 &lt;p&gt;进入：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -1224,9 +1174,9 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;iMessage 成功率更高&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;p&gt;&lt;img alt="pasted image 20260516143205" src="https://www.futseyi.com/blog/turkey-foreign-apple-id-chatgpt-plus-cross-region-family-sharing/assets/pasted-image-20260516143205.png" loading="lazy" decoding="async"  width="963" height="1325" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pasted image 20260516143205" src="https://www.futseyi.com/blog/turkey-apple-id-chatgpt-plus/assets/pasted-image-20260516143205.png" loading="lazy" decoding="async"  width="963" height="1325" /&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2 id="_7"&gt;最后总结&lt;/h2&gt;
+&lt;h2 id="_13"&gt;最后总结&lt;/h2&gt;
 &lt;p&gt;至此，你已经完成了：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;土耳其 Apple ID 注册&lt;/li&gt;
@@ -1247,7 +1197,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;p&gt;那么提前维护一个长期稳定的土区 Apple ID，其实非常值得。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h2 id="faq"&gt;常见问题 FAQ&lt;/h2&gt;
-&lt;h3 id="q1"&gt;Q1：必须使用代理吗？&lt;/h3&gt;
+&lt;h3 id="_14"&gt;必须使用代理吗？&lt;/h3&gt;
 &lt;p&gt;不必须。&lt;/p&gt;
 &lt;p&gt;我测试：&lt;/p&gt;
 &lt;ul&gt;
@@ -1255,11 +1205,11 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;不开也能注册&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="q2-mac"&gt;Q2：为什么 Mac 无法支付？&lt;/h3&gt;
+&lt;h3 id="mac"&gt;为什么 Mac 无法支付？&lt;/h3&gt;
 &lt;p&gt;因为 GPT Plus 的 App Store 内购：&lt;/p&gt;
 &lt;p&gt;目前只能通过移动端完成。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="q3gpt"&gt;Q3：GPT 账号必须是土区吗？&lt;/h3&gt;
+&lt;h3 id="gpt"&gt;GPT 账号必须是土区吗？&lt;/h3&gt;
 &lt;p&gt;不需要。&lt;/p&gt;
 &lt;p&gt;土区只负责：&lt;/p&gt;
 &lt;ul&gt;
@@ -1267,7 +1217,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;/ul&gt;
 &lt;p&gt;GPT 账号本身没有限制。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="q4-apple-id-none"&gt;Q4：注册完土区 Apple ID 后，必须先添加付款方式并选择 None 吗？&lt;/h3&gt;
+&lt;h3 id="apple-id-none"&gt;注册完土区 Apple ID 后，必须先添加付款方式并选择 None 吗？&lt;/h3&gt;
 &lt;p&gt;不需要。&lt;/p&gt;
 &lt;p&gt;很多教程会要求提前设置付款方式，并选择 None。&lt;/p&gt;
 &lt;p&gt;但实际操作中：&lt;/p&gt;
@@ -1283,7 +1233,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;p&gt;订阅时系统会自动弹出付款信息填写页面。&lt;/p&gt;
 &lt;p&gt;这时候只需要填写土耳其地址信息即可，不需要选择 None，也不需要绑定银行卡。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="q5-gpt-plus"&gt;Q5：家庭共享是共享 GPT Plus 吗？&lt;/h3&gt;
+&lt;h3 id="gpt-plus_1"&gt;家庭共享是共享 GPT Plus 吗？&lt;/h3&gt;
 &lt;p&gt;不是。&lt;/p&gt;
 &lt;p&gt;这里只是：&lt;/p&gt;
 &lt;ul&gt;
@@ -1296,7 +1246,7 @@ connectex: A socket operation was attempted to an unreachable network
 &lt;li&gt;Apple Music 等服务共享。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="q6-apple-id"&gt;Q6：土区 Apple ID 会封号吗？&lt;/h3&gt;
+&lt;h3 id="apple-id_1"&gt;土区 Apple ID 会封号吗？&lt;/h3&gt;
 &lt;p&gt;只要：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;不使用来路不明的黑卡&lt;/li&gt;
@@ -1353,7 +1303,7 @@ requestUrl: http://127.0.0.1:15721/v1/models
 
 &lt;p&gt;这篇文章主要是对原教程的逻辑做一次重新梳理，并补充我自己遇到的问题和解决方法。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="claude-desktop-claude-code"&gt;一、先搞清楚：Claude Desktop 和 Claude Code 不是同一条链路&lt;/h3&gt;
+&lt;h3 id="claude-desktop-claude-code"&gt;先搞清楚：Claude Desktop 和 Claude Code 不是同一条链路&lt;/h3&gt;
 &lt;p&gt;这是我最开始最容易混淆的地方。&lt;/p&gt;
 &lt;p&gt;简单说：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Claude Desktop = 走 ccswitch 本地路由
@@ -1382,7 +1332,7 @@ ANTHROPIC_AUTH_TOKEN
 
 &lt;p&gt;这就解释了一个现象：&lt;strong&gt;ccswitch 本地路由关闭后，VS Code Claude 插件仍然可能正常使用；但 Claude Desktop 要用这套方案，就必须开 ccswitch 本地路由。&lt;/strong&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="ccswitch"&gt;二、开启 ccswitch 本地路由&lt;/h3&gt;
+&lt;h3 id="ccswitch"&gt;开启 ccswitch 本地路由&lt;/h3&gt;
 &lt;p&gt;在 ccswitch 里进入本地路由相关页面，确认这些状态：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;本地路由：运行中
 路由总开关：开启
@@ -1403,7 +1353,7 @@ Claude：开启
 &lt;p&gt;这当然会出问题。&lt;/p&gt;
 &lt;p&gt;所以第一步先确认：&lt;strong&gt;Claude Desktop 里的 Gateway base URL 必须和 ccswitch 显示的本地路由地址一致。&lt;/strong&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="claude-desktop-gateway"&gt;三、配置 Claude Desktop 的 Gateway&lt;/h3&gt;
+&lt;h3 id="claude-desktop-gateway"&gt;配置 Claude Desktop 的 Gateway&lt;/h3&gt;
 &lt;p&gt;在 Claude Desktop 里打开第三方推理配置。&lt;/p&gt;
 &lt;p&gt;一般路径是：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Help
@@ -1436,7 +1386,7 @@ ccswitch 才负责连接真实的第三方模型 API。
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;hr /&gt;
-&lt;h3 id="inferencemodels"&gt;四、最关键的一步：手动补 inferenceModels&lt;/h3&gt;
+&lt;h3 id="inferencemodels"&gt;最关键的一步：手动补 inferenceModels&lt;/h3&gt;
 &lt;p&gt;只配置 Gateway 还不一定够。&lt;/p&gt;
 &lt;p&gt;Claude Desktop 会尝试请求：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;http://127.0.0.1:15721/v1/models
@@ -1456,7 +1406,7 @@ requestUrl: http://127.0.0.1:15721/v1/models
 
 &lt;p&gt;解决方法是：&lt;strong&gt;在 Windows 注册表里手动补上 inferenceModels。&lt;/strong&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="reg-inferencemodels"&gt;五、通过 .reg 添加 inferenceModels&lt;/h3&gt;
+&lt;h3 id="reg-inferencemodels"&gt;通过 .reg 添加 inferenceModels&lt;/h3&gt;
 &lt;p&gt;先在 Claude Desktop 表单里填好：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Gateway base URL = http://127.0.0.1:15721
 Gateway API key = PROXY_MANAGED
@@ -1487,7 +1437,7 @@ Gateway auth scheme = bearer
 &lt;p&gt;导入后，完全退出 Claude Desktop，再重新打开。&lt;/p&gt;
 &lt;p&gt;注意：最好不是只关窗口，而是从托盘里彻底退出后重启。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="haiku-sonnet-opus"&gt;六、haiku / sonnet / opus 只是别名&lt;/h3&gt;
+&lt;h3 id="haiku-sonnet-opus"&gt;haiku / sonnet / opus 只是别名&lt;/h3&gt;
 &lt;p&gt;这里也容易误解。&lt;/p&gt;
 &lt;p&gt;在 &lt;code&gt;inferenceModels&lt;/code&gt; 里写：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;"inferenceModels"="[\"haiku\",\"sonnet\",\"opus\"]"
@@ -1513,7 +1463,7 @@ ccswitch 日志
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;hr /&gt;
-&lt;h3 id="1m"&gt;七、关于模型名后缀，比如 &lt;code&gt;[1m]&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id="1m"&gt;关于模型名后缀，比如 &lt;code&gt;[1m]&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;有些模型名可能会长这样：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;deepseek-v4-pro[1m]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1542,7 +1492,7 @@ deepseek-v4-flash
 
 &lt;p&gt;前者需要保留，后者不应该传给 API。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="thinking-false"&gt;八、&lt;code&gt;thinking: false&lt;/code&gt; 不是必选项&lt;/h3&gt;
+&lt;h3 id="thinking-false"&gt;&lt;code&gt;thinking: false&lt;/code&gt; 不是必选项&lt;/h3&gt;
 &lt;p&gt;有些教程会建议在 ccswitch 里加：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"thinking"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -1557,8 +1507,8 @@ deepseek-v4-flash
 
 &lt;p&gt;如果后续遇到 400、tool_use、thinking、旧会话上下文不兼容之类的问题，再考虑添加。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_1"&gt;九、常见报错怎么理解？&lt;/h3&gt;
-&lt;h4 id="1-gateway-returned-http-400"&gt;1. Gateway returned HTTP 400&lt;/h4&gt;
+&lt;h3 id="_1"&gt;常见报错怎么理解？&lt;/h3&gt;
+&lt;h4 id="gateway-returned-http-400"&gt;Gateway returned HTTP 400&lt;/h4&gt;
 &lt;p&gt;400 一般表示请求已经发出去了，但 Provider 拒绝了请求。&lt;/p&gt;
 &lt;p&gt;常见原因：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;模型名错误
@@ -1578,7 +1528,7 @@ thinking / tool_use 兼容问题
 5. 必要时尝试 thinking: false
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="2-gateway-returned-http-404"&gt;2. Gateway returned HTTP 404&lt;/h4&gt;
+&lt;h4 id="gateway-returned-http-404"&gt;Gateway returned HTTP 404&lt;/h4&gt;
 &lt;p&gt;如果 404 的地址是：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;http://127.0.0.1:15721/v1/models
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1590,7 +1540,7 @@ thinking / tool_use 兼容问题
 
 &lt;p&gt;只要实际对话能正常使用，就说明核心链路是通的。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="claude-desktop-ccswitch"&gt;十、如何确认 Claude Desktop 真的走了 ccswitch？&lt;/h3&gt;
+&lt;h3 id="claude-desktop-ccswitch"&gt;如何确认 Claude Desktop 真的走了 ccswitch？&lt;/h3&gt;
 &lt;p&gt;可以看 ccswitch 的请求记录或日志。&lt;/p&gt;
 &lt;p&gt;日志一般在：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;C:\Users\user\.cc-switch\logs\cc-switch.log
@@ -1610,11 +1560,11 @@ status_code = 200
 
 &lt;p&gt;如果能看到 &lt;code&gt;data_source = proxy&lt;/code&gt;，并且 &lt;code&gt;status_code = 200&lt;/code&gt;，就说明 Claude Desktop 的请求确实经过了 ccswitch 本地路由。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_2"&gt;十一、最终流程总结&lt;/h3&gt;
+&lt;h3 id="_2"&gt;最终流程总结&lt;/h3&gt;
 &lt;p&gt;如果从头配置，我会按这个顺序来：&lt;/p&gt;
-&lt;h4 id="1-ccswitch-provider"&gt;1. 先在 ccswitch 里配置好 Provider&lt;/h4&gt;
+&lt;h4 id="ccswitch-provider"&gt;先在 ccswitch 里配置好 Provider&lt;/h4&gt;
 &lt;p&gt;确保第三方模型 API 在 ccswitch 中可以正常使用。&lt;/p&gt;
-&lt;h4 id="2-ccswitch"&gt;2. 开启 ccswitch 本地路由&lt;/h4&gt;
+&lt;h4 id="ccswitch_1"&gt;开启 ccswitch 本地路由&lt;/h4&gt;
 &lt;p&gt;确认：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;本地路由：运行中
 路由总开关：开启
@@ -1622,19 +1572,19 @@ Claude：开启
 服务地址：http://127.0.0.1:15721
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="3-claude-desktop-gateway"&gt;3. Claude Desktop 配置 Gateway&lt;/h4&gt;
+&lt;h4 id="claude-desktop-gateway_1"&gt;Claude Desktop 配置 Gateway&lt;/h4&gt;
 &lt;p&gt;填写：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Gateway base URL = http://127.0.0.1:15721
 Gateway API key = PROXY_MANAGED
 Gateway auth scheme = bearer
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="4-reg"&gt;4. 导出 .reg&lt;/h4&gt;
+&lt;h4 id="reg"&gt;导出 .reg&lt;/h4&gt;
 &lt;p&gt;点击 Claude Desktop 配置页右下角的：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Export
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="5-reg-inferencemodels"&gt;5. 修改 .reg，补上 inferenceModels&lt;/h4&gt;
+&lt;h4 id="reg-inferencemodels_1"&gt;修改 .reg，补上 inferenceModels&lt;/h4&gt;
 &lt;p&gt;在：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;[HKEY_CURRENT_USER\SOFTWARE\Policies\Claude]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1647,16 +1597,16 @@ Gateway auth scheme = bearer
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;"inferenceModels"="[\"sonnet\"]"
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="6-reg-claude-desktop"&gt;6. 导入 .reg 并重启 Claude Desktop&lt;/h4&gt;
+&lt;h4 id="reg-claude-desktop"&gt;导入 .reg 并重启 Claude Desktop&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;reg&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="s2"&gt;"C:\path\to\your.reg"&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;然后完全退出并重启 Claude Desktop。&lt;/p&gt;
-&lt;h4 id="7"&gt;7. 新开会话测试&lt;/h4&gt;
+&lt;h4 id="_3"&gt;新开会话测试&lt;/h4&gt;
 &lt;p&gt;不要只看设置页的 Check again。&lt;/p&gt;
 &lt;p&gt;如果实际对话可以使用，并且 ccswitch 有请求记录，就说明链路已经跑通。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_3"&gt;十二、最终使用习惯&lt;/h3&gt;
+&lt;h3 id="_4"&gt;最终使用习惯&lt;/h3&gt;
 &lt;p&gt;配置完成后，可以这样理解：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;用 Claude Desktop：
 需要开启 ccswitch 本地路由。
@@ -1669,7 +1619,7 @@ Gateway auth scheme = bearer
 &lt;p&gt;如果要切换 Claude Code 使用的 Provider，还是通过 ccswitch 切换配置。&lt;/p&gt;
 &lt;p&gt;但日常只用 VS Code Claude 插件时，本地路由不一定要开。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_4"&gt;结论&lt;/h3&gt;
+&lt;h3 id="_5"&gt;结论&lt;/h3&gt;
 &lt;p&gt;这套方案的核心其实很简单：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Claude Desktop
 → 官方 3P Gateway
@@ -1689,7 +1639,7 @@ Gateway auth scheme = bearer
 
 &lt;p&gt;折腾完之后，这套方案还是挺实用的。Claude Desktop 可以通过 ccswitch 接入第三方模型 API，而 Claude Code / VS Code 插件也可以继续使用 ccswitch 写入的配置。&lt;/p&gt;
 &lt;p&gt;最后再次感谢 LINUX DO 上 sandleft 佬的原教程。本文只是基于原教程的一次个人实践补充，主要记录我在配置过程中遇到的坑和解决思路。&lt;/p&gt;</content:encoded></item><item><title>傅氏祖厝重建落成记：一生难忘，仅此一次</title><link>https://www.futseyi.com/blog/fushi-zucuo-2026/</link><guid isPermaLink="true">https://www.futseyi.com/blog/fushi-zucuo-2026/</guid><pubDate>Tue, 20 Jan 2026 00:00:00 +0000</pubDate><description>男： 尊敬的各位领导、各位嘉宾。</description><content:encoded>&lt;h2 id="_1"&gt;傅氏傅厝井朵桥祖厝重建落成庆典主持词&lt;/h2&gt;
-&lt;h3 id="_2"&gt;第一部分：开场白&lt;/h3&gt;
+&lt;h3 id="_2"&gt;开场白&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 尊敬的各位领导、各位嘉宾。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 亲爱的宗亲长辈、姑姑姑丈。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;合：&lt;/strong&gt; 大家好！&lt;/p&gt;
@@ -1703,7 +1653,7 @@ Gateway auth scheme = bearer
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 从提议重建到踊跃捐资，从献策出力到用心督造，长辈们用行动告诉我们，什么是血脉相连，什么是众志成城。祖厝是我们傅氏家族的根，是安放乡愁的港湾，更是传承家风的课堂。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 作为晚辈，我们是家族故事的倾听者，更要做家族精神的传承人。往后，我们会铭记长辈们的教诲，把这份团结奋进、尊祖敬宗的情怀刻在心里，努力成长，为家族争光，让傅氏家风代代相传，生生不息！&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_4"&gt;第二部分：代表发言&lt;/h3&gt;
+&lt;h3 id="_4"&gt;代表发言&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 祖厝的落成，离不开宗亲们的慷慨解囊，更离不开筹委会的奔波操劳。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 正如古话所说，“众志成城”。在修建过程中，大家联络宗亲、筹措资金，无怨无悔，才有了今日的壮观景象。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 下面，我们要邀请出几位重要嘉宾进行发言。首先，有请傅氏傅厝井朵桥祖厝筹委会主任——傅文生先生上台致辞！掌声欢迎！&lt;/p&gt;
@@ -1728,7 +1678,7 @@ Gateway auth scheme = bearer
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 请长辈放心，晚辈必铭记“忠、孝、廉、节”祖训，用实际行动传承家风。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 是的，我们作为后辈定当努力成长、刻苦奋斗、为家族争光！&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_5"&gt;第三部分：表演环节&lt;/h3&gt;
+&lt;h3 id="_5"&gt;表演环节&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 感恩的心，化作了建设的动力；而喜悦的心，则要通过歌舞来尽情表达。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 让我们在欢快的节奏中，感受傅氏家族生机勃勃、欣欣向荣的气象，用精彩的表演为祖厝的落成增光添彩。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 下面，请欣赏表演《……》，让我们在鼓乐声中迎接福气、迎接好运！&lt;/p&gt;
@@ -1736,7 +1686,7 @@ Gateway auth scheme = bearer
 &lt;p&gt;【表演开始】&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr /&gt;
-&lt;h3 id="_6"&gt;第四部分：敬酒环节&lt;/h3&gt;
+&lt;h3 id="_6"&gt;敬酒环节&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注：敬酒环节安排在上第五份菜前。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1760,7 +1710,7 @@ Gateway auth scheme = bearer
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 请大家满杯。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;合：&lt;/strong&gt; 让我们干杯！敬美好未来！&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="_10"&gt;第五部分：结尾&lt;/h3&gt;
+&lt;h3 id="_10"&gt;结尾&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 宏图大展，家族常兴。今天的庆典虽然渐入尾声，但傅氏家族奋斗不息的精神将永远传承。祖厝的落成是一个新的起点。它将像一盏明灯，指引着我们每一位傅氏子孙铭记祖训，砥砺前行。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;女：&lt;/strong&gt; 往后，我们会铭记长辈们的教诲，把这份团结奋进、尊祖敬宗的情怀刻在心里，努力成长，为家族争光，让傅氏家风代代相传，生生不息！&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;男：&lt;/strong&gt; 再次感谢各位宗亲、朋友们的厚爱与到来。祝愿大家事业兴旺、阖家幸福！&lt;/p&gt;
@@ -1778,8 +1728,8 @@ Gateway auth scheme = bearer
 &lt;img alt="2025-10-12_21-46-08.png" src="https://www.futseyi.com/blog/waline-email-notifications/assets/20251012214611993.jpg" loading="lazy" decoding="async"  width="2166" height="730" /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="icloud"&gt;一、iCloud 邮箱邮件通知配置&lt;/h3&gt;
-&lt;h4 id="1-icloud-smtp"&gt;1. iCloud SMTP 配置参数&lt;/h4&gt;
+&lt;h3 id="icloud"&gt;iCloud 邮箱邮件通知配置&lt;/h3&gt;
+&lt;h4 id="icloud-smtp"&gt;iCloud SMTP 配置参数&lt;/h4&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1844,21 +1794,21 @@ Gateway auth scheme = bearer
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：iCloud 需要使用 “应用专用密码” 代替登录密码，确保 SMTP 认证成功。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id="2"&gt;2. 应用专用密码获取方式&lt;/h4&gt;
+&lt;h4 id="_2"&gt;应用专用密码获取方式&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;访问 Apple's &lt;a href="https://appleid.apple.com/"&gt;Apple ID 账户页面&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;开启两步验证或双因素认证&lt;/li&gt;
 &lt;li&gt;生成新的应用专用密码，复制用于 &lt;code&gt;SMTP_PASS&lt;/code&gt;
 &lt;img alt="20251012213948306" src="https://www.futseyi.com/blog/waline-email-notifications/assets/20251012213948306.jpg" loading="lazy" decoding="async"  width="1209" height="882" /&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="3"&gt;3. 重要说明&lt;/h4&gt;
+&lt;h4 id="_3"&gt;重要说明&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;SMTP_SECURE&lt;/code&gt; 需设置为 &lt;code&gt;false&lt;/code&gt;，因为 587 端口使用 STARTTLS，非直接 SSL 连接。&lt;/li&gt;
 &lt;li&gt;使用 465 端口时，需要设置 &lt;code&gt;SMTP_SECURE=true&lt;/code&gt;，但会导致部分云平台连接失败。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="gmail"&gt;二、Gmail 邮箱邮件通知配置&lt;/h3&gt;
-&lt;h4 id="1-gmail-smtp"&gt;1. Gmail SMTP 配置参数&lt;/h4&gt;
+&lt;h3 id="gmail"&gt;Gmail 邮箱邮件通知配置&lt;/h3&gt;
+&lt;h4 id="gmail-smtp"&gt;Gmail SMTP 配置参数&lt;/h4&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1900,20 +1850,20 @@ Gateway auth scheme = bearer
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h4 id="2_1"&gt;2. 应用专用密码获取方式&lt;/h4&gt;
+&lt;h4 id="_4"&gt;应用专用密码获取方式&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;登录 Google 账户，进入 &lt;a href="https://myaccount.google.com/apppasswords"&gt;应用专用密码页面&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;为你的 Waline 服务生成应用专用密码&lt;/li&gt;
 &lt;li&gt;将生成的密码填入 &lt;code&gt;SMTP_PASS&lt;/code&gt;
 &lt;img alt="2025-10-12_21-43-49.png" src="https://www.futseyi.com/blog/waline-email-notifications/assets/20251012214354595.jpg" loading="lazy" decoding="async"  width="1138" height="945" /&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="3-gmail"&gt;3. Gmail 配置要点&lt;/h4&gt;
+&lt;h4 id="gmail_1"&gt;Gmail 配置要点&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;推荐通过环境变量指定 &lt;code&gt;SMTP_SERVICE=Gmail&lt;/code&gt;，简化配置&lt;/li&gt;
 &lt;li&gt;确保开启 Gmail “允许安全性较低的应用”或启用两步验证并使用应用专用密码&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h3 id="waline"&gt;三、Waline 环境变量配置示例&lt;/h3&gt;
+&lt;h3 id="waline"&gt;Waline 环境变量配置示例&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# iCloud 配置（使用587端口）&lt;/span&gt;
 
 &lt;span class="nv"&gt;SMTP_HOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;smtp.mail.me.com
@@ -1954,7 +1904,7 @@ Gateway auth scheme = bearer
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;hr /&gt;
-&lt;h3 id="_2"&gt;四、部署与验证&lt;/h3&gt;
+&lt;h3 id="_5"&gt;部署与验证&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;设置环境变量后，在项目平台（如 Vercel）重新部署应用。&lt;/li&gt;
 &lt;li&gt;使用非博主邮箱发表评论，验证是否能成功发送邮件通知。&lt;/li&gt;
@@ -1962,7 +1912,7 @@ Gateway auth scheme = bearer
 &lt;li&gt;如邮件被误判为垃圾邮件，加入白名单。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr /&gt;
-&lt;h3 id="_3"&gt;五、常见问题与解决方案&lt;/h3&gt;
+&lt;h3 id="_6"&gt;常见问题与解决方案&lt;/h3&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2171,7 +2121,7 @@ Gateway auth scheme = bearer
 &lt;li&gt;&lt;strong&gt;错误处理健壮&lt;/strong&gt;：完整的错误捕获和优雅降级&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id="_8"&gt;架构演进：从分散到集中&lt;/h2&gt;
-&lt;h3 id="_9"&gt;第一阶段：初始实现（配置分散）&lt;/h3&gt;
+&lt;h3 id="_9"&gt;初始实现（配置分散）&lt;/h3&gt;
 &lt;h4 id="_10"&gt;问题分析&lt;/h4&gt;
 &lt;p&gt;最初的实现中，配置分散在多个地方：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- ❌ 旧版本：Waline.astro --&amp;gt;
@@ -2248,8 +2198,8 @@ const SERVER_URL = "https://waline.xieyi.org/";
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h3 id="_12"&gt;第二阶段：配置集中管理（重构后）&lt;/h3&gt;
-&lt;h4 id="1"&gt;1. 类型定义：建立类型安全基础&lt;/h4&gt;
+&lt;h3 id="_12"&gt;配置集中管理（重构后）&lt;/h3&gt;
+&lt;h4 id="_13"&gt;类型定义：建立类型安全基础&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// ✅ src/types/config.ts&lt;/span&gt;
 &lt;span class="k"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;WalineConfig&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;serverURL&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;                                    &lt;/span&gt;&lt;span class="c1"&gt;// 服务器地址（必填）&lt;/span&gt;
@@ -2283,7 +2233,7 @@ const SERVER_URL = "https://waline.xieyi.org/";
 &lt;li&gt;✅ 支持复杂类型（如 &lt;code&gt;wordLimit&lt;/code&gt; 可以是数字或数组）&lt;/li&gt;
 &lt;li&gt;✅ 使用索引签名支持 &lt;code&gt;locale&lt;/code&gt; 的扩展性&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="2"&gt;2. 配置集中：统一管理所有配置&lt;/h4&gt;
+&lt;h4 id="_14"&gt;配置集中：统一管理所有配置&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// ✅ src/config.ts&lt;/span&gt;
 &lt;span class="k"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;WalineConfig&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"./types/config"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
@@ -2341,7 +2291,7 @@ const SERVER_URL = "https://waline.xieyi.org/";
 &lt;li&gt;✅ 类型自动提示和检查&lt;/li&gt;
 &lt;li&gt;✅ 易于修改和维护&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="3"&gt;3. 组件简化：专注于逻辑和渲染&lt;/h4&gt;
+&lt;h4 id="_15"&gt;组件简化：专注于逻辑和渲染&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- ✅ src/components/Waline.astro --&amp;gt;
 ---
 import { siteConfig, walineConfig } from "@/config";
@@ -2405,7 +2355,7 @@ const walineClientConfig = JSON.stringify({
 &lt;li&gt;✅ 支持页面级配置覆盖&lt;/li&gt;
 &lt;li&gt;✅ 自动语言映射，无需手动配置&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="_13"&gt;重构效果对比&lt;/h3&gt;
+&lt;h3 id="_16"&gt;重构效果对比&lt;/h3&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2454,9 +2404,9 @@ const walineClientConfig = JSON.stringify({
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="_14"&gt;核心功能实现&lt;/h2&gt;
-&lt;h3 id="props"&gt;第一步：Props 覆盖机制&lt;/h3&gt;
-&lt;h4 id="_15"&gt;设计理念&lt;/h4&gt;
+&lt;h2 id="_17"&gt;核心功能实现&lt;/h2&gt;
+&lt;h3 id="props"&gt;Props 覆盖机制&lt;/h3&gt;
+&lt;h4 id="_18"&gt;设计理念&lt;/h4&gt;
 &lt;p&gt;支持三种使用方式，满足不同场景需求：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- 1. 使用全局配置 --&amp;gt;
 &amp;lt;Waline /&amp;gt;
@@ -2471,7 +2421,7 @@ const walineClientConfig = JSON.stringify({
 &amp;lt;Waline path="/about" reaction={false} pageview={false} /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="_16"&gt;实现原理&lt;/h4&gt;
+&lt;h4 id="_19"&gt;实现原理&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;---
 // Props 类型定义
 interface Props extends Partial&amp;lt;WalineConfig&amp;gt; {
@@ -2492,26 +2442,26 @@ const mergedConfig: WalineConfig = {
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Props&lt;span class="w"&gt; &lt;/span&gt;配置&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;config.ts&lt;span class="w"&gt; &lt;/span&gt;全局配置&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;默认值
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="_17"&gt;实际应用场景&lt;/h4&gt;
-&lt;h5 id="1_1"&gt;场景 1：关于页面禁用反应功能&lt;/h5&gt;
+&lt;h4 id="_20"&gt;实际应用场景&lt;/h4&gt;
+&lt;h5 id="1"&gt;场景 1：关于页面禁用反应功能&lt;/h5&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- src/pages/about.astro --&amp;gt;
 &amp;lt;Waline path="/about" reaction={false} /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h5 id="2_1"&gt;场景 2：特定文章禁用评论&lt;/h5&gt;
+&lt;h5 id="2"&gt;场景 2：特定文章禁用评论&lt;/h5&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- src/pages/posts/[...slug].astro --&amp;gt;
 {!entry.data.draft &amp;amp;&amp;amp; (
   &amp;lt;Waline comment={entry.data.disableComments ? false : true} /&amp;gt;
 )}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h5 id="3_1"&gt;场景 3：测试页面使用不同服务器&lt;/h5&gt;
+&lt;h5 id="3"&gt;场景 3：测试页面使用不同服务器&lt;/h5&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- src/pages/test.astro --&amp;gt;
 &amp;lt;Waline serverURL="https://test.waline.example.com/" /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_18"&gt;第二步：客户端初始化逻辑&lt;/h3&gt;
-&lt;h4 id="_19"&gt;错误处理机制&lt;/h4&gt;
+&lt;h3 id="_21"&gt;客户端初始化逻辑&lt;/h3&gt;
+&lt;h4 id="_22"&gt;错误处理机制&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;initWaline&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;currentPath&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;pathname&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
@@ -2559,8 +2509,8 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;&lt;strong&gt;JSON 解析&lt;/strong&gt;：捕获解析错误&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;优雅降级&lt;/strong&gt;：错误时安全返回，不影响页面其他功能&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="placeholder"&gt;第三步：Placeholder 持久化&lt;/h3&gt;
-&lt;h4 id="_20"&gt;问题描述&lt;/h4&gt;
+&lt;h3 id="placeholder"&gt;Placeholder 持久化&lt;/h3&gt;
+&lt;h4 id="_23"&gt;问题描述&lt;/h4&gt;
 &lt;p&gt;当用户登录或退出时，Waline 会重新渲染头部信息栏，导致自定义 placeholder 被重置为默认文本。&lt;/p&gt;
 &lt;h4 id="mutationobserver"&gt;创新解决方案：MutationObserver&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// 应用 Placeholder 的函数&lt;/span&gt;
@@ -2595,20 +2545,20 @@ const mergedConfig: WalineConfig = {
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="_21"&gt;方案优势&lt;/h4&gt;
+&lt;h4 id="_24"&gt;方案优势&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;自动化&lt;/strong&gt;：无需手动干预，DOM 变化自动触发&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;性能优化&lt;/strong&gt;：MutationObserver 是浏览器原生 API，性能优秀&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;可靠性高&lt;/strong&gt;：无论何时 DOM 重新渲染，都能确保 placeholder 正确&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4 id="_22"&gt;技术深度&lt;/h4&gt;
+&lt;h4 id="_25"&gt;技术深度&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;MutationObserver&lt;/code&gt; 是现代浏览器提供的强大 API，它可以观察 DOM 树的变化并执行回调。相比于传统的轮询方案，它具有以下优势：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;事件驱动&lt;/strong&gt;：只在 DOM 真正变化时触发，不浪费性能&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;精确控制&lt;/strong&gt;：可以精确指定要监听的变化类型&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;批量处理&lt;/strong&gt;：浏览器会自动批量处理多个变化，避免频繁回调&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="_23"&gt;第四步：生命周期管理&lt;/h3&gt;
+&lt;h3 id="_26"&gt;生命周期管理&lt;/h3&gt;
 &lt;h4 id="astro-viewtransitions"&gt;支持 Astro ViewTransitions&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kd"&gt;let&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;walineInstance&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;ReturnType&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="ow"&gt;typeof&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;initWaline&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
@@ -2633,7 +2583,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;完美支持 Astro 的 ViewTransitions 特性&lt;/li&gt;
 &lt;li&gt;确保单页面应用般的流畅体验&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="_24"&gt;深度样式定制&lt;/h2&gt;
+&lt;h2 id="_27"&gt;深度样式定制&lt;/h2&gt;
 &lt;h3 id="css"&gt;CSS 变量系统：主题色统一管理&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c"&gt;/* 主题色配置 */&lt;/span&gt;
@@ -2664,7 +2614,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;&lt;strong&gt;CSS 变量继承&lt;/strong&gt;：直接使用博客的设计系统&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;透明背景&lt;/strong&gt;：无缝融入博客整体设计&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="_25"&gt;暗色模式适配&lt;/h3&gt;
+&lt;h3 id="_28"&gt;暗色模式适配&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nd"&gt;root&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;dark&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;--waline-text-color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;oklch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.85&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0.02&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;var&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;--hue&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;--waline-grey-color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;oklch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.65&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0.02&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;var&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;--hue&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
@@ -2674,7 +2624,7 @@ const mergedConfig: WalineConfig = {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;自动切换&lt;/strong&gt;：通过监听 &lt;code&gt;html.dark&lt;/code&gt; 类，实现暗色模式的自动适配，无需 JavaScript 干预。&lt;/p&gt;
-&lt;h3 id="_26"&gt;模块化样式架构&lt;/h3&gt;
+&lt;h3 id="_29"&gt;模块化样式架构&lt;/h3&gt;
 &lt;p&gt;样式分为 13 个独立模块，每个模块负责特定的 UI 部分：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* 1. CSS 变量配置 - 全局主题 */&lt;/span&gt;
 &lt;span class="c"&gt;/* 2. 输入面板样式 - 评论发表区 */&lt;/span&gt;
@@ -2691,8 +2641,8 @@ const mergedConfig: WalineConfig = {
 &lt;span class="c"&gt;/* 13. 其他配置 - 杂项 */&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_27"&gt;自定义反应按钮&lt;/h3&gt;
-&lt;h4 id="_28"&gt;设计理念&lt;/h4&gt;
+&lt;h3 id="_30"&gt;自定义反应按钮&lt;/h3&gt;
+&lt;h4 id="_31"&gt;设计理念&lt;/h4&gt;
 &lt;p&gt;使用自定义爱心图标替代默认表情，提供更精美的视觉体验：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* 反应图标 - 未激活状态（空心） */&lt;/span&gt;
 &lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;wl-reaction-item&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;img&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -2717,16 +2667,16 @@ const mergedConfig: WalineConfig = {
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4 id="_29"&gt;交互效果&lt;/h4&gt;
+&lt;h4 id="_32"&gt;交互效果&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;未激活状态&lt;/strong&gt;：显示空心图标 + "Join others who like ~"&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;激活状态&lt;/strong&gt;：显示实心图标 + 点赞数 + "Like(s)"&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;悬停效果&lt;/strong&gt;：图标放大 1.15 倍 + 亮度提升&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;点击动画&lt;/strong&gt;：弹跳动画 + 旋转效果&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="_30"&gt;实战中的问题与创新解决方案&lt;/h2&gt;
+&lt;h2 id="_33"&gt;实战中的问题与创新解决方案&lt;/h2&gt;
 &lt;h3 id="1-gif"&gt;问题 1：表情包和 GIF 弹出层撑开与收回问题&lt;/h3&gt;
-&lt;h4 id="_31"&gt;问题描述&lt;/h4&gt;
+&lt;h4 id="_34"&gt;问题描述&lt;/h4&gt;
 &lt;p&gt;在深度定制 Waline 后，遇到了移动端和桌面端的复杂问题：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;移动端问题&lt;/strong&gt;：&lt;/p&gt;
 &lt;ul&gt;
@@ -2739,8 +2689,8 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;❌ 表情包撑开的高度异常（与 GIF 一样大）&lt;/li&gt;
 &lt;li&gt;❌ 评论框一直被撑开，必须刷新页面才能恢复&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="_32"&gt;解决方案演进过程&lt;/h4&gt;
-&lt;h5 id="1_2"&gt;尝试 1：移动端临时修复（已废弃）&lt;/h5&gt;
+&lt;h4 id="_35"&gt;解决方案演进过程&lt;/h4&gt;
+&lt;h5 id="1_1"&gt;尝试 1：移动端临时修复（已废弃）&lt;/h5&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* ❌ 方案A：只在移动端使用相对定位（问题未完全解决） */&lt;/span&gt;
 &lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="k"&gt;media&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;screen&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;max-width&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;768px&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;wl-emoji-popup&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -2758,7 +2708,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;⚠️ 只解决了移动端问题&lt;/li&gt;
 &lt;li&gt;❌ 应用到桌面端后，弹出层关闭后无法收回&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h5 id="2_2"&gt;尝试 2：深度排查机制&lt;/h5&gt;
+&lt;h5 id="2_1"&gt;尝试 2：深度排查机制&lt;/h5&gt;
 &lt;p&gt;通过浏览器开发者工具，我发现了 Waline 的显示/隐藏机制：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;核心发现&lt;/strong&gt;：&lt;/p&gt;
 &lt;ol&gt;
@@ -2767,7 +2717,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;但是 &lt;code&gt;.wl-emoji-popup&lt;/code&gt; 容器和所有 &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; 元素仍然存在于 DOM 中&lt;/li&gt;
 &lt;li&gt;这导致使用 &lt;code&gt;position: relative&lt;/code&gt; 后，容器即使内容为空也会一直占据空间&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h5 id="_33"&gt;最终方案：基于类名的优雅解决&lt;/h5&gt;
+&lt;h5 id="_36"&gt;最终方案：基于类名的优雅解决&lt;/h5&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* 隐藏未激活的弹出层 */&lt;/span&gt;
 &lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;wl-emoji-popup&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nd"&gt;not&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;display&lt;/span&gt;&lt;span class="o"&gt;),&lt;/span&gt;
 &lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;wl-gif-popup&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nd"&gt;not&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;display&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -2794,7 +2744,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;✅ 无需媒体查询，全平台统一代码&lt;/li&gt;
 &lt;li&gt;✅ 从原来的 30+ 行优化到 12 行&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="_34"&gt;技术亮点&lt;/h4&gt;
+&lt;h4 id="_37"&gt;技术亮点&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;精准选择器&lt;/strong&gt;：&lt;code&gt;:not(.display)&lt;/code&gt; 直接基于 Waline 的内部机制&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;零额外成本&lt;/strong&gt;：不需要 JavaScript 监听，完全由 CSS 驱动&lt;/li&gt;
@@ -2802,8 +2752,8 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;&lt;strong&gt;全局适用&lt;/strong&gt;：一套代码解决移动端和桌面端所有问题&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;顺应框架设计&lt;/strong&gt;：基于 Waline 原有的类名机制，而非对抗它&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="2_3"&gt;问题 2：移动端统计标签拥挤&lt;/h3&gt;
-&lt;h4 id="_35"&gt;响应式解决方案&lt;/h4&gt;
+&lt;h3 id="2_2"&gt;问题 2：移动端统计标签拥挤&lt;/h3&gt;
+&lt;h4 id="_38"&gt;响应式解决方案&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"flex flex-row flex-wrap text-black/30 dark:text-white/30 gap-3 md:gap-5 mb-3"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="cm"&gt;&amp;lt;!-- 每个统计项 --&amp;gt;&lt;/span&gt;
   &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"flex flex-row items-center"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
@@ -2825,7 +2775,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;&lt;code&gt;gap-3 md:gap-5&lt;/code&gt;：移动端间距更紧凑，桌面端更舒适&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;hidden sm:inline&lt;/code&gt;：小屏隐藏，640px 以上显示&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id="_36"&gt;用户体验对比&lt;/h4&gt;
+&lt;h4 id="_39"&gt;用户体验对比&lt;/h4&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2847,8 +2797,8 @@ const mergedConfig: WalineConfig = {
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="_37"&gt;页面集成与使用&lt;/h2&gt;
-&lt;h3 id="_38"&gt;在文章页面展示统计信息&lt;/h3&gt;
+&lt;h2 id="_40"&gt;页面集成与使用&lt;/h2&gt;
+&lt;h3 id="_41"&gt;在文章页面展示统计信息&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- src/pages/posts/[...slug].astro --&amp;gt;
 &amp;lt;div class="flex flex-row flex-wrap text-black/30 dark:text-white/30 gap-3 md:gap-5 mb-3 transition onload-animation"&amp;gt;
   &amp;lt;!-- 字数统计 --&amp;gt;
@@ -2896,12 +2846,12 @@ const mergedConfig: WalineConfig = {
 &amp;lt;Waline /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_39"&gt;在关于页面使用&lt;/h3&gt;
+&lt;h3 id="_42"&gt;在关于页面使用&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- src/pages/about.astro --&amp;gt;
 &amp;lt;Waline path="/about" /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_40"&gt;全局样式引入&lt;/h3&gt;
+&lt;h3 id="_43"&gt;全局样式引入&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- src/layouts/Layout.astro --&amp;gt;
 &amp;lt;head&amp;gt;
   &amp;lt;!-- Waline 评论系统样式 --&amp;gt;
@@ -2909,8 +2859,8 @@ const mergedConfig: WalineConfig = {
 &amp;lt;/head&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="_41"&gt;配置指南：快速定制&lt;/h2&gt;
-&lt;h3 id="_42"&gt;基础配置修改&lt;/h3&gt;
+&lt;h2 id="_44"&gt;配置指南：快速定制&lt;/h2&gt;
+&lt;h3 id="_45"&gt;基础配置修改&lt;/h3&gt;
 &lt;p&gt;所有配置都在 &lt;code&gt;src/config.ts&lt;/code&gt; 中修改：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;walineConfig&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;WalineConfig&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;// 修改服务器地址&lt;/span&gt;
@@ -2940,7 +2890,7 @@ const mergedConfig: WalineConfig = {
 &lt;span class="p"&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_43"&gt;主题色自定义&lt;/h3&gt;
+&lt;h3 id="_46"&gt;主题色自定义&lt;/h3&gt;
 &lt;p&gt;如果需要独立于博客的主题色：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* src/components/Waline.astro */&lt;/span&gt;
 &lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -2949,7 +2899,7 @@ const mergedConfig: WalineConfig = {
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_44"&gt;页面级配置覆盖&lt;/h3&gt;
+&lt;h3 id="_47"&gt;页面级配置覆盖&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!-- 禁用特定页面的反应功能 --&amp;gt;
 &amp;lt;Waline reaction={false} /&amp;gt;
 
@@ -2968,8 +2918,8 @@ const mergedConfig: WalineConfig = {
 /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="_45"&gt;性能优化策略&lt;/h2&gt;
-&lt;h3 id="1-css"&gt;1. CSS 动画性能优化&lt;/h3&gt;
+&lt;h2 id="_48"&gt;性能优化策略&lt;/h2&gt;
+&lt;h3 id="css_1"&gt;CSS 动画性能优化&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;/* ✅ 推荐：使用 transform（GPU 加速） */&lt;/span&gt;
 &lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;waline&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;wl-btn&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nd"&gt;hover&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;transform&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;translateY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;-2&lt;/span&gt;&lt;span class="kt"&gt;px&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -2981,7 +2931,7 @@ const mergedConfig: WalineConfig = {
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="2_4"&gt;2. 懒加载优化&lt;/h3&gt;
+&lt;h3 id="_49"&gt;懒加载优化&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// 未来优化方向：Intersection Observer&lt;/span&gt;
 &lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;observer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;new&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;IntersectionObserver&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nx"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;forEach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;entry&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -2995,58 +2945,58 @@ const mergedConfig: WalineConfig = {
 &lt;span class="nx"&gt;observer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;observe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;querySelector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'#waline'&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="3-cdn"&gt;3. CDN 资源优化&lt;/h3&gt;
+&lt;h3 id="cdn"&gt;CDN 资源优化&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="cm"&gt;&amp;lt;!-- 使用 unpkg CDN 加速资源加载 --&amp;gt;&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"module"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;init&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'https://unpkg.com/@waline/client@v3/dist/waline.js'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="_46"&gt;最佳实践与经验总结&lt;/h2&gt;
-&lt;h3 id="_47"&gt;代码组织原则&lt;/h3&gt;
+&lt;h2 id="_50"&gt;最佳实践与经验总结&lt;/h2&gt;
+&lt;h3 id="_51"&gt;代码组织原则&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;配置分离&lt;/strong&gt;：将所有可配置项集中在 &lt;code&gt;config.ts&lt;/code&gt; 中&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;类型安全&lt;/strong&gt;：使用 TypeScript 类型定义确保配置正确性&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;逻辑封装&lt;/strong&gt;：将复杂逻辑封装成独立函数&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;样式模块化&lt;/strong&gt;：按功能划分样式区块，添加清晰注释&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="_48"&gt;架构设计理念&lt;/h3&gt;
+&lt;h3 id="_52"&gt;架构设计理念&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;配置集中管理&lt;/strong&gt;：避免配置分散导致的维护困难&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Props 覆盖机制&lt;/strong&gt;：提供灵活的页面级定制能力&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;类型安全保障&lt;/strong&gt;：利用 TypeScript 类型系统防止错误&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;错误处理健壮&lt;/strong&gt;：完整的错误捕获和优雅降级&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="_49"&gt;样式设计理念&lt;/h3&gt;
+&lt;h3 id="_53"&gt;样式设计理念&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;主题统一&lt;/strong&gt;：所有颜色使用 CSS 变量，确保与博客主题一致&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;透明设计&lt;/strong&gt;：评论系统背景透明，无缝融入页面&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;渐进增强&lt;/strong&gt;：基础功能优先，高级特性作为增强&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;响应式优先&lt;/strong&gt;：移动端体验不是妥协，而是优先考虑&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="_50"&gt;用户体验设计&lt;/h3&gt;
+&lt;h3 id="_54"&gt;用户体验设计&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;即时反馈&lt;/strong&gt;：所有交互都有 0.3s 的平滑过渡&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;清晰提示&lt;/strong&gt;：使用表情符号增强可读性&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;无障碍访问&lt;/strong&gt;：确保键盘导航和屏幕阅读器兼容&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;性能优先&lt;/strong&gt;：使用 GPU 加速动画，避免重排重绘&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="_51"&gt;未来优化方向&lt;/h2&gt;
-&lt;h3 id="_52"&gt;短期计划&lt;/h3&gt;
+&lt;h2 id="_55"&gt;未来优化方向&lt;/h2&gt;
+&lt;h3 id="_56"&gt;短期计划&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;评论懒加载&lt;/strong&gt;：使用 Intersection Observer 实现可视区域加载&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;缓存优化&lt;/strong&gt;：利用 Service Worker 缓存评论数据&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;邮件通知&lt;/strong&gt;：集成评论通知功能（已在另一篇文章中实现）&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;社交登录&lt;/strong&gt;：支持 GitHub/Google 登录&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="_53"&gt;长期规划&lt;/h3&gt;
+&lt;h3 id="_57"&gt;长期规划&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;AI 审核&lt;/strong&gt;：集成 AI 进行垃圾评论过滤&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;多站点支持&lt;/strong&gt;：评论数据跨站点共享&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;数据分析&lt;/strong&gt;：评论情感分析和统计&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;国际化&lt;/strong&gt;：支持更多语言&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="_54"&gt;技术栈版本信息&lt;/h2&gt;
+&lt;h2 id="_58"&gt;技术栈版本信息&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"dependencies"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"astro"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"^4.0.0"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -3059,7 +3009,7 @@ const mergedConfig: WalineConfig = {
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="_55"&gt;文档资源&lt;/h2&gt;
+&lt;h2 id="_59"&gt;文档资源&lt;/h2&gt;
 &lt;p&gt;项目包含完整的文档体系：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;src/components/waline/
 ├──&lt;span class="w"&gt; &lt;/span&gt;README.md&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# 集成指南（235行）&lt;/span&gt;
@@ -3070,9 +3020,9 @@ const mergedConfig: WalineConfig = {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;总计&lt;/strong&gt;：988 行详细文档，覆盖所有使用场景和技术细节。&lt;/p&gt;
-&lt;h2 id="_56"&gt;结语&lt;/h2&gt;
+&lt;h2 id="_60"&gt;结语&lt;/h2&gt;
 &lt;p&gt;通过这次深度集成 Waline 评论系统的实践，我不仅成功为博客添加了强大的互动功能，还在解决实际问题的过程中积累了宝贵的经验。特别是&lt;strong&gt;从配置分散到集中管理的重构过程&lt;/strong&gt;，体现了软件工程中 " 配置集中、类型安全、易于维护 " 的核心理念。&lt;/p&gt;
-&lt;h3 id="_57"&gt;核心收获&lt;/h3&gt;
+&lt;h3 id="_61"&gt;核心收获&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;配置集中管理&lt;/strong&gt;：将配置从组件中抽离到 &lt;code&gt;config.ts&lt;/code&gt;，大幅提升可维护性&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;类型安全保障&lt;/strong&gt;：使用 TypeScript 类型系统，确保配置正确性&lt;/li&gt;
@@ -3081,7 +3031,7 @@ const mergedConfig: WalineConfig = {
 &lt;li&gt;&lt;strong&gt;MutationObserver 应用&lt;/strong&gt;：创新性地解决 placeholder 持久化问题&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;CSS 选择器技巧&lt;/strong&gt;：基于 &lt;code&gt;.display&lt;/code&gt; 类名优雅解决弹出层问题&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="_58"&gt;架构演进的启示&lt;/h3&gt;
+&lt;h3 id="_62"&gt;架构演进的启示&lt;/h3&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -3110,7 +3060,7 @@ const mergedConfig: WalineConfig = {
 &lt;/table&gt;&lt;/div&gt;
 &lt;p&gt;静态站点生成器与动态评论系统的结合，代表了现代 Web 开发的一个重要趋势：在追求性能和安全的同时，不牺牲用户体验和互动性。Astro 的灵活性和 Waline 的可定制性，让这一目标成为了现实。&lt;/p&gt;
 &lt;p&gt;如果你也在构建自己的博客，希望这篇文章能给你一些启发。记住，&lt;strong&gt;好的架构不是一蹴而就的，而是在实践中不断迭代和优化的结果&lt;/strong&gt;。技术选型没有绝对的好坏，关键是找到最适合自己需求的方案，并在实践中不断改进。&lt;/p&gt;
-&lt;h2 id="_59"&gt;参考资源&lt;/h2&gt;
+&lt;h2 id="_63"&gt;参考资源&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://waline.js.org/"&gt;Waline 官方文档&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://docs.astro.build/"&gt;Astro 官方文档&lt;/a&gt;&lt;/li&gt;
@@ -3435,7 +3385,7 @@ conda&lt;span class="w"&gt; &lt;/span&gt;activate&lt;span class="w"&gt; &lt;/spa
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id="_2"&gt;模型选择&lt;/h2&gt;
-&lt;h3 id="1-onnx"&gt;1.板端下载官方预转换的 ONNX 模型&lt;/h3&gt;
+&lt;h3 id="onnx"&gt;板端下载官方预转换的 ONNX 模型&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# yolo11n&lt;/span&gt;
 wget&lt;span class="w"&gt; &lt;/span&gt;https://ftrg.zbox.filez.com/v2/delivery/data/95f00b0fc900458ba134f8b180b3f7a1/examples/yolo11/yolo11n.onnx
 &lt;span class="c1"&gt;# yolo11s&lt;/span&gt;
@@ -3444,8 +3394,8 @@ wget&lt;span class="w"&gt; &lt;/span&gt;https://ftrg.zbox.filez.com/v2/delivery/
 wget&lt;span class="w"&gt; &lt;/span&gt;https://ftrg.zbox.filez.com/v2/delivery/data/95f00b0fc900458ba134f8b180b3f7a1/examples/yolo11/yolo11m.onnx
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="2"&gt;2.使用服务器训练好的模型&lt;/h3&gt;
-&lt;h2 id="_3"&gt;模型部署&lt;/h2&gt;
+&lt;h3 id="_3"&gt;使用服务器训练好的模型&lt;/h3&gt;
+&lt;h2 id="_4"&gt;模型部署&lt;/h2&gt;
 &lt;h3 id="cmake"&gt;板端升级 Cmake 版本&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;-c&lt;span class="w"&gt; &lt;/span&gt;conda-forge&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;cmake&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.25.*
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -3485,11 +3435,11 @@ pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&g
 python&lt;span class="w"&gt; &lt;/span&gt;convert.py&lt;span class="w"&gt; &lt;/span&gt;../model/best.onnx&lt;span class="w"&gt; &lt;/span&gt;rk3588&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# model文件夹会得到yolo11.rknn&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="_4"&gt;板端运行示例代码&lt;/h3&gt;
+&lt;h3 id="_5"&gt;板端运行示例代码&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;python&lt;span class="w"&gt; &lt;/span&gt;yolo11.py&lt;span class="w"&gt; &lt;/span&gt;--model_path&lt;span class="w"&gt; &lt;/span&gt;../model/yolo11.rknn&lt;span class="w"&gt; &lt;/span&gt;--target&lt;span class="w"&gt; &lt;/span&gt;rk3588&lt;span class="w"&gt; &lt;/span&gt;--img_show
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="_5"&gt;其他&lt;/h2&gt;
+&lt;h2 id="_6"&gt;其他&lt;/h2&gt;
 &lt;h3 id="npu"&gt;查看 NPU 驱动版本&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/sys/kernel/debug/rknpu/driver_version
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -3515,31 +3465,31 @@ python&lt;span class="w"&gt; &lt;/span&gt;convert.py&lt;span class="w"&gt; &lt;/
 &lt;li&gt;&lt;a href="https://zotero-chinese.com/plugins/#search-%E8%92%B2%E5%85%AC%E8%8B%B1"&gt;中文社区插件合集页&lt;/a&gt;
     搜索 蒲公英&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="创建备份"&gt;1 创建备份 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%88%9B%E5%BB%BA%E5%A4%87%E4%BB%BD"&gt;​&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="创建备份"&gt;创建备份 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%88%9B%E5%BB%BA%E5%A4%87%E4%BB%BD"&gt;​&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;下载安装 Tara 插件后，通过点击 &lt;code&gt;Tara&lt;/code&gt; 图标来创建一个备份&lt;/p&gt;
 &lt;p&gt;&lt;img alt="开始备份" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/tara-cxh-xqi3.png" loading="lazy" decoding="async"  width="299" height="198" /&gt;&lt;/p&gt;
 &lt;p&gt;创建成功后，会在 Zotero 中生成一个 &lt;code&gt;Tara_backup&lt;/code&gt; 的条目并自动生成一个 ZIP 格式的附件，这个就是备份文件。&lt;/p&gt;
 &lt;p&gt;如果你再点一次创建，会再生成个附件，你可以选择不同时间段的备份文件进行恢复。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="备份文件" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/inline-image.png" loading="lazy" decoding="async"  width="356" height="95" /&gt;&lt;/p&gt;
-&lt;h2 id="恢复备份"&gt;2 恢复备份 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E6%81%A2%E5%A4%8D%E5%A4%87%E4%BB%BD"&gt;​&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="恢复备份"&gt;恢复备份 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E6%81%A2%E5%A4%8D%E5%A4%87%E4%BB%BD"&gt;​&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;点击 &lt;code&gt;恢复&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="恢复备份" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/tara-brvjguu7.png" loading="lazy" decoding="async"  width="284" height="175" /&gt;&lt;/p&gt;
 &lt;p&gt;可以根据时间来选择要恢复的备份&lt;/p&gt;
 &lt;p&gt;&lt;img alt="选择要恢复备份" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/tara-sf33bhrk.png" loading="lazy" decoding="async"  width="426" height="339" /&gt;&lt;/p&gt;
 &lt;p&gt;等待备份恢复完成，再重启 Zotero&lt;/p&gt;
 &lt;p&gt;&lt;img alt="备份恢复完成" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/tara-k7xawd7w.png" loading="lazy" decoding="async"  width="396" height="299" /&gt;&lt;/p&gt;
-&lt;h2 id="导出备份文件"&gt;3 导出备份文件 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%AF%BC%E5%87%BA%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"&gt;​&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="导出备份文件"&gt;导出备份文件 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%AF%BC%E5%87%BA%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"&gt;​&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;点击 &lt;code&gt;导出&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="导出备份" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/tara-d28v7uvl.png" loading="lazy" decoding="async"  width="295" height="179" /&gt;&lt;/p&gt;
 &lt;p&gt;等待完成后，去备份目录查看文件是否生成&lt;/p&gt;
 &lt;p&gt;&lt;img alt="导出备份成功" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/tara-df-z7vf.png" loading="lazy" decoding="async"  width="419" height="299" /&gt;&lt;/p&gt;
 &lt;p&gt;导出时，会将当成的配置信息和插件导出到一个单独 ZIP 文件中，导出的备份会默认储存在 &lt;code&gt;数据储存文件夹\backup&lt;/code&gt; 下。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="导出的备份文件" src="https://www.futseyi.com/blog/zotero-tara-backup-restore/assets/inline-image-2.png" loading="lazy" decoding="async"  width="674" height="138" /&gt;&lt;/p&gt;
-&lt;h2 id="在新电脑上进行数据恢复"&gt;4 在新电脑上进行数据恢复 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%9C%A8%E6%96%B0%E7%94%B5%E8%84%91%E4%B8%8A%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"&gt;​&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="在新电脑上进行数据恢复"&gt;在新电脑上进行数据恢复 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%9C%A8%E6%96%B0%E7%94%B5%E8%84%91%E4%B8%8A%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"&gt;​&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;在新电脑上安装了 Zotero，此时 Zotero 上没有任何插件，配置都是默认的。这时，你可以将 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%AF%BC%E5%87%BA%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"&gt;导出备份文件&lt;/a&gt; 导出的文件复制到新电脑上。&lt;/p&gt;
 &lt;p&gt;在新电脑 Zotero 上，先安装 &lt;code&gt;Tara.xpi&lt;/code&gt; 插件。&lt;/p&gt;
 &lt;p&gt;插件安装成功，点击恢复，会出现一个文件选择的窗中，选择 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%AF%BC%E5%87%BA%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"&gt;导出备份文件&lt;/a&gt; 中所生成的备份文件，之后 Zotero 会恢复对应的插件及相关配置。&lt;/p&gt;
-&lt;h2 id="在不同电脑上同步备份"&gt;5 在不同电脑上同步备份 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%94%B5%E8%84%91%E4%B8%8A%E5%90%8C%E6%AD%A5%E5%A4%87%E4%BB%BD"&gt;​&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="在不同电脑上同步备份"&gt;在不同电脑上同步备份 &lt;a href="https://www.futseyi.com/blog/zotero-tara-backup-restore/#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%94%B5%E8%84%91%E4%B8%8A%E5%90%8C%E6%AD%A5%E5%A4%87%E4%BB%BD"&gt;​&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;当你在多个电脑上同时使用 Zotero 时，可以通过 Zotero 的 &lt;code&gt;同步功能&lt;/code&gt; 来实现数据的快速备份和恢复。&lt;/p&gt;
 &lt;p&gt;首先在不同电脑上分别配置同步，然后可以在 A 电脑上创建一个备份，备份文件是随条目一起同步的。那 B 电脑 Zotero 应该会自动同步了创建的备份条目 &lt;code&gt;Tara_backup&lt;/code&gt; 及对应的附件。&lt;/p&gt;
 &lt;p&gt;当你在 B 电脑的 Zotero 上点击恢复，选择 A 电脑上刚创建的备份。这样两台电脑上的 Zotero 配置和插件信息就一起同步了。&lt;/p&gt;
@@ -3547,22 +3497,22 @@ python&lt;span class="w"&gt; &lt;/span&gt;convert.py&lt;span class="w"&gt; &lt;/
 &lt;p&gt;由于不同系统平台或主机上的文件路径可能不一致，tara 在备份时默认过滤掉了 &lt;code&gt;locate&lt;/code&gt; 文件夹，可以通过点击 &lt;code&gt;Tara 图标-设置&lt;/code&gt; 进行修改。&lt;/p&gt;</content:encoded></item><item><title>Obsidian 跨设备同步：Syncthing 实践</title><link>https://www.futseyi.com/blog/obsidian-syncthing-sync/</link><guid isPermaLink="true">https://www.futseyi.com/blog/obsidian-syncthing-sync/</guid><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><description>或许这就是最好的 Obsidian 全平台同步方案，甚至在国内可能优于官方的同步，因为它的同步速度取决于你内网带宽！并且它不局限于同步 Obsidian，也可以同步其他基于文件的的资料或者照片以及视频。</description><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;或许这就是最好的 Obsidian 全平台同步方案，甚至在国内可能优于官方的同步，因为它的同步速度取决于你内网带宽！并且它不局限于同步 Obsidian，也可以同步其他基于文件的的资料或者照片以及视频。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="1"&gt;1 前言&lt;/h2&gt;
+&lt;h2 id="_1"&gt;前言&lt;/h2&gt;
 &lt;p&gt;Obsidian 的同步最大的问题是 IOS 端，在桌面端我们可以利用 OneDrive，Dropbox 等工具来同步，但是在 IOS 端我们无法使用这些工具来同步其他 app 的数据，所以如果不使用官方的同步，我们只能依赖插件，例如 &lt;code&gt;remotely-save&lt;/code&gt; 和 &lt;code&gt;live-sync&lt;/code&gt; 或者基于 &lt;code&gt;git&lt;/code&gt; 的 http 插件以及 &lt;code&gt;working copy&lt;/code&gt; 来同步文件，这些插件的最大问题就是性能和对冲突的处理策略不友好，那么 &lt;code&gt;syncthing&lt;/code&gt; 便是终极的同步方案！&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Syncthing&lt;/code&gt; 一个几乎实时的 Obsidian 同步方案，某些方面，它甚至优于官方同步。&lt;/p&gt;
-&lt;h2 id="2-syncthing"&gt;2 Syncthing 的介绍&lt;/h2&gt;
+&lt;h2 id="syncthing"&gt;Syncthing 的介绍&lt;/h2&gt;
 &lt;p&gt;以下来自 &lt;a href="https://syncthing.net/"&gt;官网&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Syncthing is a &lt;strong&gt;continuous file synchronization&lt;/strong&gt; program. It synchronizes files between two or more computers in real time, safely protected from prying eyes. Your data is your data alone and you deserve to choose where it is stored, whether it is shared with some third party, and how it’s transmitted over the internet.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;总结来说：syncthing 是一个开源的多端 p2p 同步工具。&lt;/p&gt;
-&lt;h2 id="3-syncthing"&gt;3 Syncthing 的安装&lt;/h2&gt;
+&lt;h2 id="syncthing_1"&gt;Syncthing 的安装&lt;/h2&gt;
 &lt;p&gt;桌面端的下载地址：&lt;a href="https://syncthing.net/downloads/"&gt;官网下载&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="31-windows"&gt;3.1 Windows 端&lt;/h3&gt;
+&lt;h3 id="windows"&gt;Windows 端&lt;/h3&gt;
 &lt;p&gt;windows 端有 2 类客户端，一类是基于命令行 +web 端 ui 的客户端，一类是集成 ui 客户端，两种都是一样的。&lt;/p&gt;
-&lt;h4 id="311-ui-ui"&gt;3.1.1 集成 UI 客户端 (有本地 UI 界面)&lt;/h4&gt;
+&lt;h4 id="ui-ui"&gt;集成 UI 客户端 (有本地 UI 界面)&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://github.com/canton7/SyncTrayzor"&gt;SyncTrayzor 下载地址&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id="312-webui-base"&gt;3.1.2 基于 WebUI 的 Base 客户端&lt;/h4&gt;
+&lt;h4 id="webui-base"&gt;基于 WebUI 的 Base 客户端&lt;/h4&gt;
 &lt;p&gt;建议下载安装版 &lt;a href="https://github.com/Bill-Stewart/SyncthingWindowsSetup/"&gt;Windows 安装版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;运行：开启菜单中搜索 &lt;code&gt;syncthing&lt;/code&gt;，找到 &lt;code&gt;Start Syncthing&lt;/code&gt; 打开即运行，没有窗口，没有托盘，这时我们打开浏览器，输入 &lt;code&gt;http://127.0.0.1:8384&lt;/code&gt; 即可管理 &lt;a href="https://syncthing.net/"&gt;Syncthing&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;注意：安装版无法开机自启动，你可以安装以下步骤设置自启动。&lt;/p&gt;
@@ -3572,18 +3522,18 @@ python&lt;span class="w"&gt; &lt;/span&gt;convert.py&lt;span class="w"&gt; &lt;/
 &lt;li&gt;把快捷方式粘贴到自启动文件夹中，下次开机会自动启动 syncthing
     你也可以记住这个文件夹的位置，或者把 &lt;code&gt;Start Syncthing&lt;/code&gt; 和 &lt;code&gt;Stop Syncthing&lt;/code&gt; 快捷方式复制到桌面用于手动启动和关闭，也可以从开始菜单启停。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="32-iphone-ipad"&gt;3.2 iPhone 和 iPad 端&lt;/h3&gt;
+&lt;h3 id="iphone-ipad"&gt;iPhone 和 iPad 端&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;iPhone 上一直没有一个友好的 syncthing 客户端，主要是无法跨沙箱，也就无法同步文件夹，这确实非常的难受，使用起来很受限，之前一直使用 &lt;code&gt;mobius sync&lt;/code&gt; 这个收费的客户端，它能跨沙箱，但是如果体验后就必须保持后台，使用体验不算很好。直到开源的 &lt;code&gt;Synctrain&lt;/code&gt; 的出现让 IOS 上的同步体验达到几乎无感。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id="321-synctrain"&gt;3.2.1 Synctrain(免费开源,建议使用这个)&lt;/h4&gt;
+&lt;h4 id="synctrain"&gt;Synctrain(免费开源,建议使用这个)&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://github.com/pixelspark/sushitrain"&gt;Github 项目&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;App Store：&lt;a href="https://apps.apple.com/nl/app/synctrain/id6553985316"&gt;Download on the App Store&lt;/a&gt;(非国区哦)&lt;/p&gt;
 &lt;p&gt;TF：&lt;a href="https://testflight.apple.com/join/2f54I4CM"&gt;Test beta versions through TestFlight&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id="322-mobius-sync"&gt;3.2.2 Mobius Sync&lt;/h4&gt;
+&lt;h4 id="mobius-sync"&gt;Mobius Sync&lt;/h4&gt;
 &lt;p&gt;App Store 下载，国区 38 元买断，也很不错的 app。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;两个 app 最大的区别在于能否用快捷方式！&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id="4-syncthing"&gt;4 Syncthing 配置（演示局域网下的同步）&lt;/h2&gt;
+&lt;h2 id="syncthing_2"&gt;Syncthing 配置（演示局域网下的同步）&lt;/h2&gt;
 &lt;p&gt;以 Windows 端和 iPhone 同步为例，其他设备加入大同小异，但 syncthing 的中继和发现以及 stun 服务不友好，谨慎使用！&lt;/p&gt;
 &lt;p&gt;PC 端点击图标 or 自动启动&lt;/p&gt;
 &lt;p&gt;&lt;img alt="20250720163344543" src="https://www.futseyi.com/blog/obsidian-syncthing-sync/assets/20250720163344543.png" loading="lazy" decoding="async"  width="1039" height="162" /&gt;&lt;/p&gt;
@@ -3632,8 +3582,8 @@ python&lt;span class="w"&gt; &lt;/span&gt;convert.py&lt;span class="w"&gt; &lt;/
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="5-syncthing"&gt;5 Syncthing 并非仅能同步局域网内的电脑，广域网内电脑照样好同步 (后续更新)&lt;/h2&gt;
-&lt;h2 id="6"&gt;6 参考链接&lt;/h2&gt;
+&lt;h2 id="syncthing_3"&gt;Syncthing 并非仅能同步局域网内的电脑，广域网内电脑照样好同步 (后续更新)&lt;/h2&gt;
+&lt;h2 id="_2"&gt;参考链接&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href="https://laozhang.org/archives/3506.html"&gt;Obsidian多端同步终极大法Syncthing、备份终极大法Kopia | 老张博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://blog.zdawn.net/archives/obisidian-sync-to-syncthing"&gt;Obsidian利用Syncthing全平台同步终极方案 - Janz Blog&lt;/a&gt;&lt;/p&gt;
@@ -3642,31 +3592,31 @@ python&lt;span class="w"&gt; &lt;/span&gt;convert.py&lt;span class="w"&gt; &lt;/
 &lt;blockquote&gt;
 &lt;p&gt;按顺序执行&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="1"&gt;1：更改主机名&lt;/h2&gt;
+&lt;h2 id="_2"&gt;更改主机名&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;hostnamectl&lt;span class="w"&gt; &lt;/span&gt;set-hostname&lt;span class="w"&gt; &lt;/span&gt;localhost
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="2"&gt;2：换国内系统源（开源脚本）&lt;/h2&gt;
+&lt;h2 id="_3"&gt;换国内系统源（开源脚本）&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bash&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;&lt;span class="o"&gt;(&lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-sSL&lt;span class="w"&gt; &lt;/span&gt;https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="3"&gt;3：更新系统常用包&lt;/h2&gt;
+&lt;h2 id="_4"&gt;更新系统常用包&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt&lt;span class="w"&gt; &lt;/span&gt;update&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;-y&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;wget&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;zip&lt;span class="w"&gt; &lt;/span&gt;tar&lt;span class="w"&gt; &lt;/span&gt;lsof&lt;span class="w"&gt; &lt;/span&gt;vim&lt;span class="w"&gt; &lt;/span&gt;sudo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="4-bbr"&gt;4：启用 BBR&lt;/h2&gt;
+&lt;h2 id="bbr"&gt;启用 BBR&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;modprobe&lt;span class="w"&gt; &lt;/span&gt;tcp_bbr&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"net.ipv4.tcp_congestion_control = bbr"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;-a&lt;span class="w"&gt; &lt;/span&gt;/etc/sysctl.conf&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;sysctl&lt;span class="w"&gt; &lt;/span&gt;-p
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="5"&gt;5：启用虚拟内存&lt;/h2&gt;
+&lt;h2 id="_5"&gt;启用虚拟内存&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;fallocate&lt;span class="w"&gt; &lt;/span&gt;-l&lt;span class="w"&gt; &lt;/span&gt;2G&lt;span class="w"&gt; &lt;/span&gt;/swapfile&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;chmod&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;700&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/swapfile&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;mkswap&lt;span class="w"&gt; &lt;/span&gt;/swapfile&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;swapon&lt;span class="w"&gt; &lt;/span&gt;/swapfile&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'/swapfile none swap sw 0 0'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;-a&lt;span class="w"&gt; &lt;/span&gt;/etc/fstab
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="6-docker"&gt;6：使用国内镜像安装 docker（开源脚本）&lt;/h2&gt;
+&lt;h2 id="docker"&gt;使用国内镜像安装 docker（开源脚本）&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bash&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;&lt;span class="o"&gt;(&lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-sSL&lt;span class="w"&gt; &lt;/span&gt;https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInstallation.sh&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="7-ssh"&gt;7：加强 SSH 防护&lt;/h2&gt;
+&lt;h2 id="ssh"&gt;加强 SSH 防护&lt;/h2&gt;
 &lt;p&gt;修改 SSH 配置文件&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;vim&lt;span class="w"&gt; &lt;/span&gt;/etc/ssh/sshd_config
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -3683,11 +3633,11 @@ PermitEmptyPasswords&lt;span class="w"&gt; &lt;/span&gt;no
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&gt;restart&lt;span class="w"&gt; &lt;/span&gt;ssh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="8-web-caddy"&gt;8：安装 web 服务（caddy）&lt;/h2&gt;
+&lt;h2 id="web-caddy"&gt;安装 web 服务（caddy）&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;-yq&lt;span class="w"&gt; &lt;/span&gt;debian-keyring&lt;span class="w"&gt; &lt;/span&gt;debian-archive-keyring&lt;span class="w"&gt; &lt;/span&gt;apt-transport-https&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-1sLf&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'https://dl.cloudsmith.io/public/caddy/stable/gpg.key'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;gpg&lt;span class="w"&gt; &lt;/span&gt;--dearmor&lt;span class="w"&gt; &lt;/span&gt;-o&lt;span class="w"&gt; &lt;/span&gt;/usr/share/keyrings/caddy-stable-archive-keyring.gpg&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-1sLf&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;/etc/apt/sources.list.d/caddy-stable.list&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;update&lt;span class="w"&gt; &lt;/span&gt;-q&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;-yq&lt;span class="w"&gt; &lt;/span&gt;caddy
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="9"&gt;9：更改系统语言为中文&lt;/h2&gt;
+&lt;h2 id="_6"&gt;更改系统语言为中文&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;nano&lt;span class="w"&gt; &lt;/span&gt;/etc/locale.gen
 &lt;span class="c1"&gt;# zh_CN.UTF-8 UTF-8       // 取消这行注释&lt;/span&gt;
 
@@ -3696,12 +3646,12 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;update-locale&lt;span class="w"&gt; &lt;
 sudo&lt;span class="w"&gt; &lt;/span&gt;localectl&lt;span class="w"&gt; &lt;/span&gt;set-locale&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;LANG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;zh_CN.UTF-8
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="10"&gt;10：配置系统时区为上海&lt;/h2&gt;
+&lt;h2 id="_7"&gt;配置系统时区为上海&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;ln&lt;span class="w"&gt; &lt;/span&gt;-sf&lt;span class="w"&gt; &lt;/span&gt;/usr/share/zoneinfo/Asia/Shanghai&lt;span class="w"&gt; &lt;/span&gt;/etc/localtime
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="11-docker-caddy"&gt;11：然后就可以使用 docker 愉快的部署各种服务了（脚本已自动配置国内镜像源），然后配合 caddy 反代各种服务&lt;/h2&gt;
-&lt;h2 id="_2"&gt;其他参考&lt;/h2&gt;
+&lt;h2 id="docker-caddy"&gt;然后就可以使用 docker 愉快的部署各种服务了（脚本已自动配置国内镜像源），然后配合 caddy 反代各种服务&lt;/h2&gt;
+&lt;h2 id="_8"&gt;其他参考&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# 鱼香 ros 一键安装&lt;/span&gt;
 wget&lt;span class="w"&gt; &lt;/span&gt;http://fishros.com/install&lt;span class="w"&gt; &lt;/span&gt;-O&lt;span class="w"&gt; &lt;/span&gt;fishros&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;.&lt;span class="w"&gt; &lt;/span&gt;fishros
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -3734,7 +3684,7 @@ BBR 优化；
 ~~安装 neofetch、cowsay 等强大的 CLI 工具；~~
 ~~每天来一把 sudo apt upgrade -y。~~&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="_3"&gt;实验室备份&lt;/h2&gt;
+&lt;h2 id="_9"&gt;实验室备份&lt;/h2&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt
 &lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/etc/apt
 cp&lt;span class="w"&gt; &lt;/span&gt;/etc/apt/sources.list&lt;span class="w"&gt; &lt;/span&gt;/etc/apt/sources.list.bak
@@ -3779,8 +3729,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;s
 $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'pillow&amp;lt;7'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# always needed for Python 2.7, not needed torchvision v0.5.0+ with Python 3.6&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title>PyTorch 入门 04：模型训练流程</title><link>https://www.futseyi.com/blog/pytorch-quickstart-training-workflow/</link><guid isPermaLink="true">https://www.futseyi.com/blog/pytorch-quickstart-training-workflow/</guid><pubDate>Wed, 16 Jul 2025 00:00:00 +0000</pubDate><description>PyTorch 入门 04：模型训练流程</description><content:encoded>&lt;p&gt;&lt;img alt="padding strides odd" src="https://www.futseyi.com/blog/pytorch-quickstart-training-workflow/assets/padding-strides-odd.gif" loading="lazy" decoding="async"  width="445" height="411" /&gt;&lt;/p&gt;
 &lt;h2 id="04"&gt;第 04 讲 炼丹流程📝&lt;/h2&gt;
-&lt;h2 id="11"&gt;1.1 模型操作&lt;/h2&gt;
-&lt;h3 id="111"&gt;1.1.1 使用&amp;amp;修改&lt;/h3&gt;
+&lt;h2 id="_1"&gt;模型操作&lt;/h2&gt;
+&lt;h3 id="_2"&gt;使用&amp;amp;修改&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;torchvision.models 有分类、语义分割、目标检测等，本次讲分类模型 VGG&lt;/p&gt;
 &lt;p&gt;最常用的为 VGG16 和 VGG19，VGG16 的数据集 ImageNet 需安装「scipy」&lt;/p&gt;
@@ -3847,7 +3797,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vgg16_false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="112"&gt;1.1.2 保存&amp;amp;加载&lt;/h3&gt;
+&lt;h3 id="_3"&gt;保存&amp;amp;加载&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;训练好的模型需要进行保存，以备后续加载使用&lt;/p&gt;
 &lt;p&gt;model_save.py&lt;/p&gt;
@@ -3964,7 +3914,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="12"&gt;1.2 模型训练&lt;/h2&gt;
+&lt;h2 id="_4"&gt;模型训练&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;train.py&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -4255,7 +4205,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argmax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# 横向对比&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="13-gpu"&gt;1.3 GPU&lt;/h2&gt;
+&lt;h2 id="gpu"&gt;GPU&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="89d50ef561c5aefcbd26b1a0cf035598 kp36oeqm z1d1h36" src="https://www.futseyi.com/blog/pytorch-quickstart-training-workflow/assets/89d50ef561c5aefcbd26b1a0cf035598-kp36oeqm-z1d1h36.webp" loading="lazy" decoding="async"  width="727" height="242" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;train_gpu_1.py&lt;/p&gt;
@@ -4449,7 +4399,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
             &lt;span class="n"&gt;targets&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;targets&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;device&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="14"&gt;1.4 验证&lt;/h2&gt;
+&lt;h2 id="_5"&gt;验证&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本节加载模型，选择导入 model 文件中模型的方式，不再复制代码&lt;/p&gt;
 &lt;p&gt;test.py&lt;/p&gt;
@@ -4520,8 +4470,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argmax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# 横向&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title>PyTorch 入门 03：神经网络</title><link>https://www.futseyi.com/blog/pytorch-quickstart-neural-networks/</link><guid isPermaLink="true">https://www.futseyi.com/blog/pytorch-quickstart-neural-networks/</guid><pubDate>Tue, 15 Jul 2025 00:00:00 +0000</pubDate><description>torch.nn 是非常常用的包，其中 torch.container 中的 「Module」 是所有神经网络的基类</description><content:encoded>&lt;h2 id="03"&gt;第 03 讲 神经网络📝&lt;/h2&gt;
-&lt;h2 id="11"&gt;1.1 基本骨架&lt;/h2&gt;
-&lt;h3 id="111-module"&gt;1.1.1 Module&lt;/h3&gt;
+&lt;h2 id="_1"&gt;基本骨架&lt;/h2&gt;
+&lt;h3 id="module"&gt;Module&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;torch.nn&lt;/code&gt; 是非常常用的包，其中 &lt;code&gt;torch.container&lt;/code&gt; 中的 &lt;strong&gt;「Module」&lt;/strong&gt; 是所有神经网络的基类&lt;/p&gt;
 &lt;p&gt;自己定义的模型需要实现「Module」的 &lt;code&gt;__init__&lt;/code&gt; 和 &lt;code&gt;forward&lt;/code&gt; 函数&lt;/p&gt;
@@ -4562,8 +4512,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="c1"&gt;# 输出tensor([2.])PyTorch 默认的张量打印格式，表示其值为 2.0&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="112-layers"&gt;1.1.2 Layers&lt;/h3&gt;
-&lt;h3 id="1121-i"&gt;1.1.2.1 Ⅰ 卷积层&lt;/h3&gt;
+&lt;h3 id="layers"&gt;Layers&lt;/h3&gt;
+&lt;h3 id="_2"&gt;卷积层&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;卷积层中最常使用 &lt;strong&gt;Conv2d&lt;/strong&gt; -- 因为图像为二维&lt;/p&gt;
 &lt;p&gt;卷积核的 &lt;strong&gt;「size」&lt;/strong&gt; 一般是预定义好的&lt;/p&gt;
@@ -4738,7 +4688,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="n"&gt;writer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="1122-ii"&gt;1.1.2.2 Ⅱ 池化层&lt;/h3&gt;
+&lt;h3 id="_3"&gt;池化层&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;池化层中最常使用 &lt;strong&gt;「MaxPool2d」&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;其一是对卷积层所提取的信息做更一步降维， &lt;strong&gt;减少计算量&lt;/strong&gt; ，&lt;/p&gt;
@@ -4869,7 +4819,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="n"&gt;writer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="1123-iii"&gt;1.1.2.3 Ⅲ 激活层&lt;/h3&gt;
+&lt;h3 id="_4"&gt;激活层&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;激活层一般采用 &lt;strong&gt;「非线性激活」&lt;/strong&gt; ，神经网络中引入非线性的特质，才能训练出符合各种特征的模型&lt;/p&gt;
 &lt;p&gt;非线性激活函数有很多，如比较常见 &lt;strong&gt;「ReLU」&lt;/strong&gt; 和 &lt;strong&gt;「Sigmoid」&lt;/strong&gt;&lt;/p&gt;
@@ -5005,7 +4955,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;p&gt;True 代表替换原来的变量
  &lt;img alt="d1eca2a28f401217b5945dfbf806a631 6lcvf4zt z2ft5lv" src="https://www.futseyi.com/blog/pytorch-quickstart-neural-networks/assets/d1eca2a28f401217b5945dfbf806a631-6lcvf4zt-z2ft5lv.webp" loading="lazy" decoding="async"  width="750" height="205" /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="1124-iv"&gt;1.1.2.4 Ⅳ 其他层&lt;/h3&gt;
+&lt;h3 id="_5"&gt;其他层&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;「Transformer Layers」 特定的网络结构&lt;/p&gt;
 &lt;p&gt;「Sparse Layers」 特定的网络结构，其中的 Embedding 用于自然语言处理&lt;/p&gt;
@@ -5087,7 +5037,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;p&gt;&lt;code&gt;torch.flatten(imgs)&lt;/code&gt;，它&lt;strong&gt;直接把所有图片合成了一个一维向量&lt;/strong&gt;，丢掉了 batch 信息。模型只能输出 `torch.Size([10])&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;nn.Flatten()&lt;/code&gt;，只展平单张图片，&lt;strong&gt;不会丢失 batch&lt;/strong&gt;，所以每一张图片都能独立得到 10 维预测，输出就是 &lt;code&gt;torch.Size([64,10])&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="113-sequential"&gt;1.1.3 Sequential&lt;/h3&gt;
+&lt;h3 id="sequential"&gt;Sequential&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Sequential 主要是方便代码的编写，使代码更加简洁&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -5170,8 +5120,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="n"&gt;writer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="12"&gt;1.2 损失&amp;amp;优化&lt;/h2&gt;
-&lt;h3 id="121"&gt;1.2.1 损失函数&lt;/h3&gt;
+&lt;h2 id="_6"&gt;损失&amp;amp;优化&lt;/h2&gt;
+&lt;h3 id="_7"&gt;损失函数&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;损失函数（Loss Function）用于衡量模型的「预测输出」与「实际标签」之间的差异或者误差&lt;/p&gt;
 &lt;p&gt;损失越小越好，根据 loss 调整参数，以减小损失 &lt;img alt="304e06e4fc68fac4eaf17f5d86f68a49 d nkg qp z2fic4r" src="https://www.futseyi.com/blog/pytorch-quickstart-neural-networks/assets/304e06e4fc68fac4eaf17f5d86f68a49-d-nkg-qp-z2fic4r.webp" loading="lazy" decoding="async"  width="977" height="222" /&gt;&lt;/p&gt;
@@ -5254,7 +5204,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result_cross&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="122"&gt;1.2.2 反向传播&lt;/h3&gt;
+&lt;h3 id="_8"&gt;反向传播&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;前向传播：将训练集数据输入到 NN 的「输入层」，经过「隐藏层」，最后到达「输出层」并输出结果&lt;/p&gt;
 &lt;p&gt;反向传播：计算估计值与实际值之间的误差，并将误差从「输出层」向「隐藏层」反向传播，直至「输入层」&lt;/p&gt;
@@ -5341,7 +5291,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
     &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"ok"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="123"&gt;1.2.3 优化器&lt;/h3&gt;
+&lt;h3 id="_9"&gt;优化器&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;更新参数 减少损失&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;反向传播（backward）–&amp;gt; 计算出梯度（grad）–&amp;gt; 根据梯度和学习率更新参数 –&amp;gt; 减小 loss&lt;/p&gt;
@@ -5455,8 +5405,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 
     &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;running_loss&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title>PyTorch 入门 02：数据处理</title><link>https://www.futseyi.com/blog/pytorch-quickstart-data/</link><guid isPermaLink="true">https://www.futseyi.com/blog/pytorch-quickstart-data/</guid><pubDate>Mon, 14 Jul 2025 00:00:00 +0000</pubDate><description>PyTorch 有关加载数据的，主要涉及 Dataset 和 DataLoader</description><content:encoded>&lt;h2 id="02"&gt;第 02 讲 数据📝&lt;/h2&gt;
-&lt;h2 id="11"&gt;1.1 加载数据&lt;/h2&gt;
-&lt;h3 id="111-dataset"&gt;1.1.1 Dataset&lt;/h3&gt;
+&lt;h2 id="_1"&gt;加载数据&lt;/h2&gt;
+&lt;h3 id="dataset"&gt;Dataset&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;PyTorch 有关加载数据的，主要涉及 &lt;strong&gt;Dataset&lt;/strong&gt; 和 &lt;strong&gt;DataLoader&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;前者主要告诉后者如何 &lt;strong&gt;获取数据&lt;/strong&gt; ，后者主要用于 &lt;strong&gt;加载数据和为网络提供数据&lt;/strong&gt;&lt;/p&gt;
@@ -5567,7 +5517,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="112-tensorboard"&gt;1.1.2 TensorBoard&lt;/h3&gt;
+&lt;h3 id="tensorboard"&gt;TensorBoard&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;我们不知道一个神经网络执行具体细节是什么，要人工调试十分困难&lt;/p&gt;
 &lt;p&gt;TensorBoard 可以将程序的执行步骤都显示出来，对训练的参数（如损失值）统计并以图展现&lt;/p&gt;
@@ -5675,8 +5625,8 @@ tensorboard&lt;span class="w"&gt; &lt;/span&gt;--logdir&lt;span class="o"&gt;=&l
 &lt;span class="n"&gt;writer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="12"&gt;1.2 转换数据&lt;/h2&gt;
-&lt;h3 id="121-transforms"&gt;1.2.1 Transforms(一个工具箱)&lt;/h3&gt;
+&lt;h2 id="_2"&gt;转换数据&lt;/h2&gt;
+&lt;h3 id="transforms"&gt;Transforms(一个工具箱)&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Transforms 主要是用于图像变换的操作，可以对图像进行裁剪、标准化等&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -5953,7 +5903,7 @@ Tensor 类型中的很多属性我们都需要在神经网络中用到，如反�
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;tensorboard&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;logdir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"logs"&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="122-dataloader"&gt;1.2.2 DataLoader&lt;/h3&gt;
+&lt;h3 id="dataloader"&gt;DataLoader&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;batch_size 取四个数据打包成 imgs.targets,相当于融合在一起&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6022,8 +5972,8 @@ Tensor 类型中的很多属性我们都需要在神经网络中用到，如反�
 &lt;p&gt;教程视频见 B 站 up 主 &lt;a href="https://www.bilibili.com/video/BV1hE411t7RN?p=9&amp;amp;vd_source=db1ba321ac57d0740e3f5bc3b365ddff"&gt;小土堆&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id="01"&gt;第 01 讲 配置📝&lt;/h2&gt;
-&lt;h2 id="11"&gt;1.1 基本环境&lt;/h2&gt;
-&lt;h3 id="111-anaconda"&gt;1.1.1 Anaconda&lt;/h3&gt;
+&lt;h2 id="_1"&gt;基本环境&lt;/h2&gt;
+&lt;h3 id="anaconda"&gt;Anaconda&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;安装当前最新版 Anaconda，安装时记好自己的 安装路径&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6074,7 +6024,7 @@ conda&lt;span class="w"&gt; &lt;/span&gt;activate&lt;span class="w"&gt; &lt;/spa
 pip&lt;span class="w"&gt; &lt;/span&gt;list
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="112-pytorch"&gt;1.1.2 PyTorch&lt;/h3&gt;
+&lt;h3 id="pytorch"&gt;PyTorch&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;有显卡参考 cuda 版本选择 (无显卡选择 CPU 版本)，选择后复制相应指令&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6121,8 +6071,8 @@ python
 True
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="12"&gt;1.2 基本工具&lt;/h2&gt;
-&lt;h3 id="121-pycharm"&gt;1.2.1 PyCharm&lt;/h3&gt;
+&lt;h2 id="_2"&gt;基本工具&lt;/h2&gt;
+&lt;h3 id="pycharm"&gt;PyCharm&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;安装当前最新版 PyCharm 专业版 &lt;a href="https://www.jetbrains.com/pycharm/download"&gt;https://www.jetbrains.com/pycharm/download&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6139,7 +6089,7 @@ True
 解决办法：「设置」-&amp;gt;「工具&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;终端」-&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;把&lt;span class="w"&gt; &lt;/span&gt;「Shell&lt;span class="w"&gt; &lt;/span&gt;路径」&lt;span class="w"&gt; &lt;/span&gt;修改为&lt;span class="w"&gt; &lt;/span&gt;「cmd.exe」
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="122-jupyter"&gt;1.2.2 Jupyter&lt;/h3&gt;
+&lt;h3 id="jupyter"&gt;Jupyter&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# 进入「pytorch」环境&lt;/span&gt;
 
 conda&lt;span class="w"&gt; &lt;/span&gt;activate&lt;span class="w"&gt; &lt;/span&gt;pytorch
@@ -6175,7 +6125,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;-L&lt;span class="w"&gt; &lt;/span&gt;&lt
 http://localhost:8888/?token&lt;span class="o"&gt;=&lt;/span&gt;xxxxxx
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="123"&gt;1.2.3 两个函数&lt;/h3&gt;
+&lt;h3 id="_3"&gt;两个函数&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;TIP
 - 查看帮助：PyCharm 中使用 &lt;strong&gt;「ctrl+ 鼠标移动」&lt;/strong&gt; Jupyter 中使用 &lt;strong&gt;「Name+??」&lt;/strong&gt;
@@ -6217,11 +6167,11 @@ http://localhost:8888/?token&lt;span class="o"&gt;=&lt;/span&gt;xxxxxx
 &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cuda&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;is_available&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="124"&gt;1.2.4 工具对比&lt;/h3&gt;
+&lt;h3 id="_4"&gt;工具对比&lt;/h3&gt;
 &lt;p&gt;&lt;img alt="f6242db10c858c9372e22ca9a5add226 wcu7 iz8 1mzkrf" src="https://www.futseyi.com/blog/pytorch-quickstart-configuration/assets/f6242db10c858c9372e22ca9a5add226-wcu7-iz8-1mzkrf.webp" loading="lazy" decoding="async"  width="1605" height="749" /&gt;&lt;/p&gt;</content:encoded></item><item><title>通过局域网主机共享代理：以 Jetson 为例</title><link>https://www.futseyi.com/blog/lan-vpn-proxy-for-devices/</link><guid isPermaLink="true">https://www.futseyi.com/blog/lan-vpn-proxy-for-devices/</guid><pubDate>Thu, 10 Jul 2025 00:00:00 +0000</pubDate><description>Jetson 等设备不会自动继承主机的代理规则</description><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Jetson 等设备不会自动继承主机的代理规则&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="1"&gt;1 ​&lt;strong&gt;​主机端代理设置​&lt;/strong&gt;​&lt;/h2&gt;
+&lt;h2 id="_1"&gt;​&lt;strong&gt;​主机端代理设置​&lt;/strong&gt;​&lt;/h2&gt;
 &lt;p&gt;首先确保主机已搭建代理服务（如 v2ray 等），并记录代理服务器的 IP 地址和端口号。例如：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#查看本地主机ip(不是固定的)&lt;/span&gt;
 ipconfig
@@ -6232,7 +6182,7 @@ ipconfig
 &lt;li&gt;主机 IP：`192.168.3.68&lt;/li&gt;
 &lt;li&gt;代理端口：&lt;code&gt;10809&lt;/code&gt;（HTTP）或 &lt;code&gt;10808&lt;/code&gt;（SOCKS5）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="11-windows"&gt;1.1 &lt;strong&gt;检查代理端口是否监听（Windows 主机）​&lt;/strong&gt;​&lt;/h3&gt;
+&lt;h3 id="windows"&gt;&lt;strong&gt;检查代理端口是否监听（Windows 主机）​&lt;/strong&gt;​&lt;/h3&gt;
 &lt;p&gt;在 ​&lt;strong&gt;​Windows PowerShell​&lt;/strong&gt;​ 中运行以下命令：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;netstat&lt;span class="w"&gt; &lt;/span&gt;-ano&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;findstr&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"10809"&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -6241,7 +6191,7 @@ ipconfig
 &lt;li&gt;如果输出中包含 &lt;code&gt;0.0.0.0:10809&lt;/code&gt; 或 &lt;code&gt;192.168.3.68:10809&lt;/code&gt;，说明代理服务正在运行并监听局域网。&lt;/li&gt;
 &lt;li&gt;如果只有 &lt;code&gt;127.0.0.1:10809&lt;/code&gt;，说明代理仅限本地访问，需修改代理配置。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="12"&gt;1.2 ​&lt;strong&gt;​ 修改代理配置以允许局域网访问​&lt;/strong&gt;​&lt;/h3&gt;
+&lt;h3 id="_2"&gt;​&lt;strong&gt;​ 修改代理配置以允许局域网访问​&lt;/strong&gt;​&lt;/h3&gt;
 &lt;p&gt;根据你的代理软件（如 Clash、Shadowsocks、v2ray 等）：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;​&lt;strong&gt;​打开代理软件的配置文件​&lt;/strong&gt;​（通常是 &lt;code&gt;.yaml&lt;/code&gt; 或 &lt;code&gt;.json&lt;/code&gt; 文件）。&lt;/li&gt;
@@ -6261,7 +6211,7 @@ listen:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;192&lt;/span&gt
 &lt;ol start="3"&gt;
 &lt;li&gt;重启代理服务。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id="13"&gt;1.3 安全设置&lt;/h3&gt;
+&lt;h3 id="_3"&gt;安全设置&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;​&lt;strong&gt;​限制访问 IP​&lt;/strong&gt;​：
         在路由器或主机防火墙中，仅允许 Jetson 的 IP（如 &lt;code&gt;192.168.3.170）访问&lt;/code&gt;10808/10809` 端口。&lt;/li&gt;
@@ -6293,8 +6243,8 @@ Allow_Jetson_HTTP&lt;span class="w"&gt;     &lt;/span&gt;True&lt;span class="w"&
 &lt;li&gt;完成设置后，只有 Jetson 设备能使用你的代理，其他 IP 访问会被拒绝，安全性大幅提升！&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h2 id="2-jetson"&gt;2 &lt;strong&gt;​Jetson 端设备配置​&lt;/strong&gt;​&lt;/h2&gt;
-&lt;h3 id="21"&gt;2.1 ​&lt;strong&gt;​系统级代理设置​&lt;/strong&gt;​&lt;/h3&gt;
+&lt;h2 id="jetson"&gt;&lt;strong&gt;​Jetson 端设备配置​&lt;/strong&gt;​&lt;/h2&gt;
+&lt;h3 id="_4"&gt;​&lt;strong&gt;​系统级代理设置​&lt;/strong&gt;​&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;​&lt;strong&gt;​图形界面设置​&lt;/strong&gt;​&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;- 进入 Ubuntu 的“设置” → “网络” → “网络代理”，选择“手动”模式。
 - 填写主机的代理 IP 和端口（如 HTTP/HTTPS 代理均设为 `192.168.3.68:10809`），保存并应用。
@@ -6325,7 +6275,7 @@ Allow_Jetson_HTTP&lt;span class="w"&gt;     &lt;/span&gt;True&lt;span class="w"&
 &lt;p&gt;&lt;strong&gt;代理环境变量虽然已写入 &lt;code&gt;/etc/environment&lt;/code&gt;，但并未被当前 Shell 会话加载&lt;/strong&gt;
 所以建议重启 Jetson 设备,这会强制重新加载所有系统环境变量（包括 &lt;code&gt;/etc/environment&lt;/code&gt; 中的代理配置）&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id="22"&gt;2.2 ​&lt;strong&gt;​终端临时代理（仅当前会话有效）​&lt;/strong&gt;​&lt;/h3&gt;
+&lt;h3 id="_5"&gt;​&lt;strong&gt;​终端临时代理（仅当前会话有效）​&lt;/strong&gt;​&lt;/h3&gt;
 &lt;p&gt;在终端中临时设置代理:&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://192.168.3.68:10809&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;https_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://192.168.3.68:10809
@@ -6341,7 +6291,7 @@ git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt
 git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--global&lt;span class="w"&gt; &lt;/span&gt;--unset&lt;span class="w"&gt; &lt;/span&gt;https.proxy
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="3"&gt;3 测试代理效果&lt;/h2&gt;
+&lt;h2 id="_6"&gt;测试代理效果&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;在 Jetson 终端上测试输入&lt;/li&gt;
 &lt;/ul&gt;
@@ -6356,7 +6306,7 @@ git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;​&lt;strong&gt;​预期结果​&lt;/strong&gt;​：&lt;/p&gt;
-&lt;p&gt;显示代理连接日志（如 &lt;code&gt;Connecting to 192.168.3.68:10809…&lt;/code&gt;）&lt;/p&gt;</content:encoded></item><item><title>Jetson Orin Nano 系统烧录指南</title><link>https://www.futseyi.com/blog/jetson-orin-nano-flashing/</link><guid isPermaLink="true">https://www.futseyi.com/blog/jetson-orin-nano-flashing/</guid><pubDate>Wed, 09 Jul 2025 00:00:00 +0000</pubDate><description>Jetson 系列产品烧录系统的方法一般有两种，</description><content:encoded>&lt;h2 id="1"&gt;1 前言&lt;/h2&gt;
+&lt;p&gt;显示代理连接日志（如 &lt;code&gt;Connecting to 192.168.3.68:10809…&lt;/code&gt;）&lt;/p&gt;</content:encoded></item><item><title>Jetson Orin Nano 系统烧录指南</title><link>https://www.futseyi.com/blog/jetson-orin-nano-flashing/</link><guid isPermaLink="true">https://www.futseyi.com/blog/jetson-orin-nano-flashing/</guid><pubDate>Wed, 09 Jul 2025 00:00:00 +0000</pubDate><description>Jetson 系列产品烧录系统的方法一般有两种，</description><content:encoded>&lt;h2 id="_1"&gt;前言&lt;/h2&gt;
 &lt;p&gt;Jetson 系列产品烧录系统的方法一般有两种，&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;一种为使用 NVIDIA 官方提供的 SDK manager 软件给 Jetson 设备烧录系统。&lt;/li&gt;
@@ -6367,14 +6317,14 @@ git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt
 &lt;p&gt;搭建 Jetson 系列产品烧录系统的环境需要在电脑主机上安装 Ubuntu 系统。
 且安装的 Ubuntu 系统版本为 16.04 LTS 或者 18.04 LTS。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="2"&gt;2 环境搭建过程&lt;/h2&gt;
-&lt;h3 id="21-ubuntu"&gt;2.1 在安装有 Ubuntu 系统的电脑主机上安装应用库&lt;/h3&gt;
+&lt;h2 id="_2"&gt;环境搭建过程&lt;/h2&gt;
+&lt;h3 id="ubuntu"&gt;在安装有 Ubuntu 系统的电脑主机上安装应用库&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;qemu-user-static&lt;span class="w"&gt; &lt;/span&gt;
 sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;python&lt;span class="w"&gt; &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;搭建环境的过程需要以上应用库来将某些 NVIDIA 软件组件安装到 Jetson 开发工具包中。&lt;/p&gt;
-&lt;h3 id="22-nvidia"&gt;2.2 从 NVIDIA 官网下载所需版本的驱动程序包，和示例根文件系统包&lt;/h3&gt;
+&lt;h3 id="nvidia"&gt;从 NVIDIA 官网下载所需版本的驱动程序包，和示例根文件系统包&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;下载链接如下：&lt;a href="https://developer.nvidia.com/embedded/linux-tegra-archive"&gt;https://developer.nvidia.com/embedded/linux-tegra-archive&lt;/a&gt;。&lt;/li&gt;
 &lt;/ul&gt;
@@ -6387,7 +6337,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&
 &lt;img alt="2025-07-10_10-01-14.png" src="https://www.futseyi.com/blog/jetson-orin-nano-flashing/assets/20250710100223016.png" loading="lazy" decoding="async"  width="1665" height="205" /&gt;
 &lt;img alt="2025-07-10_10-08-36.png" src="https://www.futseyi.com/blog/jetson-orin-nano-flashing/assets/20250710100920813.png" loading="lazy" decoding="async"  width="1408" height="928" /&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="23"&gt;2.3 查阅指导文档&lt;/h3&gt;
+&lt;h3 id="_3"&gt;查阅指导文档&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;选择版本进入后点击查看指导文档（Jetson Linux Developer Guide）&lt;/li&gt;
 &lt;/ul&gt;
@@ -6396,7 +6346,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&
 &lt;li&gt;选择目录中&lt;strong&gt;Quick Start&lt;/strong&gt;，滑动到 Environment Variables 部分开始着手操作
 &lt;img alt="2025-07-10_10-07-04.png" src="https://www.futseyi.com/blog/jetson-orin-nano-flashing/assets/20250710100716011.png" loading="lazy" decoding="async"  width="1920" height="911" /&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="3"&gt;3 开始动手烧录系统&lt;/h2&gt;
+&lt;h2 id="_4"&gt;开始动手烧录系统&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;通过以上操作,已经将相关驱动文件放入同一个文件夹 (我命名为 Jetson)&lt;/li&gt;
 &lt;li&gt;
@@ -6442,13 +6392,13 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&
 &lt;li&gt;出现 successful 就是大功告成啦!&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="2025-07-10_10-47-39.png" src="https://www.futseyi.com/blog/jetson-orin-nano-flashing/assets/20250710104748635.png" loading="lazy" decoding="async"  width="1001" height="179" /&gt;&lt;/p&gt;</content:encoded></item><item><title>YOLOv7 目标检测模型训练与 RKNN 适配</title><link>https://www.futseyi.com/blog/rknn-yolov7/</link><guid isPermaLink="true">https://www.futseyi.com/blog/rknn-yolov7/</guid><pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate><description>YOLOv7 目标检测模型训练与 RKNN 适配</description><content:encoded>&lt;p&gt;&lt;img alt="rk3588s" src="https://www.futseyi.com/blog/rknn-yolov7/assets/rk3588s.jpg" loading="lazy" decoding="async"  width="4024" height="3018" /&gt;&lt;/p&gt;
-&lt;h2 id="1"&gt;1.数据标注&lt;/h2&gt;
+&lt;h2 id="_1"&gt;数据标注&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;通过 labelimg 软件进行图片数据标注。&lt;/li&gt;
 &lt;li&gt;深入解析 LabelImage：图像标注工具的全面指南 -CSDN 博客&lt;/li&gt;
 &lt;li&gt;提前 predefined_classes.txt 文本中修改不同类别的数据。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="2"&gt;2.模型训练&lt;/h2&gt;
+&lt;h2 id="_2"&gt;模型训练&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;以 RKNN 系列模型为例，训练一个 yolov7 的目标检测模型。&lt;/li&gt;
 &lt;li&gt;通过 SSH 进入计算服务器的 Docker 中，按照 readme 文件进行模型训练。&lt;/li&gt;
@@ -6461,7 +6411,7 @@ yolov7-rknn/data 文件夹中的数据集配置文件，在 yolov7-rknn 文件�
 &lt;li&gt;执行后运行 python export.py --rknpu rk3588 --
 weight ./runs/train/expXX/weights/best.pt 导出 onnx 文件以供转换。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="3"&gt;3.模型转换与部署&lt;/h2&gt;
+&lt;h2 id="_3"&gt;模型转换与部署&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;参照 airockchip/rknn-toolkit2 at v1.5.2 进行模型转换。&lt;/li&gt;
 &lt;li&gt;将转换好的模型拷贝至部署代码的 model/RK3588 的文件夹中，同
@@ -6473,8 +6423,8 @@ src/postprocess.cc 的 LABEL_NALE_TXT_PATH（类别信息文本的地
 &lt;li&gt;按照 install.md 文件执行，并使用 orangepi-config 使能串口 0 和串
 口 1。&lt;/li&gt;
 &lt;/ul&gt;</content:encoded></item><item><title>Jetson Orin Nano 开发指南</title><link>https://www.futseyi.com/blog/jetson-orin-nano-guide/</link><guid isPermaLink="true">https://www.futseyi.com/blog/jetson-orin-nano-guide/</guid><pubDate>Tue, 08 Jul 2025 00:00:00 +0000</pubDate><description>Jetson Orin Nano 开发指南</description><content:encoded>&lt;p&gt;&lt;img alt="jetson orin nano qtr numbered" src="https://www.futseyi.com/blog/jetson-orin-nano-guide/assets/jetson-orin-nano-qtr-numbered.jpg" loading="lazy" decoding="async"  width="1900" height="1460" /&gt;&lt;/p&gt;
-&lt;h2 id="1"&gt;1 换源&lt;/h2&gt;
-&lt;h3 id="11"&gt;1.1 &lt;strong&gt;验证架构和源兼容性​&lt;/strong&gt;​&lt;/h3&gt;
+&lt;h2 id="_1"&gt;换源&lt;/h2&gt;
+&lt;h3 id="_2"&gt;&lt;strong&gt;验证架构和源兼容性​&lt;/strong&gt;​&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;检查系统架构：&lt;/li&gt;
 &lt;/ul&gt;
@@ -6490,15 +6440,15 @@ src/postprocess.cc 的 LABEL_NALE_TXT_PATH（类别信息文本的地
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-la&lt;span class="w"&gt; &lt;/span&gt;/etc/apt/sources.list.d/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="12"&gt;1.2 两种换源方式&lt;/h3&gt;
-&lt;h4 id="121-1-ros"&gt;1.2.1 方式 1.鱼香 ROS 一键换源&lt;/h4&gt;
+&lt;h3 id="_3"&gt;两种换源方式&lt;/h3&gt;
+&lt;h4 id="1-ros"&gt;方式 1.鱼香 ROS 一键换源&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;wget&lt;span class="w"&gt; &lt;/span&gt;http://fishros.com/install&lt;span class="w"&gt; &lt;/span&gt;-O&lt;span class="w"&gt; &lt;/span&gt;fishros&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;.&lt;span class="w"&gt; &lt;/span&gt;fishros
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;不要清除第三方源: 这样会把 nvidia 源配置文件给删除&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id="122-2"&gt;1.2.2 方式 2.输入以下代码换源&lt;/h4&gt;
+&lt;h4 id="2"&gt;方式 2.输入以下代码换源&lt;/h4&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# 备份原有源 &lt;/span&gt;
 sudo&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;/etc/apt/sources.list&lt;span class="w"&gt; &lt;/span&gt;/etc/apt/sources.list.bak&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="c1"&gt;# 使用 sed 替换为清华镜像源（适用于 ARM） &lt;/span&gt;
@@ -6514,7 +6464,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;u
 sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;update
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="2-jupyter-lab"&gt;2 Jupyter Lab 的安装与使用&lt;/h2&gt;
+&lt;h2 id="jupyter-lab"&gt;Jupyter Lab 的安装与使用&lt;/h2&gt;
 &lt;p&gt;步骤 1: 更新 pip3 并安装 jupyter lab&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;-H&lt;span class="w"&gt; &lt;/span&gt;pip3&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;--upgrade&lt;span class="w"&gt; &lt;/span&gt;pip
 pip3&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;jupyter&lt;span class="w"&gt; &lt;/span&gt;jupyterlab
@@ -6559,8 +6509,8 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;span class="c1"&gt;##输出(active (running))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="3"&gt;3 部署深度学习&lt;/h2&gt;
-&lt;h3 id="31-jetson-inference"&gt;3.1 构建 Jetson-inference 环境&lt;/h3&gt;
+&lt;h2 id="_4"&gt;部署深度学习&lt;/h2&gt;
+&lt;h3 id="jetson-inference"&gt;构建 Jetson-inference 环境&lt;/h3&gt;
 &lt;p&gt;步骤 1.下载必要的依赖库&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;update
 sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;cmake
@@ -6591,12 +6541,12 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;make&lt;span class="w"&gt; &lt;/span&gt;
 sudo&lt;span class="w"&gt; &lt;/span&gt;ldconfig
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="32-pytorch"&gt;3.2 安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)&lt;/h3&gt;
+&lt;h3 id="pytorch"&gt;安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;jetson-inference/build
 ./install-pytorch.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="4-hello-ai-word"&gt;4 Hello AI Word 图像分类推理&lt;/h2&gt;
+&lt;h2 id="hello-ai-word"&gt;Hello AI Word 图像分类推理&lt;/h2&gt;
 &lt;p&gt;开启一个终端输入&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#针对CSI摄像头&lt;/span&gt;
 imagenet
@@ -6619,8 +6569,8 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;li&gt;Linux：🐧&lt;/li&gt;
 &lt;li&gt;Android：🤖&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="1"&gt;1 我自己使用&lt;/h2&gt;
-&lt;h3 id="11-mac"&gt;1.1 Mac&lt;/h3&gt;
+&lt;h2 id="_1"&gt;我自己使用&lt;/h2&gt;
+&lt;h3 id="mac"&gt;Mac&lt;/h3&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -6739,7 +6689,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h3 id="12-windows"&gt;1.2 Windows&lt;/h3&gt;
+&lt;h3 id="windows"&gt;Windows&lt;/h3&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -6822,7 +6772,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="2-gif"&gt;2 工具类 (系统增强，GIF，截图，剪切板，下载)&lt;/h2&gt;
+&lt;h2 id="gif"&gt;工具类 (系统增强，GIF，截图，剪切板，下载)&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7046,7 +6996,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="3"&gt;3 插件工具&lt;/h2&gt;
+&lt;h2 id="_2"&gt;插件工具&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7067,7 +7017,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="4"&gt;4 命令行工具&lt;/h2&gt;
+&lt;h2 id="_3"&gt;命令行工具&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7086,7 +7036,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="5"&gt;5 远程控制&lt;/h2&gt;
+&lt;h2 id="_4"&gt;远程控制&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7117,7 +7067,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="6-ocr"&gt;6 OCR/翻译&lt;/h2&gt;
+&lt;h2 id="ocr"&gt;OCR/翻译&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7154,7 +7104,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="7"&gt;7 局域网文件传输&lt;/h2&gt;
+&lt;h2 id="_5"&gt;局域网文件传输&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7203,7 +7153,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="8"&gt;8 图片查看器&lt;/h2&gt;
+&lt;h2 id="_6"&gt;图片查看器&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7228,7 +7178,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="9"&gt;9 图表和白板&lt;/h2&gt;
+&lt;h2 id="_7"&gt;图表和白板&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7247,7 +7197,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="10-pdf"&gt;10 PDF&lt;/h2&gt;
+&lt;h2 id="pdf"&gt;PDF&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7266,7 +7216,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="11"&gt;11 解压缩&lt;/h2&gt;
+&lt;h2 id="_8"&gt;解压缩&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7309,7 +7259,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="12"&gt;12 视频播放器&lt;/h2&gt;
+&lt;h2 id="_9"&gt;视频播放器&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7334,7 +7284,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="13"&gt;13 卸载工具&lt;/h2&gt;
+&lt;h2 id="_10"&gt;卸载工具&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;推荐果核下载&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -7386,7 +7336,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="14"&gt;14 录屏&lt;/h2&gt;
+&lt;h2 id="_11"&gt;录屏&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7417,7 +7367,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="15"&gt;15 桌面快速启动管理&lt;/h2&gt;
+&lt;h2 id="_12"&gt;桌面快速启动管理&lt;/h2&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -7436,7 +7386,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="16"&gt;16 相关参考拓展&lt;/h2&gt;
+&lt;h2 id="_13"&gt;相关参考拓展&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://www.wxy97.com/archives/20"&gt;好用常用软件 - 王旭阳个人博客&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/witt-bit/pc-guide"&gt;Windows 、Linux常用软件配置分享&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://blog.csdn.net/qq_25814297/article/details/119950578"&gt;实用工具软件远古大神Nir Sofer，数百款短小精悍便携工具，从Win2000到Win10通吃&lt;/a&gt;&lt;/p&gt;
@@ -7445,9 +7395,9 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;p&gt;&lt;a href="https://shiyrj.top/"&gt;石用软件-专注分享实用软件&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.macwk.com/"&gt;MacWk - 精品mac软件下载&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title>瓦肯举手礼</title><link>https://www.futseyi.com/blog/vulcan-salute/</link><guid isPermaLink="true">https://www.futseyi.com/blog/vulcan-salute/</guid><pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate><description>瓦肯举手礼</description><content:encoded>&lt;p&gt;&lt;img alt="e3e5403b0a09aeeaba15949b44956a22" src="https://www.futseyi.com/blog/vulcan-salute/assets/e3e5403b0a09aeeaba15949b44956a22.jpg" loading="lazy" decoding="async"  width="400" height="248" /&gt;&lt;/p&gt;
 &lt;h2 id="_1"&gt;瓦肯举手礼详解&lt;/h2&gt;
-&lt;h3 id="1"&gt;1 起源与背景&lt;/h3&gt;
+&lt;h3 id="_2"&gt;起源与背景&lt;/h3&gt;
 &lt;p&gt;瓦肯举手礼（Vulcan Salute），又称“火神答复敬礼”，最初出现在美国著名科幻作品《星际迷航》（Star Trek）中，是瓦肯人用于问候的标志性手势 &lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;&lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;。该手势由斯波克（Spock）的扮演者伦纳德·尼莫伊（Leonard Nimoy）在拍摄过程中提出，灵感来自他童年时参加犹太教祈福仪式时见到的“kohane blessing”手势——该手势象征希伯来字母“ש”，寓意“上帝”&lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;&lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;3&lt;/a&gt;。&lt;/p&gt;
-&lt;h3 id="2"&gt;2 手势做法&lt;/h3&gt;
+&lt;h3 id="_3"&gt;手势做法&lt;/h3&gt;
 &lt;p&gt;瓦肯举手礼的具体做法如下：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;将中指与食指并拢&lt;/li&gt;
@@ -7455,23 +7405,23 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;li&gt;尽可能张开大拇指，与其余手指分开&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这一手势对手指的灵活性有一定要求，现实中并非每个人都能轻松做到 &lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;3&lt;/a&gt;。&lt;/p&gt;
-&lt;h3 id="3"&gt;3 文化意义与流行&lt;/h3&gt;
+&lt;h3 id="_4"&gt;文化意义与流行&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;祝词&lt;/strong&gt;：瓦肯举手礼常伴随一句著名的祝词“Live long and prosper”，中文常译为“生生不息，繁荣昌盛”或“健康长寿，繁荣昌盛”&lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;&lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;4&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;象征意义&lt;/strong&gt;：最初仅为虚构外星文明的问候方式，如今已成为科幻迷、科技圈、网络文化中“来自另一星球”的象征符号 &lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;4&lt;/a&gt;&lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;3&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Unicode 表情&lt;/strong&gt;：2014 年，瓦肯举手礼被纳入 Unicode 标准，成为🖖（U+1F596）表情符号 &lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="4"&gt;4 趣闻轶事&lt;/h3&gt;
+&lt;h3 id="_5"&gt;趣闻轶事&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;在《星际迷航》拍摄过程中，扮演柯克舰长的威廉·夏特纳因无法独立做出该手势，只能借助鱼线或胶水辅助 &lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;3&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;该手势并非人人天生能做，许多演员和粉丝都曾尝试模仿，成为流行梗 &lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;3&lt;/a&gt;。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="5"&gt;5 在流行文化中的影响&lt;/h3&gt;
+&lt;h3 id="_6"&gt;在流行文化中的影响&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;除了在《星际迷航》系列中频繁出现，瓦肯举手礼还被其他影视作品、网络表情和现实活动广泛使用，成为跨文化交流的趣味象征 &lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;&lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;4&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;该手势也常被用作和平、祝福和友好的象征，超越了原有的科幻语境 &lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;&lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;4&lt;/a&gt;。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="6"&gt;6 总结&lt;/h3&gt;
+&lt;h3 id="_7"&gt;总结&lt;/h3&gt;
 &lt;p&gt;瓦肯举手礼不仅是《星际迷航》的标志性符号，更因其独特的文化内涵和象征意义，在全球范围内流行，成为科幻文化和网络社交中的经典手势 &lt;a href="https://zh.wikipedia.org/zh-hans/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC"&gt;1&lt;/a&gt;&lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt;&lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;4&lt;/a&gt;。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;strong&gt;参考文献&lt;/strong&gt;：&lt;/p&gt;
@@ -7479,17 +7429,17 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;p&gt;&lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;2&lt;/a&gt; &lt;a href="https://baike.baidu.com/item/%E7%93%A6%E8%82%AF%E4%B8%BE%E6%89%8B%E7%A4%BC/9025434"&gt;百度百科：瓦肯举手礼&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;4&lt;/a&gt; &lt;a href="https://m.qidian.com/ask/qhvzfxaycwz"&gt;起点中文：瓦肯举手礼的功能&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;3&lt;/a&gt; &lt;a href="http://qnck.cyol.com/content/2010-04/27/content_3204214.htm"&gt;青年参考：五种流行手势背后的故事&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title>初识 MCP：概念与应用</title><link>https://www.futseyi.com/blog/mcp-introduction/</link><guid isPermaLink="true">https://www.futseyi.com/blog/mcp-introduction/</guid><pubDate>Mon, 16 Jun 2025 00:00:00 +0000</pubDate><description>初识 MCP：概念与应用</description><content:encoded>&lt;p&gt;&lt;img alt="mcp" src="https://www.futseyi.com/blog/mcp-introduction/assets/mcp.gif" loading="lazy" decoding="async"  width="1184" height="1100" /&gt;&lt;/p&gt;
-&lt;h2 id="1-mcp"&gt;1 什么是 MCP 技术？&lt;/h2&gt;
+&lt;h2 id="mcp"&gt;什么是 MCP 技术？&lt;/h2&gt;
 &lt;p&gt;MCP，全称 Model Context Protocol（模型上下文协议），是一种开放标准协议，最早由 Anthropic 公司于 2024 年 11 月推出，旨在让大型语言模型（LLM）能够以标准化的方式无缝连接外部工具和数据源。&lt;/p&gt;
 &lt;p&gt;可以把 MCP 理解为 AI 界的“USB-C 接口”或“HTTP 协议”：它统一了 AI 模型与外部世界（如数据库、API、文件系统等）交互的方式，让开发者和用户不需要为每种工具或数据源单独开发适配接口，而是“插上就能用”。&lt;/p&gt;
-&lt;h2 id="2-mcp"&gt;2 MCP 的核心作用&lt;/h2&gt;
+&lt;h2 id="mcp_1"&gt;MCP 的核心作用&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;标准化接口&lt;/strong&gt;：让 AI 模型和各种外部资源之间的通信变得统一、简单。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;高效扩展&lt;/strong&gt;：开发者只需遵循 MCP 协议，就能让 AI 应用轻松接入新的工具或数据源，无需重复开发。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;多模态支持&lt;/strong&gt;：不仅支持文本，还能处理图片、音频等多种数据类型。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;上下文管理&lt;/strong&gt;：让 AI 模型能高效管理多轮对话和复杂的上下文信息。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="3-mcp-0"&gt;3 MCP 的技术架构（0 基础易懂版）&lt;/h2&gt;
+&lt;h2 id="mcp-0"&gt;MCP 的技术架构（0 基础易懂版）&lt;/h2&gt;
 &lt;p&gt;MCP 采用典型的“客户端 - 服务器”架构，分为三个主要角色：&lt;/p&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
@@ -7517,7 +7467,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="4-mcp"&gt;4 MCP 的工作流程&lt;/h2&gt;
+&lt;h2 id="mcp_2"&gt;MCP 的工作流程&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;初始化连接&lt;/strong&gt;：Host 中的 MCP Client 与 MCP Server 建立连接。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;请求资源/工具&lt;/strong&gt;：当 AI 模型需要外部数据或功能时，Client 向 Server 发出请求。&lt;/li&gt;
@@ -7525,20 +7475,20 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;li&gt;&lt;strong&gt;返回结果&lt;/strong&gt;：Server 将结果返回给 Client，Client 再传递给 AI 模型。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;AI 继续处理&lt;/strong&gt;：AI 模型用这些数据继续完成用户任务。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="5-mcp"&gt;5 MCP 能做什么？&lt;/h2&gt;
+&lt;h2 id="mcp_3"&gt;MCP 能做什么？&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;让 AI 自动查找和分析本地或远程文件&lt;/li&gt;
 &lt;li&gt;让 AI 直接调用数据库、Web API、执行代码等&lt;/li&gt;
 &lt;li&gt;让 AI 与各种外部系统（如 CRM、OA、邮件等）无缝集成&lt;/li&gt;
 &lt;li&gt;支持开发自己的 AI Agent（智能体），并快速扩展其能力&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="6-mcp"&gt;6 为什么 MCP 重要？&lt;/h2&gt;
+&lt;h2 id="mcp_4"&gt;为什么 MCP 重要？&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;极大降低开发难度&lt;/strong&gt;：以前每接一个新工具都要写很多集成代码，有了 MCP 只需遵循协议即可。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;让 AI 应用更强大&lt;/strong&gt;：AI 模型不再是“信息孤岛”，能实时访问和操作各种数据和工具。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;推动 AI Agent 爆发&lt;/strong&gt;：MCP 让智能体开发和扩展变得前所未有的简单。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="7-mcp"&gt;7 MCP 架构简化理解&lt;/h2&gt;
+&lt;h2 id="mcp_5"&gt;MCP 架构简化理解&lt;/h2&gt;
 &lt;p&gt;MCP 采用&lt;strong&gt;客户端 - 服务器（C/S）架构&lt;/strong&gt;，包含三个核心角色 ：&lt;/p&gt;
 &lt;div class="article-table" role="region" aria-label="Data table" tabindex="0"&gt;&lt;table&gt;
 &lt;thead&gt;
@@ -7567,8 +7517,8 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
 &lt;hr /&gt;
-&lt;h2 id="8"&gt;8 工作原理：一步步举例&lt;/h2&gt;
-&lt;h2 id="9-ai"&gt;9 &lt;strong&gt;场景举例：AI 助手查天气&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id="_1"&gt;工作原理：一步步举例&lt;/h2&gt;
+&lt;h2 id="ai"&gt;&lt;strong&gt;场景举例：AI 助手查天气&lt;/strong&gt;&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;用户提问&lt;/strong&gt;
@@ -7592,7 +7542,7 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr /&gt;
-&lt;h2 id="10"&gt;10 &lt;strong&gt;核心流程总结&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id="_2"&gt;&lt;strong&gt;核心流程总结&lt;/strong&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;连接建立&lt;/strong&gt;：Host 通过 Client 连接 Server，发现有哪些工具可用。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;能力发现&lt;/strong&gt;：Client 向 Server 请求“你能做什么”，Server 返回工具清单（如查天气、查文件等）。&lt;/li&gt;
@@ -7600,20 +7550,20 @@ imagenet.py&lt;span class="w"&gt; &lt;/span&gt;/dev/video0
 &lt;li&gt;&lt;strong&gt;结果整合&lt;/strong&gt;：Server 返回结果，Client 转交 Host，AI 模型用这些数据生成最终答复 。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h2 id="11"&gt;11 关键术语简明解释&lt;/h2&gt;
+&lt;h2 id="_3"&gt;关键术语简明解释&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Tools（工具）&lt;/strong&gt;：AI 可以调用的具体功能（如查天气、发邮件）。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Resources（资源）&lt;/strong&gt;：AI 可以访问的数据内容（如本地文件、数据库）。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Prompts（提示）&lt;/strong&gt;：预设的任务模板或指令，帮助 AI 更好地理解和操作工具 。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr /&gt;
-&lt;h2 id="12"&gt;12 总结类比&lt;/h2&gt;
+&lt;h2 id="_4"&gt;总结类比&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;过去，AI 和每个外部系统都要单独“造轮子”对接，开发量大、难维护。&lt;/li&gt;
 &lt;li&gt;有了 MCP，AI 和工具都只需遵循 MCP 协议，就像所有设备都用 USB 接口，插上即用，极大简化了集成和扩展。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;一句话总结&lt;/strong&gt;：MCP 让 AI 像插 USB 一样，安全、标准地访问和调用各种外部工具和数据，实现“万物互联”的 AI 应用体验。&lt;/p&gt;</content:encoded></item><item><title>Qwen2.5-VL 的 vLLM 部署与图像分析</title><link>https://www.futseyi.com/blog/qwen25-vl-vllm-deployment/</link><guid isPermaLink="true">https://www.futseyi.com/blog/qwen25-vl-vllm-deployment/</guid><pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate><description>1.首先安装所需依赖</description><content:encoded>&lt;h2 id="_1"&gt;环境搭建工作&lt;/h2&gt;
-&lt;h3 id="1-conda"&gt;1 使用 Conda 创建环境&lt;/h3&gt;
+&lt;h3 id="conda"&gt;使用 Conda 创建环境&lt;/h3&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda&lt;span class="w"&gt; &lt;/span&gt;create&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;qwen&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.11&lt;span class="w"&gt; &lt;/span&gt;-y
 
 conda&lt;span class="w"&gt; &lt;/span&gt;activate&lt;span class="w"&gt; &lt;/span&gt;qwen
@@ -7621,7 +7571,7 @@ conda&lt;span class="w"&gt; &lt;/span&gt;activate&lt;span class="w"&gt; &lt;/spa
 sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;update&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;upgrade
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="2"&gt;2 模型下载&lt;/h3&gt;
+&lt;h3 id="_2"&gt;模型下载&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;1.首先安装所需依赖&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -7655,8 +7605,8 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;u
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;注意端口不要与你现有的冲突&lt;/p&gt;
-&lt;h2 id="_2"&gt;模型正式测试与调用&lt;/h2&gt;
-&lt;h3 id="1-openai-python-sdk"&gt;1 使用 OpenAI Python SDK 调用&lt;/h3&gt;
+&lt;h2 id="_3"&gt;模型正式测试与调用&lt;/h2&gt;
+&lt;h3 id="openai-python-sdk"&gt;使用 OpenAI Python SDK 调用&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;1.可以使用本地 usb 摄像头配合 opencv 手动截图单独存放在 captures 文件夹下,供后续大模型调用分析&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -7874,7 +7824,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;u
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"__main__"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title>Ollama 远程部署与 Chatbox 连接</title><link>https://www.futseyi.com/blog/chatbox-ollama/</link><guid isPermaLink="true">https://www.futseyi.com/blog/chatbox-ollama/</guid><pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate><description>Ollama 远程部署与 Chatbox 连接</description><content:encoded>&lt;p&gt;&lt;img alt="image" src="https://www.futseyi.com/blog/chatbox-ollama/assets/image.gif" loading="lazy" decoding="async"  width="1248" height="938" /&gt;&lt;/p&gt;
-&lt;h2 id="1-ollama-systemd-ollama"&gt;1 在服务器上安装 Ollama 框架&amp;amp;并使用 systemd 管理 Ollama&lt;/h2&gt;
+&lt;h2 id="ollama-systemd-ollama"&gt;在服务器上安装 Ollama 框架&amp;amp;并使用 systemd 管理 Ollama&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;在这里因为网络原因,我推荐大家直接到 github 官网下载压缩包,移入服务器中解压使用&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;在 windows 中打开标签,选择最新的版本代号,选择 ollama-linux-amd64.tgz(我的 ubuntu 系统版本是 x86_64)&lt;/li&gt;
@@ -7904,7 +7854,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 常用命令​​&lt;span class="w"&gt; &lt;/span&gt;bash&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&gt;status&lt;span class="w"&gt; &lt;/span&gt;ollama&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# 查看状态 sudo journalctl -u ollama -f # 实时查看日志 sudo systemctl stop ollama # 停止服务 sudo systemctl restart ollama # 重启服务&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id="2-chatbox-ollama"&gt;2 使用 Chatbox 连接到远程 Ollama 服务&lt;/h2&gt;
+&lt;h2 id="chatbox-ollama"&gt;使用 Chatbox 连接到远程 Ollama 服务&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;h3 id="ollama-systemd-systemctl"&gt;Ollama 作为 systemd 服务运行，应使用==systemctl== 设置环境变量：&lt;/h3&gt;
@@ -7941,15 +7891,15 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;/blockquote&gt;</content:encoded></item><item><title>使用 Biome 进行代码检查</title><link>https://www.futseyi.com/blog/biome-code-review/</link><guid isPermaLink="true">https://www.futseyi.com/blog/biome-code-review/</guid><pubDate>Sat, 07 Jun 2025 00:00:00 +0000</pubDate><description>Biome 检测到多个 .astro 和 .svelte 文件的格式问题，主要是 代码缩进和换行不一致 。Biome 会尝试自动修复这些问题，但你需要手动确认或调整配置。</description><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;Biome 检测到多个 &lt;code&gt;.astro&lt;/code&gt; 和 &lt;code&gt;.svelte&lt;/code&gt; 文件的格式问题，主要是 &lt;strong&gt;代码缩进和换行不一致&lt;/strong&gt;。Biome 会尝试自动修复这些问题，但你需要手动确认或调整配置。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="1"&gt;1 &lt;strong&gt;解决方案&lt;/strong&gt;&lt;/h2&gt;
-&lt;h3 id="11"&gt;1.1 &lt;strong&gt;自动修复格式问题&lt;/strong&gt;&lt;/h3&gt;
+&lt;h2 id="_1"&gt;&lt;strong&gt;解决方案&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id="_2"&gt;&lt;strong&gt;自动修复格式问题&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;运行以下命令，让 Biome 自动修复所有格式问题：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;biome&lt;span class="w"&gt; &lt;/span&gt;format&lt;span class="w"&gt; &lt;/span&gt;./src&lt;span class="w"&gt; &lt;/span&gt;--write
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这会直接修改文件，使其符合 Biome 的默认规则。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3 id="12"&gt;1.2 &lt;strong&gt;手动检查差异&lt;/strong&gt;&lt;/h3&gt;
+&lt;h3 id="_3"&gt;&lt;strong&gt;手动检查差异&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;如果自动修复后仍有问题，可以对比 Biome 的期望格式和当前文件的差异：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;biome&lt;span class="w"&gt; &lt;/span&gt;check&lt;span class="w"&gt; &lt;/span&gt;./src
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -7961,7 +7911,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code&gt;-&lt;/code&gt; 表示当前代码，&lt;code&gt;+&lt;/code&gt; 表示 Biome 期望的格式。&lt;/p&gt;
-&lt;h3 id="13-biome"&gt;1.3 &lt;strong&gt;调整 Biome 配置（可选）&lt;/strong&gt;&lt;/h3&gt;
+&lt;h3 id="biome"&gt;&lt;strong&gt;调整 Biome 配置（可选）&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;如果默认规则不符合你的需求，可以在 &lt;code&gt;biome.json&lt;/code&gt; 中修改配置：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"formatter"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -7984,7 +7934,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;biome&lt;span class="w"&gt; &lt;/span&gt;check&lt;span class="w"&gt; &lt;/span&gt;./src
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="14"&gt;1.4 &lt;strong&gt;忽略特定文件或规则&lt;/strong&gt;&lt;/h3&gt;
+&lt;h3 id="_4"&gt;&lt;strong&gt;忽略特定文件或规则&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;如果某些文件不需要格式化，可以在 &lt;code&gt;biome.json&lt;/code&gt; 中添加 &lt;code&gt;ignore&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"files"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -7996,16 +7946,16 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id="15-npx"&gt;1.5 &lt;strong&gt;使用 &lt;code&gt;npx&lt;/code&gt; 临时运行&lt;/strong&gt;&lt;/h3&gt;
+&lt;h3 id="npx"&gt;&lt;strong&gt;使用 &lt;code&gt;npx&lt;/code&gt; 临时运行&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;如果不想全局安装，可以用 &lt;code&gt;npx&lt;/code&gt; 直接运行：&lt;/p&gt;
 &lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;npx&lt;span class="w"&gt; &lt;/span&gt;@biomejs/biome&lt;span class="w"&gt; &lt;/span&gt;format&lt;span class="w"&gt; &lt;/span&gt;--write&lt;span class="w"&gt; &lt;/span&gt;./src
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title>使用 Cloudflare 与 PicList 搭建图床</title><link>https://www.futseyi.com/blog/cloudflare-piclist-image-hosting/</link><guid isPermaLink="true">https://www.futseyi.com/blog/cloudflare-piclist-image-hosting/</guid><pubDate>Mon, 12 May 2025 00:00:00 +0000</pubDate><description>R2 实际上是一个对象存储。Cloudflare 提供 10G 的免费存储和每月 1000 万次的免费访问</description><content:encoded>&lt;h2 id="1"&gt;1 提前准备&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title>使用 Cloudflare 与 PicList 搭建图床</title><link>https://www.futseyi.com/blog/cloudflare-piclist-image-hosting/</link><guid isPermaLink="true">https://www.futseyi.com/blog/cloudflare-piclist-image-hosting/</guid><pubDate>Mon, 12 May 2025 00:00:00 +0000</pubDate><description>R2 实际上是一个对象存储。Cloudflare 提供 10G 的免费存储和每月 1000 万次的免费访问</description><content:encoded>&lt;h2 id="_1"&gt;提前准备&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;一个提前注册好的 Cloudflare 账号，并添加一个付费计划,不必担心扣费，可以选择 0 元免费计划&lt;/li&gt;
 &lt;li&gt;一个提前注册好的域名，可以选便宜一些的,域名后缀无所谓，只是作为图片网址使用如果不想花一年十几块的域名费，也可以去网上找免费的域名使用&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/Kuingsmile/PicList"&gt;Piclist软件&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="2-cloudflare-r2"&gt;2 创建 Cloudflare R2 存储桶&lt;/h2&gt;
+&lt;h2 id="cloudflare-r2"&gt;创建 Cloudflare R2 存储桶&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;R2 实际上是一个对象存储。Cloudflare 提供 10G 的免费存储和每月 1000 万次的免费访问&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;进入 &lt;a href="https://dash.cloudflare.com/"&gt;Cloudflare 仪表盘&lt;/a&gt;，进入 R2 页面，为你的存储桶起一个名字，然后单击创建&lt;/li&gt;
@@ -8019,7 +7969,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="3-s3-api"&gt;3 S3 API 配置&lt;/h2&gt;
+&lt;h2 id="s3-api"&gt;S3 API 配置&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;接下来，我们看看如何通过调用 S3 API 进行上传下载，并通过 PicList 接入该 API 实现一站式、本地化的图床图片管理&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -8037,7 +7987,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;blockquote&gt;
 &lt;p&gt;根据 Cloudflare 的安全策略，令牌信息页面一旦关闭，便永远不再展现，如果忘记了相应的信息，只能重新生成新令牌，所以请将令牌信息记录于可信的位置，妥善保管。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="4-piclist"&gt;4 Piclist 图床配置&lt;/h2&gt;
+&lt;h2 id="piclist"&gt;Piclist 图床配置&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;现在，事情来到了最后一步 —— 我们需要一个工具软件来接入我们配置好的 S3 API，方便我们从本地上传和管理图片，而不必每次都打开 cloudflare 面板，而 PicList 就是这方面的不二之选。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -8084,7 +8034,7 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;同样一张图片，在这样的文件路径下，会被上传到 “桶名称 / 2024/08/xxx/” 中，而图片本身会被重命名成 “该图片对应的 md5 字符串.jpg” 的形式。&lt;/p&gt;
-&lt;h2 id="5-piclist"&gt;5 Piclist 的管理功能 (可以直接管理你的云端图床)&lt;/h2&gt;
+&lt;h2 id="piclist_1"&gt;Piclist 的管理功能 (可以直接管理你的云端图床)&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;云存储平台/云服务器和图床平台的管理是 PicList 新增的功能，在这里你可以：&lt;/p&gt;
 &lt;ul&gt;
@@ -8105,12 +8055,12 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/spa
 &lt;ol start="3"&gt;
 &lt;li&gt;这样配置完成后，就可以直接在 Piclist 查看咱们云端的图床啦&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id="6-github"&gt;6 关于配置的同步备份 (使用 Github 仓库备份)&lt;/h2&gt;
+&lt;h2 id="github"&gt;关于配置的同步备份 (使用 Github 仓库备份)&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="PixPin_2025-05-30_13-26-30" src="https://www.futseyi.com/blog/cloudflare-piclist-image-hosting/assets/pixpin-2025-05-30-13-26-30.png" loading="lazy" decoding="async"  width="1402" height="790" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;这里我使用 Github 自建私有仓库 (Piclist_Backup ) 进行配置文件的保存&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id="7"&gt;7 相关参考链接&lt;/h2&gt;
+&lt;h2 id="_2"&gt;相关参考链接&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href="https://www.zbf1009.top/archives/28"&gt;https://www.zbf1009.top/archives/28&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://tyxiaoming.xin/2025/01/12/%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/"&gt;https://tyxiaoming.xin/2025/01/12/%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/&lt;/a&gt;&lt;/p&gt;

@@ -69,17 +69,17 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>百度网盘与 OneDrive 的文件同步与备份实践</h1><div class="article-meta"><time class="post-date" datetime="2026-10-12">Oct 12, 2026</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/baidu-netdisk-onedrive-sync-backup/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-82071ba1957a"># 百度网盘</a><a class="post-tag" href="/blog/tags/#tag-80753c986574"># OneDrive</a><a class="post-tag" href="/blog/tags/#tag-ff7f9006731d"># Cloud Storage</a><a class="post-tag" href="/blog/tags/#tag-dd96994d01e7"># Backup</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#1" class="toc-level-1">1 我为什么重新整理云盘方案</a><a href="#2-onedrive" class="toc-level-1">2 OneDrive 与百度网盘的使用体验</a><a href="#3-git" class="toc-level-1">3 同步空间与 Git 仓库的边界</a><a href="#4" class="toc-level-1">4 释放本地空间时需要注意什么</a><a href="#5" class="toc-level-1">5 同步不等于备份</a><a href="#6" class="toc-level-1">6 最终分工</a><a href="#7" class="toc-level-1">7 总结</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="1">1 我为什么重新整理云盘方案</h2>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>百度网盘与 OneDrive 的文件同步与备份实践</h1><div class="article-meta"><time class="post-date" datetime="2026-10-12">Oct 12, 2026</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/baidu-netdisk-onedrive-sync-backup/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-82071ba1957a"># 百度网盘</a><a class="post-tag" href="/blog/tags/#tag-80753c986574"># OneDrive</a><a class="post-tag" href="/blog/tags/#tag-ff7f9006731d"># Cloud Storage</a><a class="post-tag" href="/blog/tags/#tag-dd96994d01e7"># Backup</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#_1" class="toc-level-1">我为什么重新整理云盘方案</a><a href="#onedrive" class="toc-level-1">OneDrive 与百度网盘的使用体验</a><a href="#git" class="toc-level-1">同步空间与 Git 仓库的边界</a><a href="#_2" class="toc-level-1">释放本地空间时需要注意什么</a><a href="#_3" class="toc-level-1">同步不等于备份</a><a href="#_4" class="toc-level-1">最终分工</a><a href="#_5" class="toc-level-1">总结</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="_1">我为什么重新整理云盘方案</h2>
 <p>随着个人项目、学习资料和归档文件越来越多，我希望找到一种能够兼顾多设备访问、自动同步和本地空间管理的方案。</p>
 <p>之前我主要使用 OneDrive，也尝试过让不同网盘共同管理同一个文件夹。但实际使用后发现，云盘同步、Git 版本管理和独立备份是三件不同的事，不能简单地把多个同步客户端叠在一起。</p>
 <p>这次整理的重点，是让每种工具承担清晰的职责。</p>
-<h2 id="2-onedrive">2 OneDrive 与百度网盘的使用体验</h2>
+<h2 id="onedrive">OneDrive 与百度网盘的使用体验</h2>
 <p>我分别从日常同步和文件管理的角度使用两种服务。</p>
 <p><strong>OneDrive</strong> 更适合与 Windows 系统和 Microsoft 生态配合。按需文件功能可以释放本地空间，需要时再下载云端内容。</p>
 <p><strong>百度网盘同步空间</strong> 则提供了另一种管理体验：可以把指定文件夹纳入同步空间，也可以按需释放本地文件。对我来说，它在手机端上传文件、电脑端统一归档的流程比较顺手。</p>
 <p>还有一个实际差异是，我发现百度网盘可以存取 Live Photo 格式的照片，这也是我在整理个人照片时比较看重的一点。</p>
 <p>两者并不是非此即彼。是否保留某个服务，应取决于设备生态、文件类型、同步体验和实际成本，而不是只看容量。</p>
-<h2 id="3-git">3 同步空间与 Git 仓库的边界</h2>
+<h2 id="git">同步空间与 Git 仓库的边界</h2>
 <p>我曾把 Git 管理的个人归档仓库放进百度网盘同步空间。2026 年 10 月 12 日执行：</p>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>pull<span class="w"> </span>--tags<span class="w"> </span>origin<span class="w"> </span>main
 </code></pre></div>
@@ -97,7 +97,7 @@ error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessar
 <li>需要备份 Git 历史时，额外保存 Git bundle 或镜像</li>
 <li>避免多个设备同时打开并修改同一个同步目录中的仓库</li>
 </ul>
-<h2 id="4">4 释放本地空间时需要注意什么</h2>
+<h2 id="_2">释放本地空间时需要注意什么</h2>
 <p>百度网盘和 OneDrive 的按需文件机制，能够减少本地磁盘占用，但它们并不意味着文件永远不会重新下载。</p>
 <p>我还观察到一个情况：手机端向百度网盘同步空间上传文件后，即使电脑端此前选择了释放空间，Git 访问相关目录时仍可能触发文件重新下载。等本地 Git 操作完成并推送到远端后，再释放空间就比较顺畅。</p>
 <p>这提醒我，释放空间与本地程序访问之间存在关联。只要某个应用需要读取文件，云盘客户端就可能重新将它下载到本地。</p>
@@ -108,7 +108,7 @@ error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessar
 <li>Git 操作完成后再执行空间释放</li>
 <li>不要在同步进行时强制移动、删除或批量改写文件</li>
 </ol>
-<h2 id="5">5 同步不等于备份</h2>
+<h2 id="_3">同步不等于备份</h2>
 <p>这是整套方案里最重要的原则。</p>
 <p>同步的目标是让多个位置保持一致；备份的目标是在误删、覆盖、损坏或账号异常后，仍然能够恢复到过去的状态。</p>
 <p>如果一个文件被误删，同步服务可能会把删除操作传播到其他设备。因此，单纯拥有两个同步客户端，并不等于拥有两份独立备份。</p>
@@ -120,7 +120,7 @@ error: https://github.com/FuTseYi/Personal_Folders.git did not send all necessar
 <li>关键资料：定期检查备份是否能够实际恢复</li>
 </ul>
 <p>例如，仓库快照可以采用带日期的命名方式，避免新备份覆盖旧版本。备份是否可靠，最终要通过恢复测试确认，而不是只看上传是否成功。</p>
-<h2 id="6">6 最终分工</h2>
+<h2 id="_4">最终分工</h2>
 <p>经过这轮实践，我更倾向于使用下面的结构：</p>
 <div class="codehilite"><pre><span></span><code>GitHub
   └─ 代码版本、提交历史、协作
@@ -136,9 +136,9 @@ OneDrive
 </code></pre></div>
 
 <p>不需要让每个文件夹同时被所有服务接管。按内容和用途选择一个主要同步位置，再为重要数据建立独立备份，整体会更清晰。</p>
-<h2 id="7">7 总结</h2>
+<h2 id="_5">总结</h2>
 <p>云盘的价值不只是容量，而是让文件在不同设备之间更容易流动。但同步工具、版本控制和备份工具有不同的目标，混用时必须划清边界。</p>
-<p><strong>同步负责可访问，Git 负责可追溯，备份负责可恢复。</strong> 把这三件事分开设计，才能让个人文件归档长期稳定地运行。</p></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#1" class="toc-level-1">1 我为什么重新整理云盘方案</a><a href="#2-onedrive" class="toc-level-1">2 OneDrive 与百度网盘的使用体验</a><a href="#3-git" class="toc-level-1">3 同步空间与 Git 仓库的边界</a><a href="#4" class="toc-level-1">4 释放本地空间时需要注意什么</a><a href="#5" class="toc-level-1">5 同步不等于备份</a><a href="#6" class="toc-level-1">6 最终分工</a><a href="#7" class="toc-level-1">7 总结</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/raindrop-cross-browser-bookmarks/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>使用 Raindrop.io 统一管理跨浏览器书签</strong></a><a class="post-neighbor next" href="/blog/git-baidu-netdisk-sync-conflict/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>Git 仓库与百度网盘同步冲突排查</strong></a></nav></main>
+<p><strong>同步负责可访问，Git 负责可追溯，备份负责可恢复。</strong> 把这三件事分开设计，才能让个人文件归档长期稳定地运行。</p></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#_1" class="toc-level-1">我为什么重新整理云盘方案</a><a href="#onedrive" class="toc-level-1">OneDrive 与百度网盘的使用体验</a><a href="#git" class="toc-level-1">同步空间与 Git 仓库的边界</a><a href="#_2" class="toc-level-1">释放本地空间时需要注意什么</a><a href="#_3" class="toc-level-1">同步不等于备份</a><a href="#_4" class="toc-level-1">最终分工</a><a href="#_5" class="toc-level-1">总结</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/raindrop-cross-browser-bookmarks/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>使用 Raindrop.io 统一管理跨浏览器书签</strong></a><a class="post-neighbor next" href="/blog/cloudflare-email-routing-outlook-forwarding/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>Cloudflare Email Routing：自有域名邮件转发实践</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

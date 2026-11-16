@@ -69,14 +69,14 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>把 GitHub 变成内容后台：HKUST-ELPA 的 Serverless 实践</h1><div class="article-meta"><time class="post-date" datetime="2026-10-19">Oct 19, 2026</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/hkust-elpa-serverless-github-native-cms/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-2a14c30bf922"># Serverless</a><a class="post-tag" href="/blog/tags/#tag-e7ce8d05510a"># Cloudflare Workers</a><a class="post-tag" href="/blog/tags/#tag-39540900bbfc"># GitHub Actions</a><a class="post-tag" href="/blog/tags/#tag-c30dd429e232"># Local-First</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#1" class="toc-level-1">1 前言</a><a href="#2" class="toc-level-1">2 技术选型：把复杂度留给真正需要的环节</a><a href="#3" class="toc-level-1">3 系统架构：两条数据链路</a><a href="#31" class="toc-level-2">3.1 个人练习留在浏览器</a><a href="#32-github" class="toc-level-2">3.2 社区内容通过 GitHub 审核发布</a><a href="#4-github-native-cms" class="toc-level-1">4 核心设计：GitHub-Native CMS</a><a href="#41-issue" class="toc-level-2">4.1 Issue 同时承担投稿队列与来源记录</a><a href="#42-pr" class="toc-level-2">4.2 审核通过后自动生成 PR，而不是自动发布</a><a href="#43" class="toc-level-2">4.3 用文件白名单控制自动化边界</a><a href="#5-id" class="toc-level-1">5 数据设计：稳定 ID、考试经历与内容补充分离</a><a href="#51-stable-ids" class="toc-level-2">5.1 Stable IDs：题目排序不等于题目身份</a><a href="#52-encounter-supplement" class="toc-level-2">5.2 Encounter 与 Supplement：反馈次数要有明确含义</a><a href="#53-provenance" class="toc-level-2">5.3 Provenance：来源和考试场次不能靠猜</a><a href="#6-local-first" class="toc-level-1">6 Local-First：无需账号的学习记录</a><a href="#7-edge-security" class="toc-level-1">7 Edge Security：给静态网站增加可信写入入口</a><a href="#8" class="toc-level-1">8 测试与发布：让小步迭代可重复验证</a><a href="#81-nodejs" class="toc-level-2">8.1 Node.js 逻辑测试</a><a href="#82-playwright" class="toc-level-2">8.2 Playwright 浏览器回归</a><a href="#83" class="toc-level-2">8.3 发布与持续维护</a><a href="#9" class="toc-level-1">9 总结：让系统复杂度与真实需求匹配</a><a href="#10" class="toc-level-1">10 项目与参考资料</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="1">1 前言</h2>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>把 GitHub 变成内容后台：HKUST-ELPA 的 Serverless 实践</h1><div class="article-meta"><time class="post-date" datetime="2026-10-19">Oct 19, 2026</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/hkust-elpa-serverless-github-native-cms/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-2a14c30bf922"># Serverless</a><a class="post-tag" href="/blog/tags/#tag-e7ce8d05510a"># Cloudflare Workers</a><a class="post-tag" href="/blog/tags/#tag-39540900bbfc"># GitHub Actions</a><a class="post-tag" href="/blog/tags/#tag-c30dd429e232"># Local-First</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#_1" class="toc-level-1">前言</a><a href="#_2" class="toc-level-1">技术选型：把复杂度留给真正需要的环节</a><a href="#_3" class="toc-level-1">系统架构：两条数据链路</a><a href="#_4" class="toc-level-2">个人练习留在浏览器</a><a href="#github" class="toc-level-2">社区内容通过 GitHub 审核发布</a><a href="#github-native-cms" class="toc-level-1">核心设计：GitHub-Native CMS</a><a href="#issue" class="toc-level-2">Issue 同时承担投稿队列与来源记录</a><a href="#pr" class="toc-level-2">审核通过后自动生成 PR，而不是自动发布</a><a href="#_5" class="toc-level-2">用文件白名单控制自动化边界</a><a href="#id" class="toc-level-1">数据设计：稳定 ID、考试经历与内容补充分离</a><a href="#stable-ids" class="toc-level-2">Stable IDs：题目排序不等于题目身份</a><a href="#encounter-supplement" class="toc-level-2">Encounter 与 Supplement：反馈次数要有明确含义</a><a href="#provenance" class="toc-level-2">Provenance：来源和考试场次不能靠猜</a><a href="#local-first" class="toc-level-1">Local-First：无需账号的学习记录</a><a href="#edge-security" class="toc-level-1">Edge Security：给静态网站增加可信写入入口</a><a href="#_6" class="toc-level-1">测试与发布：让小步迭代可重复验证</a><a href="#nodejs" class="toc-level-2">Node.js 逻辑测试</a><a href="#playwright" class="toc-level-2">Playwright 浏览器回归</a><a href="#_7" class="toc-level-2">发布与持续维护</a><a href="#_8" class="toc-level-1">总结：让系统复杂度与真实需求匹配</a><a href="#_9" class="toc-level-1">项目与参考资料</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="_1">前言</h2>
 <p>最近，我把自己整理的 ELPA 口语备考资料做成了一个网站：<a href="https://hkust-elpa.vercel.app/">HKUST-ELPA</a>。</p>
 <p>ELPA 是香港科技大学及香港科技大学（广州）相关的英语能力评估。准备考试时，我发现不少题目回忆和经验分散在聊天记录、文档与往届同学的分享中。资料并不缺少，真正麻烦的是<strong>查找、练习，以及后续持续更新</strong>。</p>
 <p>最初我只打算做一个能搜索题目、随机抽题和记笔记的静态网页。但做着做着，出现了更有意思的问题：</p>
 <p><strong>能不能不搭建传统业务数据库和管理后台，也让一个静态题库具备完整的社区投稿、审核和持续发布能力？</strong></p>
 <p>最终，我采用了原生 JavaScript、Cloudflare Workers 与 GitHub 原生协作机制相结合的方案。项目已经发布 <a href="https://github.com/FuTseYi/HKUST-ELPA/releases/tag/v1.0.0">v1.0.0 正式版</a>。</p>
 <p>这篇文章主要记录项目的架构、数据设计和实际工程取舍，也给以后维护类似的轻量内容平台留一份参考。</p>
-<h2 id="2">2 技术选型：把复杂度留给真正需要的环节</h2>
+<h2 id="_2">技术选型：把复杂度留给真正需要的环节</h2>
 <p>决定技术方案前，我先把项目数据分成两类：</p>
 <ul>
 <li><strong>公共内容</strong>：题目、考试经历、相似问法、提示小问、备考经验和来源记录，需要共享、审核与追溯。</li>
@@ -137,8 +137,8 @@
 </table></div>
 <p>整个网站没有前端框架和构建步骤，克隆仓库后启动静态 HTTP 服务就能预览；只有投稿时才需要调用边缘 API。</p>
 <p>对这个项目来说，<strong>静态优先不是功能妥协，而是明确区分本地交互与公共内容写入之后的自然选择。</strong></p>
-<h2 id="3">3 系统架构：两条数据链路</h2>
-<h3 id="31">3.1 个人练习留在浏览器</h3>
+<h2 id="_3">系统架构：两条数据链路</h2>
+<h3 id="_4">个人练习留在浏览器</h3>
 <div class="codehilite"><pre><span></span><code>静态题库 → 浏览器加载
               ↓
        搜索 / 筛选 / 抽题 / 计时
@@ -151,7 +151,7 @@
 </code></pre></div>
 
 <p>浏览题目、随机抽题、模拟计时和保存笔记都是客户端操作，无需登录，也不需要请求业务服务器。</p>
-<h3 id="32-github">3.2 社区内容通过 GitHub 审核发布</h3>
+<h3 id="github">社区内容通过 GitHub 审核发布</h3>
 <div class="codehilite"><pre><span></span><code>用户填写投稿
       ↓
 Cloudflare Turnstile
@@ -179,9 +179,9 @@ GitHub Actions + 受信任的导入脚本
 </code></pre></div>
 
 <p>这个流程最关键的边界是：<strong>投稿只是提交一条待审核记录，不等于修改正式题库。</strong></p>
-<h2 id="4-github-native-cms">4 核心设计：GitHub-Native CMS</h2>
+<h2 id="github-native-cms">核心设计：GitHub-Native CMS</h2>
 <p>这是项目里我认为最值得复用的部分。</p>
-<h3 id="41-issue">4.1 Issue 同时承担投稿队列与来源记录</h3>
+<h3 id="issue">Issue 同时承担投稿队列与来源记录</h3>
 <p>传统内容管理系统一般需要单独维护内容表、审核状态和后台页面。我直接使用 GitHub Issue 作为公开投稿入口。</p>
 <p>当 Cloudflare Worker 校验通过后，会创建一条附带 <code>submission:pending</code> 标签的 Issue。内容包含两部分：</p>
 <ol>
@@ -190,7 +190,7 @@ GitHub Actions + 受信任的导入脚本
 </ol>
 <p>结构化记录通过 <code>elpa-submission-v2</code> 标记封装在 Issue 中；Turnstile Token 不会随投稿记录写入 GitHub。</p>
 <p>这种设计不需要自建数据库来保存投稿队列，而且每条投稿天然保留 GitHub Issue 链接，之后可以直接回溯内容来源和审核过程。</p>
-<h3 id="42-pr">4.2 审核通过后自动生成 PR，而不是自动发布</h3>
+<h3 id="pr">审核通过后自动生成 PR，而不是自动发布</h3>
 <p>审核时，我只需要检查投稿是否准确、是否重复、有没有隐私信息，以及题目分类和表达是否合理。</p>
 <p>确认后，由仓库所有者给开放中的 Issue 添加：</p>
 <div class="codehilite"><pre><span></span><code>submission:approved
@@ -208,14 +208,14 @@ GitHub Actions + 受信任的导入脚本
 
 <p>最终的 PR 依然由人审核、合并，不会因为一个标签就直接把投稿发布到线上。</p>
 <p>这里的 GitHub <strong>不是运行时查询的数据库</strong>，而是承担内容协作、审核和版本管理；正式题库仍由仓库中的结构化文件提供，随静态站点一起发布。</p>
-<h3 id="43">4.3 用文件白名单控制自动化边界</h3>
+<h3 id="_5">用文件白名单控制自动化边界</h3>
 <p>自动化导入程序还配有专门的差异检查脚本：<code>scripts/check-submission-diff.cjs</code>。</p>
 <p>它限制生成的投稿 PR 只能修改预先允许的题库和内容文件，而不能顺带修改前端脚本、工作流或部署配置。</p>
 <p>与此同时，Issue 中的用户输入始终按<strong>不可信数据</strong>处理，不作为命令执行；字段会在 Worker 与导入器中重复校验。</p>
 <p>自动化负责减少重复劳动，发布控制仍留在维护者手中。</p>
-<h2 id="5-id">5 数据设计：稳定 ID、考试经历与内容补充分离</h2>
+<h2 id="id">数据设计：稳定 ID、考试经历与内容补充分离</h2>
 <p>题库持续更新后，我发现比“如何新增一道题”更难的是：<strong>如何保证后续更新不会破坏旧数据。</strong></p>
-<h3 id="51-stable-ids">5.1 Stable IDs：题目排序不等于题目身份</h3>
+<h3 id="stable-ids">Stable IDs：题目排序不等于题目身份</h3>
 <p>题目使用稳定 ID 关联学习记录，例如：</p>
 <div class="codehilite"><pre><span></span><code>D-1   GZ Regular ELPA
 F-2   GZ Fast Track
@@ -225,7 +225,7 @@ T-*   HK Fast Track
 
 <p>不同校区和考试类型有对应的数据分区。新导入题目的编号采用与原始 Issue 编号相关的确定性规则；已有题目的 ID 则保持不变。</p>
 <p>这样，题库排序、筛选、归档方式即使调整，也不会让用户之前记录的笔记突然关联到另一道题上。</p>
-<h3 id="52-encounter-supplement">5.2 Encounter 与 Supplement：反馈次数要有明确含义</h3>
+<h3 id="encounter-supplement">Encounter 与 Supplement：反馈次数要有明确含义</h3>
 <p>假设一位同学分享了某道已有题目的考试经历，另一位同学只补充了新的追问。</p>
 <p>这不应该被当成两次相同的考试出现记录。</p>
 <p>因此，投稿模型明确区分：</p>
@@ -253,12 +253,12 @@ T-*   HK Fast Track
 <p>对已有题目，系统会基于题目 ID、校区、类型和规范化英文内容确认关联；新考试经历附加到原题，内容补充则更新相关信息。</p>
 <p>同一条 Issue 的记录也会检查是否已经导入，避免重复处理。</p>
 <p>因此，<strong>题目是一个稳定实体，考试经历是可追加的记录，补充问法是另一种数据更新</strong>。这三者不能混为一谈。</p>
-<h3 id="53-provenance">5.3 Provenance：来源和考试场次不能靠猜</h3>
+<h3 id="provenance">Provenance：来源和考试场次不能靠猜</h3>
 <p>另一个容易被忽略的问题是资料来源。</p>
 <p>有的题目保留了学生回忆中的英文表达，有的只是根据中文回忆整理成适合练习的英文问法；资料整理日期也不等于考试发生日期。</p>
 <p>项目因此将题目内容、历史场次和来源说明分开管理。对有依据的考试记录保留学期与阶段，对尚未核实的场次不强行补齐。</p>
 <p>这一点让社区题库在持续积累内容的同时，仍能保持清晰的来源边界。</p>
-<h2 id="6-local-first">6 Local-First：无需账号的学习记录</h2>
+<h2 id="local-first">Local-First：无需账号的学习记录</h2>
 <p>既然个人学习状态没有社区共享需求，就没必要为它专门搭建账号系统。</p>
 <p>HKUST-ELPA 允许用户直接在浏览器里：</p>
 <ul>
@@ -272,7 +272,7 @@ T-*   HK Fast Track
 <p>需要注意的是，本地记录按浏览器和网站来源隔离：Vercel 与 GitHub Pages 可以部署同一套代码，但两边的 <code>localStorage</code> 不会自动同步。因此我保留了显式的备份与恢复入口。</p>
 <p>未完成的社区投稿则使用 <code>sessionStorage</code> 暂存，在当前标签页刷新后仍可恢复，提交成功后清除。</p>
 <p>这套设计的思路是：<strong>共享内容走审核发布链路，个人状态留在用户设备上。</strong></p>
-<h2 id="7-edge-security">7 Edge Security：给静态网站增加可信写入入口</h2>
+<h2 id="edge-security">Edge Security：给静态网站增加可信写入入口</h2>
 <p>前端静态化并不意味着所有操作都应该由浏览器直接完成。</p>
 <p>投稿时，浏览器只调用 Cloudflare Worker，真正的 GitHub Token 和 Turnstile Secret 保存在 Worker Secrets 中。</p>
 <p>当前接口主要实施以下控制：</p>
@@ -317,16 +317,16 @@ T-*   HK Fast Track
 <p>Worker 不会仅凭前端显示“验证成功”就信任请求；Cloudflare Turnstile 的校验发生在服务端。</p>
 <p>GitHub Actions 导入时又会对结构化数据重新验证。</p>
 <p><strong>浏览器、边缘接口、Issue 和正式题库之间有清楚的信任边界。</strong></p>
-<h2 id="8">8 测试与发布：让小步迭代可重复验证</h2>
+<h2 id="_6">测试与发布：让小步迭代可重复验证</h2>
 <p>这个项目后期经历了不少细节调整。我逐渐发现，小型项目同样需要自动化测试，否则一个看似简单的 UI 修改也可能影响数据关联和使用流程。</p>
-<h3 id="81-nodejs">8.1 Node.js 逻辑测试</h3>
+<h3 id="nodejs">Node.js 逻辑测试</h3>
 <p>项目使用 Node.js 内置测试工具覆盖题库数据、投稿校验、Worker 行为和数据导入器。</p>
 <p>本地可以直接执行：</p>
 <div class="codehilite"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>check
 npm<span class="w"> </span><span class="nb">test</span>
 </code></pre></div>
 
-<h3 id="82-playwright">8.2 Playwright 浏览器回归</h3>
+<h3 id="playwright">Playwright 浏览器回归</h3>
 <p>浏览器测试使用 Playwright + Chromium，覆盖以下八种宽度：</p>
 <div class="codehilite"><pre><span></span><code>320 / 375 / 390 / 430
 700 / 768 / 1024 / 1280 px
@@ -338,12 +338,12 @@ npm<span class="w"> </span><span class="nb">test</span>
 <p>另一个问题出现在跨校区投稿：从某道题的分享链接进入表单后，如果用户更改校区，原来的题目关联就不再合法。最终在前端切换时清除不兼容的关联，同时由导入器复核对应的校区与题目。</p>
 <p>这些都是<strong>单个函数很容易看起来正确，但整条用户操作链路仍可能出错</strong>的例子。</p>
 <p>测试运行时会隔离外部验证与真实投稿请求，不会因为回归测试而向公开仓库写入虚构题目。</p>
-<h3 id="83">8.3 发布与持续维护</h3>
+<h3 id="_7">发布与持续维护</h3>
 <p>代码通过 GitHub Actions 检查后合并到 <code>main</code>，静态站点随部署更新；Cloudflare Worker 独立管理投稿入口。</p>
 <p>项目同时部署在 Vercel 和 GitHub Pages，方便保留备用访问入口。</p>
 <p>2026 年 10 月，我发布了首个正式版本 <a href="https://github.com/FuTseYi/HKUST-ELPA/releases/tag/v1.0.0">v1.0.0 — Initial Public Release</a>。</p>
 <p>后续日常题库更新仍然通过小步 PR 完成，不需要为了每次内容调整都发布一个新版本。</p>
-<h2 id="9">9 总结：让系统复杂度与真实需求匹配</h2>
+<h2 id="_8">总结：让系统复杂度与真实需求匹配</h2>
 <p>这次开发给我最大的收获，是重新思考“一个完整应用到底需要哪些基础设施”。</p>
 <p>HKUST-ELPA 当然也有后端：Cloudflare Worker 承担了必要的写入校验。但它不需要常驻业务服务器，不需要自己搭建账户体系、内容审核后台或业务数据库。</p>
 <p>我把不同职责交给了最合适的位置：</p>
@@ -361,7 +361,7 @@ Vercel / Pages      → 静态发布
 <p><strong>好的技术选型不是堆叠更多组件，而是让系统只承担真实需要的复杂度。</strong></p>
 <p>HKUST-ELPA 从最初的一份备考笔记，逐渐成为了一次关于 Serverless Architecture、GitHub-Native Collaboration 和 Local-First Design 的工程实践。</p>
 <p>我也希望它之后仍然保持最初的状态：轻量、开放、可维护。</p>
-<h2 id="10">10 项目与参考资料</h2>
+<h2 id="_9">项目与参考资料</h2>
 <ul>
 <li><a href="https://hkust-elpa.vercel.app/">HKUST-ELPA 在线网站</a></li>
 <li><a href="https://github.com/FuTseYi/HKUST-ELPA">GitHub 开源仓库</a></li>
@@ -373,7 +373,7 @@ Vercel / Pages      → 静态发布
 </ul>
 <hr />
 <p><em>Built with Passion. Shared with Everyone.</em></p>
-<p><em>为爱发电 · 开源共建 · 互帮互助</em></p></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#1" class="toc-level-1">1 前言</a><a href="#2" class="toc-level-1">2 技术选型：把复杂度留给真正需要的环节</a><a href="#3" class="toc-level-1">3 系统架构：两条数据链路</a><a href="#31" class="toc-level-2">3.1 个人练习留在浏览器</a><a href="#32-github" class="toc-level-2">3.2 社区内容通过 GitHub 审核发布</a><a href="#4-github-native-cms" class="toc-level-1">4 核心设计：GitHub-Native CMS</a><a href="#41-issue" class="toc-level-2">4.1 Issue 同时承担投稿队列与来源记录</a><a href="#42-pr" class="toc-level-2">4.2 审核通过后自动生成 PR，而不是自动发布</a><a href="#43" class="toc-level-2">4.3 用文件白名单控制自动化边界</a><a href="#5-id" class="toc-level-1">5 数据设计：稳定 ID、考试经历与内容补充分离</a><a href="#51-stable-ids" class="toc-level-2">5.1 Stable IDs：题目排序不等于题目身份</a><a href="#52-encounter-supplement" class="toc-level-2">5.2 Encounter 与 Supplement：反馈次数要有明确含义</a><a href="#53-provenance" class="toc-level-2">5.3 Provenance：来源和考试场次不能靠猜</a><a href="#6-local-first" class="toc-level-1">6 Local-First：无需账号的学习记录</a><a href="#7-edge-security" class="toc-level-1">7 Edge Security：给静态网站增加可信写入入口</a><a href="#8" class="toc-level-1">8 测试与发布：让小步迭代可重复验证</a><a href="#81-nodejs" class="toc-level-2">8.1 Node.js 逻辑测试</a><a href="#82-playwright" class="toc-level-2">8.2 Playwright 浏览器回归</a><a href="#83" class="toc-level-2">8.3 发布与持续维护</a><a href="#9" class="toc-level-1">9 总结：让系统复杂度与真实需求匹配</a><a href="#10" class="toc-level-1">10 项目与参考资料</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/cloudflare-email-routing-outlook-forwarding/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>Cloudflare Email Routing：自有域名邮件转发实践</strong></a><a class="post-neighbor next" href="/blog/github-readme-transparent-image-background/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>GitHub README 透明图片出现灰底的解决方法</strong></a></nav></main>
+<p><em>为爱发电 · 开源共建 · 互帮互助</em></p></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#_1" class="toc-level-1">前言</a><a href="#_2" class="toc-level-1">技术选型：把复杂度留给真正需要的环节</a><a href="#_3" class="toc-level-1">系统架构：两条数据链路</a><a href="#_4" class="toc-level-2">个人练习留在浏览器</a><a href="#github" class="toc-level-2">社区内容通过 GitHub 审核发布</a><a href="#github-native-cms" class="toc-level-1">核心设计：GitHub-Native CMS</a><a href="#issue" class="toc-level-2">Issue 同时承担投稿队列与来源记录</a><a href="#pr" class="toc-level-2">审核通过后自动生成 PR，而不是自动发布</a><a href="#_5" class="toc-level-2">用文件白名单控制自动化边界</a><a href="#id" class="toc-level-1">数据设计：稳定 ID、考试经历与内容补充分离</a><a href="#stable-ids" class="toc-level-2">Stable IDs：题目排序不等于题目身份</a><a href="#encounter-supplement" class="toc-level-2">Encounter 与 Supplement：反馈次数要有明确含义</a><a href="#provenance" class="toc-level-2">Provenance：来源和考试场次不能靠猜</a><a href="#local-first" class="toc-level-1">Local-First：无需账号的学习记录</a><a href="#edge-security" class="toc-level-1">Edge Security：给静态网站增加可信写入入口</a><a href="#_6" class="toc-level-1">测试与发布：让小步迭代可重复验证</a><a href="#nodejs" class="toc-level-2">Node.js 逻辑测试</a><a href="#playwright" class="toc-level-2">Playwright 浏览器回归</a><a href="#_7" class="toc-level-2">发布与持续维护</a><a href="#_8" class="toc-level-1">总结：让系统复杂度与真实需求匹配</a><a href="#_9" class="toc-level-1">项目与参考资料</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/cloudflare-email-routing-outlook-forwarding/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>Cloudflare Email Routing：自有域名邮件转发实践</strong></a><a class="post-neighbor next" href="/blog/github-readme-transparent-image-background/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>GitHub README 透明图片出现灰底的解决方法</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

@@ -68,13 +68,13 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>使用 Cloudflare 与 PicList 搭建图床</h1><div class="article-meta"><time class="post-date" datetime="2025-05-12">May 12, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/cloudflare-piclist-image-hosting/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-a5b966cdcb60"># Cloudflare</a><a class="post-tag" href="/blog/tags/#tag-cb39efd49fba"># PicList</a><a class="post-tag" href="/blog/tags/#tag-dc9147337472"># Image Hosting</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#1" class="toc-level-1">1 提前准备</a><a href="#2-cloudflare-r2" class="toc-level-1">2 创建 Cloudflare R2 存储桶</a><a href="#3-s3-api" class="toc-level-1">3 S3 API 配置</a><a href="#4-piclist" class="toc-level-1">4 Piclist 图床配置</a><a href="#5-piclist" class="toc-level-1">5 Piclist 的管理功能 (可以直接管理你的云端图床)</a><a href="#6-github" class="toc-level-1">6 关于配置的同步备份 (使用 Github 仓库备份)</a><a href="#7" class="toc-level-1">7 相关参考链接</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="1">1 提前准备</h2>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>使用 Cloudflare 与 PicList 搭建图床</h1><div class="article-meta"><time class="post-date" datetime="2025-05-12">May 12, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/cloudflare-piclist-image-hosting/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-a5b966cdcb60"># Cloudflare</a><a class="post-tag" href="/blog/tags/#tag-cb39efd49fba"># PicList</a><a class="post-tag" href="/blog/tags/#tag-dc9147337472"># Image Hosting</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#_1" class="toc-level-1">提前准备</a><a href="#cloudflare-r2" class="toc-level-1">创建 Cloudflare R2 存储桶</a><a href="#s3-api" class="toc-level-1">S3 API 配置</a><a href="#piclist" class="toc-level-1">Piclist 图床配置</a><a href="#piclist_1" class="toc-level-1">Piclist 的管理功能 (可以直接管理你的云端图床)</a><a href="#github" class="toc-level-1">关于配置的同步备份 (使用 Github 仓库备份)</a><a href="#_2" class="toc-level-1">相关参考链接</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="_1">提前准备</h2>
 <ol>
 <li>一个提前注册好的 Cloudflare 账号，并添加一个付费计划,不必担心扣费，可以选择 0 元免费计划</li>
 <li>一个提前注册好的域名，可以选便宜一些的,域名后缀无所谓，只是作为图片网址使用如果不想花一年十几块的域名费，也可以去网上找免费的域名使用</li>
 <li><a href="https://github.com/Kuingsmile/PicList">Piclist软件</a></li>
 </ol>
-<h2 id="2-cloudflare-r2">2 创建 Cloudflare R2 存储桶</h2>
+<h2 id="cloudflare-r2">创建 Cloudflare R2 存储桶</h2>
 <p><strong>R2 实际上是一个对象存储。Cloudflare 提供 10G 的免费存储和每月 1000 万次的免费访问</strong></p>
 <ol>
 <li>进入 <a href="https://dash.cloudflare.com/">Cloudflare 仪表盘</a>，进入 R2 页面，为你的存储桶起一个名字，然后单击创建</li>
@@ -88,7 +88,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="3-s3-api">3 S3 API 配置</h2>
+<h2 id="s3-api">S3 API 配置</h2>
 <blockquote>
 <p><strong>接下来，我们看看如何通过调用 S3 API 进行上传下载，并通过 PicList 接入该 API 实现一站式、本地化的图床图片管理</strong></p>
 </blockquote>
@@ -106,7 +106,7 @@
 <blockquote>
 <p>根据 Cloudflare 的安全策略，令牌信息页面一旦关闭，便永远不再展现，如果忘记了相应的信息，只能重新生成新令牌，所以请将令牌信息记录于可信的位置，妥善保管。</p>
 </blockquote>
-<h2 id="4-piclist">4 Piclist 图床配置</h2>
+<h2 id="piclist">Piclist 图床配置</h2>
 <blockquote>
 <p>现在，事情来到了最后一步 —— 我们需要一个工具软件来接入我们配置好的 S3 API，方便我们从本地上传和管理图片，而不必每次都打开 cloudflare 面板，而 PicList 就是这方面的不二之选。</p>
 </blockquote>
@@ -153,7 +153,7 @@
 </code></pre></div>
 
 <p>同样一张图片，在这样的文件路径下，会被上传到 “桶名称 / 2024/08/xxx/” 中，而图片本身会被重命名成 “该图片对应的 md5 字符串.jpg” 的形式。</p>
-<h2 id="5-piclist">5 Piclist 的管理功能 (可以直接管理你的云端图床)</h2>
+<h2 id="piclist_1">Piclist 的管理功能 (可以直接管理你的云端图床)</h2>
 <blockquote>
 <p>云存储平台/云服务器和图床平台的管理是 PicList 新增的功能，在这里你可以：</p>
 <ul>
@@ -174,16 +174,16 @@
 <ol start="3">
 <li>这样配置完成后，就可以直接在 Piclist 查看咱们云端的图床啦</li>
 </ol>
-<h2 id="6-github">6 关于配置的同步备份 (使用 Github 仓库备份)</h2>
+<h2 id="github">关于配置的同步备份 (使用 Github 仓库备份)</h2>
 <p><img alt="PixPin_2025-05-30_13-26-30" src="assets/pixpin-2025-05-30-13-26-30.png" loading="lazy" decoding="async"  width="1402" height="790" /></p>
 <blockquote>
 <p>这里我使用 Github 自建私有仓库 (Piclist_Backup ) 进行配置文件的保存</p>
 </blockquote>
-<h2 id="7">7 相关参考链接</h2>
+<h2 id="_2">相关参考链接</h2>
 <blockquote>
 <p><a href="https://www.zbf1009.top/archives/28">https://www.zbf1009.top/archives/28</a></p>
 <p><a href="https://tyxiaoming.xin/2025/01/12/%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/">https://tyxiaoming.xin/2025/01/12/%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/</a></p>
-</blockquote></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#1" class="toc-level-1">1 提前准备</a><a href="#2-cloudflare-r2" class="toc-level-1">2 创建 Cloudflare R2 存储桶</a><a href="#3-s3-api" class="toc-level-1">3 S3 API 配置</a><a href="#4-piclist" class="toc-level-1">4 Piclist 图床配置</a><a href="#5-piclist" class="toc-level-1">5 Piclist 的管理功能 (可以直接管理你的云端图床)</a><a href="#6-github" class="toc-level-1">6 关于配置的同步备份 (使用 Github 仓库备份)</a><a href="#7" class="toc-level-1">7 相关参考链接</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/code-as-poetry-article-as-song/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>代码如诗，文章如歌</strong></a><a class="post-neighbor next" href="/blog/biome-code-review/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>使用 Biome 进行代码检查</strong></a></nav></main>
+</blockquote></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#_1" class="toc-level-1">提前准备</a><a href="#cloudflare-r2" class="toc-level-1">创建 Cloudflare R2 存储桶</a><a href="#s3-api" class="toc-level-1">S3 API 配置</a><a href="#piclist" class="toc-level-1">Piclist 图床配置</a><a href="#piclist_1" class="toc-level-1">Piclist 的管理功能 (可以直接管理你的云端图床)</a><a href="#github" class="toc-level-1">关于配置的同步备份 (使用 Github 仓库备份)</a><a href="#_2" class="toc-level-1">相关参考链接</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/code-as-poetry-article-as-song/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>代码如诗，文章如歌</strong></a><a class="post-neighbor next" href="/blog/biome-code-review/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>使用 Biome 进行代码检查</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

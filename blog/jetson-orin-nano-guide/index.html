@@ -68,9 +68,9 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>Jetson Orin Nano 开发指南</h1><div class="article-meta"><time class="post-date" datetime="2025-07-08">Jul 8, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/jetson-orin-nano-guide/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-590555cc76f4"># Jetson Orin Nano</a><a class="post-tag" href="/blog/tags/#tag-342c2eeba912"># Edge AI</a><a class="post-tag" href="/blog/tags/#tag-4c17aadf5117"># Development</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#1" class="toc-level-1">1 换源</a><a href="#11" class="toc-level-2">1.1 验证架构和源兼容性​​</a><a href="#12" class="toc-level-2">1.2 两种换源方式</a><a href="#2-jupyter-lab" class="toc-level-1">2 Jupyter Lab 的安装与使用</a><a href="#3" class="toc-level-1">3 部署深度学习</a><a href="#31-jetson-inference" class="toc-level-2">3.1 构建 Jetson-inference 环境</a><a href="#32-pytorch" class="toc-level-2">3.2 安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)</a><a href="#4-hello-ai-word" class="toc-level-1">4 Hello AI Word 图像分类推理</a></nav></div></div></div><article class="article" data-pagefind-body><p><img alt="jetson orin nano qtr numbered" src="assets/jetson-orin-nano-qtr-numbered.jpg" loading="lazy" decoding="async"  width="1900" height="1460" /></p>
-<h2 id="1">1 换源</h2>
-<h3 id="11">1.1 <strong>验证架构和源兼容性​</strong>​</h3>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>Jetson Orin Nano 开发指南</h1><div class="article-meta"><time class="post-date" datetime="2025-07-08">Jul 8, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/jetson-orin-nano-guide/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-590555cc76f4"># Jetson Orin Nano</a><a class="post-tag" href="/blog/tags/#tag-342c2eeba912"># Edge AI</a><a class="post-tag" href="/blog/tags/#tag-4c17aadf5117"># Development</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#_1" class="toc-level-1">换源</a><a href="#_2" class="toc-level-2">验证架构和源兼容性​​</a><a href="#_3" class="toc-level-2">两种换源方式</a><a href="#jupyter-lab" class="toc-level-1">Jupyter Lab 的安装与使用</a><a href="#_4" class="toc-level-1">部署深度学习</a><a href="#jetson-inference" class="toc-level-2">构建 Jetson-inference 环境</a><a href="#pytorch" class="toc-level-2">安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)</a><a href="#hello-ai-word" class="toc-level-1">Hello AI Word 图像分类推理</a></nav></div></div></div><article class="article" data-pagefind-body><p><img alt="jetson orin nano qtr numbered" src="assets/jetson-orin-nano-qtr-numbered.jpg" loading="lazy" decoding="async"  width="1900" height="1460" /></p>
+<h2 id="_1">换源</h2>
+<h3 id="_2"><strong>验证架构和源兼容性​</strong>​</h3>
 <ul>
 <li>检查系统架构：</li>
 </ul>
@@ -86,15 +86,15 @@
 <div class="codehilite"><pre><span></span><code>ls<span class="w"> </span>-la<span class="w"> </span>/etc/apt/sources.list.d/
 </code></pre></div>
 
-<h3 id="12">1.2 两种换源方式</h3>
-<h4 id="121-1-ros">1.2.1 方式 1.鱼香 ROS 一键换源</h4>
+<h3 id="_3">两种换源方式</h3>
+<h4 id="1-ros">方式 1.鱼香 ROS 一键换源</h4>
 <div class="codehilite"><pre><span></span><code>wget<span class="w"> </span>http://fishros.com/install<span class="w"> </span>-O<span class="w"> </span>fishros<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>.<span class="w"> </span>fishros
 </code></pre></div>
 
 <blockquote>
 <p>不要清除第三方源: 这样会把 nvidia 源配置文件给删除</p>
 </blockquote>
-<h4 id="122-2">1.2.2 方式 2.输入以下代码换源</h4>
+<h4 id="2">方式 2.输入以下代码换源</h4>
 <div class="codehilite"><pre><span></span><code><span class="c1"># 备份原有源 </span>
 sudo<span class="w"> </span>cp<span class="w"> </span>/etc/apt/sources.list<span class="w"> </span>/etc/apt/sources.list.bak<span class="w"> </span>
 <span class="c1"># 使用 sed 替换为清华镜像源（适用于 ARM） </span>
@@ -110,7 +110,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 </code></pre></div>
 
-<h2 id="2-jupyter-lab">2 Jupyter Lab 的安装与使用</h2>
+<h2 id="jupyter-lab">Jupyter Lab 的安装与使用</h2>
 <p>步骤 1: 更新 pip3 并安装 jupyter lab</p>
 <div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>-H<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
 pip3<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>jupyterlab
@@ -155,8 +155,8 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="
 <span class="c1">##输出(active (running))</span>
 </code></pre></div>
 
-<h2 id="3">3 部署深度学习</h2>
-<h3 id="31-jetson-inference">3.1 构建 Jetson-inference 环境</h3>
+<h2 id="_4">部署深度学习</h2>
+<h3 id="jetson-inference">构建 Jetson-inference 环境</h3>
 <p>步骤 1.下载必要的依赖库</p>
 <div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>cmake
@@ -187,12 +187,12 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
 sudo<span class="w"> </span>ldconfig
 </code></pre></div>
 
-<h3 id="32-pytorch">3.2 安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)</h3>
+<h3 id="pytorch">安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)</h3>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>jetson-inference/build
 ./install-pytorch.sh
 </code></pre></div>
 
-<h2 id="4-hello-ai-word">4 Hello AI Word 图像分类推理</h2>
+<h2 id="hello-ai-word">Hello AI Word 图像分类推理</h2>
 <p>开启一个终端输入</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">#针对CSI摄像头</span>
 imagenet
@@ -204,7 +204,7 @@ imagenet.py
 imagenet<span class="w"> </span>/dev/video0
 <span class="c1">#or</span>
 imagenet.py<span class="w"> </span>/dev/video0
-</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#1" class="toc-level-1">1 换源</a><a href="#11" class="toc-level-2">1.1 验证架构和源兼容性​​</a><a href="#12" class="toc-level-2">1.2 两种换源方式</a><a href="#2-jupyter-lab" class="toc-level-1">2 Jupyter Lab 的安装与使用</a><a href="#3" class="toc-level-1">3 部署深度学习</a><a href="#31-jetson-inference" class="toc-level-2">3.1 构建 Jetson-inference 环境</a><a href="#32-pytorch" class="toc-level-2">3.2 安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)</a><a href="#4-hello-ai-word" class="toc-level-1">4 Hello AI Word 图像分类推理</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/software-configurations/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>我的常用软件与配置</strong></a><a class="post-neighbor next" href="/blog/rknn-yolov7/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>YOLOv7 目标检测模型训练与 RKNN 适配</strong></a></nav></main>
+</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#_1" class="toc-level-1">换源</a><a href="#_2" class="toc-level-2">验证架构和源兼容性​​</a><a href="#_3" class="toc-level-2">两种换源方式</a><a href="#jupyter-lab" class="toc-level-1">Jupyter Lab 的安装与使用</a><a href="#_4" class="toc-level-1">部署深度学习</a><a href="#jetson-inference" class="toc-level-2">构建 Jetson-inference 环境</a><a href="#pytorch" class="toc-level-2">安装 Pytorch 人工智能框架 (迁移学习重新训练网络)(可选)</a><a href="#hello-ai-word" class="toc-level-1">Hello AI Word 图像分类推理</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/software-configurations/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>我的常用软件与配置</strong></a><a class="post-neighbor next" href="/blog/rknn-yolov7/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>YOLOv7 目标检测模型训练与 RKNN 适配</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

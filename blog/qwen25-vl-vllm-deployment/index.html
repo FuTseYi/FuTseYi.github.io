@@ -68,8 +68,8 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>Qwen2.5-VL 的 vLLM 部署与图像分析</h1><div class="article-meta"><time class="post-date" datetime="2025-06-15">Jun 15, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/qwen25-vl-vllm-deployment/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-0dfe99a60581"># Qwen2.5-VL</a><a class="post-tag" href="/blog/tags/#tag-49e2a9ee92e9"># vLLM</a><a class="post-tag" href="/blog/tags/#tag-652f6b9f2417"># Vision-Language Models</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#_1" class="toc-level-1">环境搭建工作</a><a href="#1-conda" class="toc-level-2">1 使用 Conda 创建环境</a><a href="#2" class="toc-level-2">2 模型下载</a><a href="#_2" class="toc-level-1">模型正式测试与调用</a><a href="#1-openai-python-sdk" class="toc-level-2">1 使用 OpenAI Python SDK 调用</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="_1">环境搭建工作</h2>
-<h3 id="1-conda">1 使用 Conda 创建环境</h3>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>Qwen2.5-VL 的 vLLM 部署与图像分析</h1><div class="article-meta"><time class="post-date" datetime="2025-06-15">Jun 15, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/qwen25-vl-vllm-deployment/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-0dfe99a60581"># Qwen2.5-VL</a><a class="post-tag" href="/blog/tags/#tag-49e2a9ee92e9"># vLLM</a><a class="post-tag" href="/blog/tags/#tag-652f6b9f2417"># Vision-Language Models</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#_1" class="toc-level-1">环境搭建工作</a><a href="#conda" class="toc-level-2">使用 Conda 创建环境</a><a href="#_2" class="toc-level-2">模型下载</a><a href="#_3" class="toc-level-1">模型正式测试与调用</a><a href="#openai-python-sdk" class="toc-level-2">使用 OpenAI Python SDK 调用</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="_1">环境搭建工作</h2>
+<h3 id="conda">使用 Conda 创建环境</h3>
 <div class="codehilite"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>qwen<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>-y
 
 conda<span class="w"> </span>activate<span class="w"> </span>qwen
@@ -77,7 +77,7 @@ conda<span class="w"> </span>activate<span class="w"> </span>qwen
 sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
 </code></pre></div>
 
-<h3 id="2">2 模型下载</h3>
+<h3 id="_2">模型下载</h3>
 <blockquote>
 <p><strong>1.首先安装所需依赖</strong></p>
 </blockquote>
@@ -111,8 +111,8 @@ sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </
 </code></pre></div>
 
 <p>注意端口不要与你现有的冲突</p>
-<h2 id="_2">模型正式测试与调用</h2>
-<h3 id="1-openai-python-sdk">1 使用 OpenAI Python SDK 调用</h3>
+<h2 id="_3">模型正式测试与调用</h2>
+<h3 id="openai-python-sdk">使用 OpenAI Python SDK 调用</h3>
 <blockquote>
 <p><strong>1.可以使用本地 usb 摄像头配合 opencv 手动截图单独存放在 captures 文件夹下,供后续大模型调用分析</strong></p>
 </blockquote>
@@ -329,7 +329,7 @@ sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
-</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#_1" class="toc-level-1">环境搭建工作</a><a href="#1-conda" class="toc-level-2">1 使用 Conda 创建环境</a><a href="#2" class="toc-level-2">2 模型下载</a><a href="#_2" class="toc-level-1">模型正式测试与调用</a><a href="#1-openai-python-sdk" class="toc-level-2">1 使用 OpenAI Python SDK 调用</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/chatbox-ollama/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>Ollama 远程部署与 Chatbox 连接</strong></a><a class="post-neighbor next" href="/blog/mcp-introduction/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>初识 MCP：概念与应用</strong></a></nav></main>
+</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#_1" class="toc-level-1">环境搭建工作</a><a href="#conda" class="toc-level-2">使用 Conda 创建环境</a><a href="#_2" class="toc-level-2">模型下载</a><a href="#_3" class="toc-level-1">模型正式测试与调用</a><a href="#openai-python-sdk" class="toc-level-2">使用 OpenAI Python SDK 调用</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/chatbox-ollama/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>Ollama 远程部署与 Chatbox 连接</strong></a><a class="post-neighbor next" href="/blog/mcp-introduction/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>初识 MCP：概念与应用</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

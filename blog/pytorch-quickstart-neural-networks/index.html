@@ -68,9 +68,9 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>PyTorch 入门 03：神经网络</h1><div class="article-meta"><time class="post-date" datetime="2025-07-15">Jul 15, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/pytorch-quickstart-neural-networks/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-98a2e30eeb85"># PyTorch</a><a class="post-tag" href="/blog/tags/#tag-5b8059958504"># Deep Learning</a><a class="post-tag" href="/blog/tags/#tag-2701a94c0eb5"># Tutorial</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#03" class="toc-level-1">第 03 讲 神经网络📝</a><a href="#11" class="toc-level-1">1.1 基本骨架</a><a href="#111-module" class="toc-level-2">1.1.1 Module</a><a href="#112-layers" class="toc-level-2">1.1.2 Layers</a><a href="#1121-i" class="toc-level-2">1.1.2.1 Ⅰ 卷积层</a><a href="#1122-ii" class="toc-level-2">1.1.2.2 Ⅱ 池化层</a><a href="#1123-iii" class="toc-level-2">1.1.2.3 Ⅲ 激活层</a><a href="#1124-iv" class="toc-level-2">1.1.2.4 Ⅳ 其他层</a><a href="#113-sequential" class="toc-level-2">1.1.3 Sequential</a><a href="#12" class="toc-level-1">1.2 损失&amp;优化</a><a href="#121" class="toc-level-2">1.2.1 损失函数</a><a href="#122" class="toc-level-2">1.2.2 反向传播</a><a href="#123" class="toc-level-2">1.2.3 优化器</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="03">第 03 讲 神经网络📝</h2>
-<h2 id="11">1.1 基本骨架</h2>
-<h3 id="111-module">1.1.1 Module</h3>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>PyTorch 入门 03：神经网络</h1><div class="article-meta"><time class="post-date" datetime="2025-07-15">Jul 15, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/pytorch-quickstart-neural-networks/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-98a2e30eeb85"># PyTorch</a><a class="post-tag" href="/blog/tags/#tag-5b8059958504"># Deep Learning</a><a class="post-tag" href="/blog/tags/#tag-2701a94c0eb5"># Tutorial</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#03" class="toc-level-1">第 03 讲 神经网络📝</a><a href="#_1" class="toc-level-1">基本骨架</a><a href="#module" class="toc-level-2">Module</a><a href="#layers" class="toc-level-2">Layers</a><a href="#_2" class="toc-level-2">卷积层</a><a href="#_3" class="toc-level-2">池化层</a><a href="#_4" class="toc-level-2">激活层</a><a href="#_5" class="toc-level-2">其他层</a><a href="#sequential" class="toc-level-2">Sequential</a><a href="#_6" class="toc-level-1">损失&amp;优化</a><a href="#_7" class="toc-level-2">损失函数</a><a href="#_8" class="toc-level-2">反向传播</a><a href="#_9" class="toc-level-2">优化器</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="03">第 03 讲 神经网络📝</h2>
+<h2 id="_1">基本骨架</h2>
+<h3 id="module">Module</h3>
 <blockquote>
 <p><code>torch.nn</code> 是非常常用的包，其中 <code>torch.container</code> 中的 <strong>「Module」</strong> 是所有神经网络的基类</p>
 <p>自己定义的模型需要实现「Module」的 <code>__init__</code> 和 <code>forward</code> 函数</p>
@@ -111,8 +111,8 @@
 <span class="c1"># 输出tensor([2.])PyTorch 默认的张量打印格式，表示其值为 2.0</span>
 </code></pre></div>
 
-<h3 id="112-layers">1.1.2 Layers</h3>
-<h3 id="1121-i">1.1.2.1 Ⅰ 卷积层</h3>
+<h3 id="layers">Layers</h3>
+<h3 id="_2">卷积层</h3>
 <blockquote>
 <p>卷积层中最常使用 <strong>Conv2d</strong> -- 因为图像为二维</p>
 <p>卷积核的 <strong>「size」</strong> 一般是预定义好的</p>
@@ -287,7 +287,7 @@
 <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
 
-<h3 id="1122-ii">1.1.2.2 Ⅱ 池化层</h3>
+<h3 id="_3">池化层</h3>
 <blockquote>
 <p>池化层中最常使用 <strong>「MaxPool2d」</strong></p>
 <p>其一是对卷积层所提取的信息做更一步降维， <strong>减少计算量</strong> ，</p>
@@ -418,7 +418,7 @@
 <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
 
-<h3 id="1123-iii">1.1.2.3 Ⅲ 激活层</h3>
+<h3 id="_4">激活层</h3>
 <blockquote>
 <p>激活层一般采用 <strong>「非线性激活」</strong> ，神经网络中引入非线性的特质，才能训练出符合各种特征的模型</p>
 <p>非线性激活函数有很多，如比较常见 <strong>「ReLU」</strong> 和 <strong>「Sigmoid」</strong></p>
@@ -554,7 +554,7 @@
 <p>True 代表替换原来的变量
  <img alt="d1eca2a28f401217b5945dfbf806a631 6lcvf4zt z2ft5lv" src="assets/d1eca2a28f401217b5945dfbf806a631-6lcvf4zt-z2ft5lv.webp" loading="lazy" decoding="async"  width="750" height="205" /></p>
 </blockquote>
-<h3 id="1124-iv">1.1.2.4 Ⅳ 其他层</h3>
+<h3 id="_5">其他层</h3>
 <blockquote>
 <p>「Transformer Layers」 特定的网络结构</p>
 <p>「Sparse Layers」 特定的网络结构，其中的 Embedding 用于自然语言处理</p>
@@ -636,7 +636,7 @@
 <p><code>torch.flatten(imgs)</code>，它<strong>直接把所有图片合成了一个一维向量</strong>，丢掉了 batch 信息。模型只能输出 `torch.Size([10])</p>
 <p><code>nn.Flatten()</code>，只展平单张图片，<strong>不会丢失 batch</strong>，所以每一张图片都能独立得到 10 维预测，输出就是 <code>torch.Size([64,10])</code></p>
 </blockquote>
-<h3 id="113-sequential">1.1.3 Sequential</h3>
+<h3 id="sequential">Sequential</h3>
 <blockquote>
 <p>Sequential 主要是方便代码的编写，使代码更加简洁</p>
 </blockquote>
@@ -719,8 +719,8 @@
 <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
 
-<h2 id="12">1.2 损失&amp;优化</h2>
-<h3 id="121">1.2.1 损失函数</h3>
+<h2 id="_6">损失&amp;优化</h2>
+<h3 id="_7">损失函数</h3>
 <blockquote>
 <p>损失函数（Loss Function）用于衡量模型的「预测输出」与「实际标签」之间的差异或者误差</p>
 <p>损失越小越好，根据 loss 调整参数，以减小损失 <img alt="304e06e4fc68fac4eaf17f5d86f68a49 d nkg qp z2fic4r" src="assets/304e06e4fc68fac4eaf17f5d86f68a49-d-nkg-qp-z2fic4r.webp" loading="lazy" decoding="async"  width="977" height="222" /></p>
@@ -803,7 +803,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">result_cross</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="122">1.2.2 反向传播</h3>
+<h3 id="_8">反向传播</h3>
 <blockquote>
 <p>前向传播：将训练集数据输入到 NN 的「输入层」，经过「隐藏层」，最后到达「输出层」并输出结果</p>
 <p>反向传播：计算估计值与实际值之间的误差，并将误差从「输出层」向「隐藏层」反向传播，直至「输入层」</p>
@@ -890,7 +890,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="s2">"ok"</span><span class="p">)</span>
 </code></pre></div>
 
-<h3 id="123">1.2.3 优化器</h3>
+<h3 id="_9">优化器</h3>
 <blockquote>
 <p><strong>更新参数 减少损失</strong></p>
 <p>反向传播（backward）–&gt; 计算出梯度（grad）–&gt; 根据梯度和学习率更新参数 –&gt; 减小 loss</p>
@@ -1003,7 +1003,7 @@
         <span class="n">running_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">+</span> <span class="n">result_loss</span>  
 
     <span class="nb">print</span><span class="p">(</span><span class="n">running_loss</span><span class="p">)</span>
-</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#03" class="toc-level-1">第 03 讲 神经网络📝</a><a href="#11" class="toc-level-1">1.1 基本骨架</a><a href="#111-module" class="toc-level-2">1.1.1 Module</a><a href="#112-layers" class="toc-level-2">1.1.2 Layers</a><a href="#1121-i" class="toc-level-2">1.1.2.1 Ⅰ 卷积层</a><a href="#1122-ii" class="toc-level-2">1.1.2.2 Ⅱ 池化层</a><a href="#1123-iii" class="toc-level-2">1.1.2.3 Ⅲ 激活层</a><a href="#1124-iv" class="toc-level-2">1.1.2.4 Ⅳ 其他层</a><a href="#113-sequential" class="toc-level-2">1.1.3 Sequential</a><a href="#12" class="toc-level-1">1.2 损失&amp;优化</a><a href="#121" class="toc-level-2">1.2.1 损失函数</a><a href="#122" class="toc-level-2">1.2.2 反向传播</a><a href="#123" class="toc-level-2">1.2.3 优化器</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/pytorch-quickstart-data/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>PyTorch 入门 02：数据处理</strong></a><a class="post-neighbor next" href="/blog/pytorch-quickstart-training-workflow/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>PyTorch 入门 04：模型训练流程</strong></a></nav></main>
+</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#03" class="toc-level-1">第 03 讲 神经网络📝</a><a href="#_1" class="toc-level-1">基本骨架</a><a href="#module" class="toc-level-2">Module</a><a href="#layers" class="toc-level-2">Layers</a><a href="#_2" class="toc-level-2">卷积层</a><a href="#_3" class="toc-level-2">池化层</a><a href="#_4" class="toc-level-2">激活层</a><a href="#_5" class="toc-level-2">其他层</a><a href="#sequential" class="toc-level-2">Sequential</a><a href="#_6" class="toc-level-1">损失&amp;优化</a><a href="#_7" class="toc-level-2">损失函数</a><a href="#_8" class="toc-level-2">反向传播</a><a href="#_9" class="toc-level-2">优化器</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/pytorch-quickstart-data/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>PyTorch 入门 02：数据处理</strong></a><a class="post-neighbor next" href="/blog/pytorch-quickstart-training-workflow/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>PyTorch 入门 04：模型训练流程</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

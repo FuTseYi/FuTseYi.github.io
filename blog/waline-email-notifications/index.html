@@ -69,7 +69,7 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>Waline 邮件通知配置：iCloud 与 Gmail</h1><div class="article-meta"><time class="post-date" datetime="2025-10-12">Oct 12, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/waline-email-notifications/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-c1d0d8234832"># Waline</a><a class="post-tag" href="/blog/tags/#tag-84add5b29527"># Email</a><a class="post-tag" href="/blog/tags/#tag-6ca46df113ad"># iCloud</a><a class="post-tag" href="/blog/tags/#tag-eabdf94e1399"># Gmail</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#waline-icloud-gmail" class="toc-level-1">使用 Waline 实现 iCloud 和 Gmail 邮件通知的完整配置教程</a><a href="#_1" class="toc-level-2">环境准备</a><a href="#icloud" class="toc-level-2">一、iCloud 邮箱邮件通知配置</a><a href="#gmail" class="toc-level-2">二、Gmail 邮箱邮件通知配置</a><a href="#waline" class="toc-level-2">三、Waline 环境变量配置示例</a><a href="#_2" class="toc-level-2">四、部署与验证</a><a href="#_3" class="toc-level-2">五、常见问题与解决方案</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="waline-icloud-gmail">使用 Waline 实现 iCloud 和 Gmail 邮件通知的完整配置教程</h2>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>Waline 邮件通知配置：iCloud 与 Gmail</h1><div class="article-meta"><time class="post-date" datetime="2025-10-12">Oct 12, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/waline-email-notifications/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-c1d0d8234832"># Waline</a><a class="post-tag" href="/blog/tags/#tag-84add5b29527"># Email</a><a class="post-tag" href="/blog/tags/#tag-6ca46df113ad"># iCloud</a><a class="post-tag" href="/blog/tags/#tag-eabdf94e1399"># Gmail</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#waline-icloud-gmail" class="toc-level-1">使用 Waline 实现 iCloud 和 Gmail 邮件通知的完整配置教程</a><a href="#_1" class="toc-level-2">环境准备</a><a href="#icloud" class="toc-level-2">iCloud 邮箱邮件通知配置</a><a href="#gmail" class="toc-level-2">Gmail 邮箱邮件通知配置</a><a href="#waline" class="toc-level-2">Waline 环境变量配置示例</a><a href="#_5" class="toc-level-2">部署与验证</a><a href="#_6" class="toc-level-2">常见问题与解决方案</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="waline-icloud-gmail">使用 Waline 实现 iCloud 和 Gmail 邮件通知的完整配置教程</h2>
 <p>Waline 是一款轻量级且高度可定制的评论系统，自带邮件通知功能可以有效提升用户互动体验。本文将分享如何配置 Apple 的 iCloud 邮箱和 Google 的 Gmail 邮箱，实现可靠且专业的邮件通知。</p>
 <p><img alt="2025-10-12_21-48-58.png" src="assets/20251012214915497.jpg" loading="lazy" decoding="async"  width="1314" height="530" /></p>
 <hr />
@@ -82,8 +82,8 @@
 <img alt="2025-10-12_21-46-08.png" src="assets/20251012214611993.jpg" loading="lazy" decoding="async"  width="2166" height="730" /></li>
 </ul>
 <hr />
-<h3 id="icloud">一、iCloud 邮箱邮件通知配置</h3>
-<h4 id="1-icloud-smtp">1. iCloud SMTP 配置参数</h4>
+<h3 id="icloud">iCloud 邮箱邮件通知配置</h3>
+<h4 id="icloud-smtp">iCloud SMTP 配置参数</h4>
 <div class="article-table" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -148,21 +148,21 @@
 <blockquote>
 <p><strong>注意</strong>：iCloud 需要使用 “应用专用密码” 代替登录密码，确保 SMTP 认证成功。</p>
 </blockquote>
-<h4 id="2">2. 应用专用密码获取方式</h4>
+<h4 id="_2">应用专用密码获取方式</h4>
 <ul>
 <li>访问 Apple's <a href="https://appleid.apple.com/">Apple ID 账户页面</a></li>
 <li>开启两步验证或双因素认证</li>
 <li>生成新的应用专用密码，复制用于 <code>SMTP_PASS</code>
 <img alt="20251012213948306" src="assets/20251012213948306.jpg" loading="lazy" decoding="async"  width="1209" height="882" /></li>
 </ul>
-<h4 id="3">3. 重要说明</h4>
+<h4 id="_3">重要说明</h4>
 <ul>
 <li><code>SMTP_SECURE</code> 需设置为 <code>false</code>，因为 587 端口使用 STARTTLS，非直接 SSL 连接。</li>
 <li>使用 465 端口时，需要设置 <code>SMTP_SECURE=true</code>，但会导致部分云平台连接失败。</li>
 </ul>
 <hr />
-<h3 id="gmail">二、Gmail 邮箱邮件通知配置</h3>
-<h4 id="1-gmail-smtp">1. Gmail SMTP 配置参数</h4>
+<h3 id="gmail">Gmail 邮箱邮件通知配置</h3>
+<h4 id="gmail-smtp">Gmail SMTP 配置参数</h4>
 <div class="article-table" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -204,20 +204,20 @@
 </tr>
 </tbody>
 </table></div>
-<h4 id="2_1">2. 应用专用密码获取方式</h4>
+<h4 id="_4">应用专用密码获取方式</h4>
 <ul>
 <li>登录 Google 账户，进入 <a href="https://myaccount.google.com/apppasswords">应用专用密码页面</a></li>
 <li>为你的 Waline 服务生成应用专用密码</li>
 <li>将生成的密码填入 <code>SMTP_PASS</code>
 <img alt="2025-10-12_21-43-49.png" src="assets/20251012214354595.jpg" loading="lazy" decoding="async"  width="1138" height="945" /></li>
 </ul>
-<h4 id="3-gmail">3. Gmail 配置要点</h4>
+<h4 id="gmail_1">Gmail 配置要点</h4>
 <ul>
 <li>推荐通过环境变量指定 <code>SMTP_SERVICE=Gmail</code>，简化配置</li>
 <li>确保开启 Gmail “允许安全性较低的应用”或启用两步验证并使用应用专用密码</li>
 </ul>
 <hr />
-<h3 id="waline">三、Waline 环境变量配置示例</h3>
+<h3 id="waline">Waline 环境变量配置示例</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># iCloud 配置（使用587端口）</span>
 
 <span class="nv">SMTP_HOST</span><span class="o">=</span>smtp.mail.me.com
@@ -258,7 +258,7 @@
 </code></pre></div>
 
 <hr />
-<h3 id="_2">四、部署与验证</h3>
+<h3 id="_5">部署与验证</h3>
 <ol>
 <li>设置环境变量后，在项目平台（如 Vercel）重新部署应用。</li>
 <li>使用非博主邮箱发表评论，验证是否能成功发送邮件通知。</li>
@@ -266,7 +266,7 @@
 <li>如邮件被误判为垃圾邮件，加入白名单。</li>
 </ol>
 <hr />
-<h3 id="_3">五、常见问题与解决方案</h3>
+<h3 id="_6">常见问题与解决方案</h3>
 <div class="article-table" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -292,7 +292,7 @@
 <td>改用 587 端口并关闭直接 SSL (SMTP_SECURE=false)</td>
 </tr>
 </tbody>
-</table></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#waline-icloud-gmail" class="toc-level-1">使用 Waline 实现 iCloud 和 Gmail 邮件通知的完整配置教程</a><a href="#_1" class="toc-level-2">环境准备</a><a href="#icloud" class="toc-level-2">一、iCloud 邮箱邮件通知配置</a><a href="#gmail" class="toc-level-2">二、Gmail 邮箱邮件通知配置</a><a href="#waline" class="toc-level-2">三、Waline 环境变量配置示例</a><a href="#_2" class="toc-level-2">四、部署与验证</a><a href="#_3" class="toc-level-2">五、常见问题与解决方案</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/astro-waline-comments/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>Astro 博客的 Waline 评论系统集成与定制</strong></a><a class="post-neighbor next" href="/blog/fushi-zucuo-2026/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>傅氏祖厝重建落成记：一生难忘，仅此一次</strong></a></nav></main>
+</table></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#waline-icloud-gmail" class="toc-level-1">使用 Waline 实现 iCloud 和 Gmail 邮件通知的完整配置教程</a><a href="#_1" class="toc-level-2">环境准备</a><a href="#icloud" class="toc-level-2">iCloud 邮箱邮件通知配置</a><a href="#gmail" class="toc-level-2">Gmail 邮箱邮件通知配置</a><a href="#waline" class="toc-level-2">Waline 环境变量配置示例</a><a href="#_5" class="toc-level-2">部署与验证</a><a href="#_6" class="toc-level-2">常见问题与解决方案</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/astro-waline-comments/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>Astro 博客的 Waline 评论系统集成与定制</strong></a><a class="post-neighbor next" href="/blog/fushi-zucuo-2026/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>傅氏祖厝重建落成记：一生难忘，仅此一次</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>

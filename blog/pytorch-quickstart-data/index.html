@@ -68,9 +68,9 @@
     </nav>
   </div>
 </header>
-<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>PyTorch 入门 02：数据处理</h1><div class="article-meta"><time class="post-date" datetime="2025-07-14">Jul 14, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/pytorch-quickstart-data/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-98a2e30eeb85"># PyTorch</a><a class="post-tag" href="/blog/tags/#tag-5b8059958504"># Deep Learning</a><a class="post-tag" href="/blog/tags/#tag-2701a94c0eb5"># Tutorial</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#02" class="toc-level-1">第 02 讲 数据📝</a><a href="#11" class="toc-level-1">1.1 加载数据</a><a href="#111-dataset" class="toc-level-2">1.1.1 Dataset</a><a href="#112-tensorboard" class="toc-level-2">1.1.2 TensorBoard</a><a href="#12" class="toc-level-1">1.2 转换数据</a><a href="#121-transforms" class="toc-level-2">1.2.1 Transforms(一个工具箱)</a><a href="#122-dataloader" class="toc-level-2">1.2.2 DataLoader</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="02">第 02 讲 数据📝</h2>
-<h2 id="11">1.1 加载数据</h2>
-<h3 id="111-dataset">1.1.1 Dataset</h3>
+<main class="blog-container wrap" id="main"><div class="article-layout"><div class="article-main"><a class="back-link" href="/blog/"><span class="link-arrow link-arrow-left" aria-hidden="true"></span>All posts</a><div class="article-head"><span class="blog-kicker">BLOG & NOTES</span><h1>PyTorch 入门 02：数据处理</h1><div class="article-meta"><time class="post-date" datetime="2025-07-14">Jul 14, 2025</time><a class="post-date" href="https://github.com/FuTseYi/FuTseYi-Site/edit/main/posts/pytorch-quickstart-data/index.md" target="_blank" rel="noopener noreferrer"><em>Edit on GitHub</em></a></div><div class="post-tags"><a class="post-tag" href="/blog/tags/#tag-98a2e30eeb85"># PyTorch</a><a class="post-tag" href="/blog/tags/#tag-5b8059958504"># Deep Learning</a><a class="post-tag" href="/blog/tags/#tag-2701a94c0eb5"># Tutorial</a></div></div><div class="article-toc-inline"><button class="article-toc-toggle" type="button" aria-expanded="false" aria-controls="article-toc-links">On this page</button><div class="article-toc-panel"><div class="article-toc-clip"><nav id="article-toc-links" aria-label="Article contents"><a href="#02" class="toc-level-1">第 02 讲 数据📝</a><a href="#_1" class="toc-level-1">加载数据</a><a href="#dataset" class="toc-level-2">Dataset</a><a href="#tensorboard" class="toc-level-2">TensorBoard</a><a href="#_2" class="toc-level-1">转换数据</a><a href="#transforms" class="toc-level-2">Transforms(一个工具箱)</a><a href="#dataloader" class="toc-level-2">DataLoader</a></nav></div></div></div><article class="article" data-pagefind-body><h2 id="02">第 02 讲 数据📝</h2>
+<h2 id="_1">加载数据</h2>
+<h3 id="dataset">Dataset</h3>
 <blockquote>
 <p>PyTorch 有关加载数据的，主要涉及 <strong>Dataset</strong> 和 <strong>DataLoader</strong></p>
 <p>前者主要告诉后者如何 <strong>获取数据</strong> ，后者主要用于 <strong>加载数据和为网络提供数据</strong></p>
@@ -181,7 +181,7 @@
 <span class="n">img</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-<h3 id="112-tensorboard">1.1.2 TensorBoard</h3>
+<h3 id="tensorboard">TensorBoard</h3>
 <blockquote>
 <p>我们不知道一个神经网络执行具体细节是什么，要人工调试十分困难</p>
 <p>TensorBoard 可以将程序的执行步骤都显示出来，对训练的参数（如损失值）统计并以图展现</p>
@@ -289,8 +289,8 @@ tensorboard<span class="w"> </span>--logdir<span class="o">=</span>logs<span cla
 <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
 
-<h2 id="12">1.2 转换数据</h2>
-<h3 id="121-transforms">1.2.1 Transforms(一个工具箱)</h3>
+<h2 id="_2">转换数据</h2>
+<h3 id="transforms">Transforms(一个工具箱)</h3>
 <blockquote>
 <p>Transforms 主要是用于图像变换的操作，可以对图像进行裁剪、标准化等</p>
 </blockquote>
@@ -567,7 +567,7 @@ Tensor 类型中的很多属性我们都需要在神经网络中用到，如反�
 <div class="codehilite"><pre><span></span><code><span class="n">tensorboard</span> <span class="o">--</span><span class="n">logdir</span><span class="o">=</span><span class="s2">"logs"</span>
 </code></pre></div>
 
-<h3 id="122-dataloader">1.2.2 DataLoader</h3>
+<h3 id="dataloader">DataLoader</h3>
 <blockquote>
 <p>batch_size 取四个数据打包成 imgs.targets,相当于融合在一起</p>
 </blockquote>
@@ -632,7 +632,7 @@ Tensor 类型中的很多属性我们都需要在神经网络中用到，如反�
 
 
 <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#02" class="toc-level-1">第 02 讲 数据📝</a><a href="#11" class="toc-level-1">1.1 加载数据</a><a href="#111-dataset" class="toc-level-2">1.1.1 Dataset</a><a href="#112-tensorboard" class="toc-level-2">1.1.2 TensorBoard</a><a href="#12" class="toc-level-1">1.2 转换数据</a><a href="#121-transforms" class="toc-level-2">1.2.1 Transforms(一个工具箱)</a><a href="#122-dataloader" class="toc-level-2">1.2.2 DataLoader</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/pytorch-quickstart-configuration/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>PyTorch 入门 01：环境配置</strong></a><a class="post-neighbor next" href="/blog/pytorch-quickstart-neural-networks/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>PyTorch 入门 03：神经网络</strong></a></nav></main>
+</code></pre></div></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#02" class="toc-level-1">第 02 讲 数据📝</a><a href="#_1" class="toc-level-1">加载数据</a><a href="#dataset" class="toc-level-2">Dataset</a><a href="#tensorboard" class="toc-level-2">TensorBoard</a><a href="#_2" class="toc-level-1">转换数据</a><a href="#transforms" class="toc-level-2">Transforms(一个工具箱)</a><a href="#dataloader" class="toc-level-2">DataLoader</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/pytorch-quickstart-configuration/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>PyTorch 入门 01：环境配置</strong></a><a class="post-neighbor next" href="/blog/pytorch-quickstart-neural-networks/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>PyTorch 入门 03：神经网络</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
     <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>
