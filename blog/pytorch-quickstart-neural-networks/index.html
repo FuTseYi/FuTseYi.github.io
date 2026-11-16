@@ -76,7 +76,7 @@
 <p>自己定义的模型需要实现「Module」的 <code>__init__</code> 和 <code>forward</code> 函数</p>
 <p>前向传播</p>
 <p>此图的 F. 是下面代码块定义的 -&gt; import torch.nn.functional as F
-<img alt="" src="assets/fca95ba8f46ae627d659f12c0db2e616-tljk4sl0-z5swsr.webp" loading="lazy" decoding="async"  width="692" height="351" /></p>
+<img alt="fca95ba8f46ae627d659f12c0db2e616 tljk4sl0 z5swsr" src="assets/fca95ba8f46ae627d659f12c0db2e616-tljk4sl0-z5swsr.webp" loading="lazy" decoding="async"  width="692" height="351" /></p>
 <p>nn_module.py</p>
 </blockquote>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>  
@@ -118,8 +118,8 @@
 <p>卷积核的 <strong>「size」</strong> 一般是预定义好的</p>
 <p>卷积核的 <strong>「weights」</strong> 一般是先初始化然后通过不断迭代学习而来的</p>
 </blockquote>
-<p><img alt="" src="assets/padding-strides-odd.gif" loading="lazy" decoding="async"  width="445" height="411" /></p>
-<p><img alt="" src="assets/50b94b73ec2b1924a4d770ea06e4f721-dubrwwms-z1pxu8c.webp" loading="lazy" decoding="async"  width="1058" height="586" /></p>
+<p><img alt="padding strides odd" src="assets/padding-strides-odd.gif" loading="lazy" decoding="async"  width="445" height="411" /></p>
+<p><img alt="50b94b73ec2b1924a4d770ea06e4f721 dubrwwms z1pxu8c" src="assets/50b94b73ec2b1924a4d770ea06e4f721-dubrwwms-z1pxu8c.webp" loading="lazy" decoding="async"  width="1058" height="586" /></p>
 <blockquote>
 <p>Original illustration unavailable: <a href="https://www.morinha.cc/_astro/d71ecdc3e869d3439ddcb62e22cc892e.CFvv4ckn_DI5V1.webp">source image</a>.</p>
 <p>以上完整输出为:
@@ -188,7 +188,7 @@
 <p>观察以下过程</p>
 <p>输出 channel=2,代表有两个卷积核去扫描.并且两个卷积核数值是随机的</p>
 </blockquote>
-<p><img alt="" src="assets/81512b024b672f6a650b5b7ebd0cc78c-z-fku6ud-z1ake0o.webp" loading="lazy" decoding="async"  width="947" height="462" /></p>
+<p><img alt="81512b024b672f6a650b5b7ebd0cc78c z fku6ud z1ake0o" src="assets/81512b024b672f6a650b5b7ebd0cc78c-z-fku6ud-z1ake0o.webp" loading="lazy" decoding="async"  width="947" height="462" /></p>
 <blockquote>
 <p>nn_conv2d.py</p>
 <p>以下正式讲解卷积层的使用</p>
@@ -293,8 +293,8 @@
 <p>其一是对卷积层所提取的信息做更一步降维， <strong>减少计算量</strong> ，</p>
 <p>其二是 <strong>加强图像特征的不变性</strong> ，使之增加图像的偏移、旋转等方面的鲁棒性</p>
 </blockquote>
-<p><img alt="" src="assets/dilation.gif" loading="lazy" decoding="async"  width="395" height="381" /></p>
-<p><img alt="" src="assets/057676433aa75853dbf92cdf33c025ff-tpyc1fer-1keqeg.webp" loading="lazy" decoding="async"  width="891" height="439" /></p>
+<p><img alt="dilation" src="assets/dilation.gif" loading="lazy" decoding="async"  width="395" height="381" /></p>
+<p><img alt="057676433aa75853dbf92cdf33c025ff tpyc1fer 1keqeg" src="assets/057676433aa75853dbf92cdf33c025ff-tpyc1fer-1keqeg.webp" loading="lazy" decoding="async"  width="891" height="439" /></p>
 <blockquote>
 <p>nn_maxpool.py</p>
 </blockquote>
@@ -552,14 +552,14 @@
 <blockquote>
 <p>对于 Relu(input,inplace=True/False)</p>
 <p>True 代表替换原来的变量
- <img alt="" src="assets/d1eca2a28f401217b5945dfbf806a631-6lcvf4zt-z2ft5lv.webp" loading="lazy" decoding="async"  width="750" height="205" /></p>
+ <img alt="d1eca2a28f401217b5945dfbf806a631 6lcvf4zt z2ft5lv" src="assets/d1eca2a28f401217b5945dfbf806a631-6lcvf4zt-z2ft5lv.webp" loading="lazy" decoding="async"  width="750" height="205" /></p>
 </blockquote>
 <h3 id="1124-iv">1.1.2.4 Ⅳ 其他层</h3>
 <blockquote>
 <p>「Transformer Layers」 特定的网络结构</p>
 <p>「Sparse Layers」 特定的网络结构，其中的 Embedding 用于自然语言处理</p>
 <p>「Linear Layers」 用的较多，即 全连接层
-<img alt="" src="assets/91c6d5f2a22884cd2ac3f956ff27ae5d-k9wvj-79-ztqv3o.webp" loading="lazy" decoding="async"  width="1246" height="697" /></p>
+<img alt="91c6d5f2a22884cd2ac3f956ff27ae5d k9wvj 79 ztqv3o" src="assets/91c6d5f2a22884cd2ac3f956ff27ae5d-k9wvj-79-ztqv3o.webp" loading="lazy" decoding="async"  width="1246" height="697" /></p>
 <p>nn_linear.py</p>
 </blockquote>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>  
@@ -723,7 +723,7 @@
 <h3 id="121">1.2.1 损失函数</h3>
 <blockquote>
 <p>损失函数（Loss Function）用于衡量模型的「预测输出」与「实际标签」之间的差异或者误差</p>
-<p>损失越小越好，根据 loss 调整参数，以减小损失 <img alt="" src="assets/304e06e4fc68fac4eaf17f5d86f68a49-d-nkg-qp-z2fic4r.webp" loading="lazy" decoding="async"  width="977" height="222" /></p>
+<p>损失越小越好，根据 loss 调整参数，以减小损失 <img alt="304e06e4fc68fac4eaf17f5d86f68a49 d nkg qp z2fic4r" src="assets/304e06e4fc68fac4eaf17f5d86f68a49-d-nkg-qp-z2fic4r.webp" loading="lazy" decoding="async"  width="977" height="222" /></p>
 </blockquote>
 <div class="codehilite"><pre><span></span><code><span class="c1"># 计算output和target之差的「绝对值」</span>
 
@@ -734,7 +734,7 @@
 <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="" src="assets/0da9a7533ef2b36e39e3606f9a5225d9-byr0pmmp-zt78v1.webp" loading="lazy" decoding="async"  width="729" height="120" /></p>
+<p><img alt="0da9a7533ef2b36e39e3606f9a5225d9 byr0pmmp zt78v1" src="assets/0da9a7533ef2b36e39e3606f9a5225d9-byr0pmmp-zt78v1.webp" loading="lazy" decoding="async"  width="729" height="120" /></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># 交叉熵损失函数（Cross-Entropy Loss Function）是在分类问题中经常使用的一种损失函数</span>
 
 <span class="c1"># 当分类预测正确时，损失要比较小，即\`-x[class]\`相比右边的项应较大</span>
@@ -742,7 +742,7 @@
 <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
 </code></pre></div>
 
-<p><img alt="" src="assets/df4fa6e51c50cdbc5ac66987b0378511-dxky2nws-1yuhfv.webp" loading="lazy" decoding="async"  width="1142" height="403" /></p>
+<p><img alt="df4fa6e51c50cdbc5ac66987b0378511 dxky2nws 1yuhfv" src="assets/df4fa6e51c50cdbc5ac66987b0378511-dxky2nws-1yuhfv.webp" loading="lazy" decoding="async"  width="1142" height="403" /></p>
 <blockquote>
 <p>nn_loss.py</p>
 </blockquote>
@@ -896,7 +896,7 @@
 <p>反向传播（backward）–&gt; 计算出梯度（grad）–&gt; 根据梯度和学习率更新参数 –&gt; 减小 loss</p>
 </blockquote>
 <p>优化器的种类比较多，常用的就是 SGD（随机梯度下降）</p>
-<p>不同优化器的参数列表不同，一般设置「parameters」和 l「lr」这两个参数，其他默认 <img alt="" src="assets/ea482701241d693f50662fa90f380ac0-ccnirmt4-2jtrqs.webp" loading="lazy" decoding="async"  width="736" height="403" /></p>
+<p>不同优化器的参数列表不同，一般设置「parameters」和 l「lr」这两个参数，其他默认 <img alt="ea482701241d693f50662fa90f380ac0 ccnirmt4 2jtrqs" src="assets/ea482701241d693f50662fa90f380ac0-ccnirmt4-2jtrqs.webp" loading="lazy" decoding="async"  width="736" height="403" /></p>
 <blockquote>
 <p>nn_optim.py</p>
 </blockquote>
