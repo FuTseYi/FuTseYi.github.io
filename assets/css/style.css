@@ -1,5 +1,5 @@
 @font-face{font-family:Caveat;src:url("../fonts/caveat-handwriting.woff2") format("woff2");font-style:normal;font-weight:400 600;font-display:block}
-@font-face{font-family:"Bodoni Moda";src:url("../fonts/bodoni-moda-numerals.ttf") format("truetype");font-style:italic;font-weight:500;font-display:swap;unicode-range:U+0030-0039}
+@font-face{font-family:"Bodoni Moda";src:url("../fonts/bodoni-moda-numerals.ttf") format("truetype");font-style:italic;font-weight:500;font-display:block;unicode-range:U+0030-0039}
 
 :root {
     color-scheme: light;
@@ -313,11 +313,12 @@ strong { font-weight: 600; }
 
 .hero-content { min-width:0; }
 
+.hero .handwritten-name { font-family: Caveat, var(--font); font-weight: 700; }
+
 .hero h1 {
     margin-top: 10px;
     font-size: clamp(38px, 4.8vw, 56px);
-    font-family: Caveat, var(--font);
-    font-weight: 600; line-height: 1.15; letter-spacing: 0;
+    line-height: 1.15; letter-spacing: 0;
   }
 
 .hero h1 .alias {
@@ -333,8 +334,9 @@ strong { font-weight: 600; }
 .about-intro .bio { margin-top: 18px; font-size: 15px; line-height: 1.8; color: var(--ink-soft); }
 .bio a { color: var(--accent); }
 .bio strong { color: var(--ink); font-weight: 600; }
+.bio .handwritten-name { font-size: 1.4em; line-height: 1; }
 .bio p+p { margin-top: 12px; }
-.about-intro .profile-note { margin: 0; font-size: 13px; font-weight: 400; font-style: italic; color: var(--ink-soft); }
+.about-intro .profile-note { margin: 12px 0 0; font-size: 13px; font-weight: 400; font-style: italic; color: var(--ink-soft); }
 .bio-detail { margin-top: 12px; font-size: 13px; line-height: 1.7; color: var(--ink-soft); }
 .bio-detail p+p { margin-top: 8px; }
 .bio-detail strong { color: var(--ink); }
@@ -599,6 +601,7 @@ footer {
 
 .footer-utility{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--ink-faint)}
 .footer-license{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-license .link-arrow{position:relative;left:-2px;margin-left:0}
 .footer-license,.footer-back-top,.footer-brand{color:var(--ink-faint)}
 .footer-license:is(:hover,:focus-visible),.footer-back-top:is(:hover,:focus-visible),.footer-brand:is(:hover,:focus-visible){color:var(--gold-ink);text-decoration:none}
 .footer-back-top{display:inline-flex;align-items:center;gap:6px;margin-left:auto;white-space:nowrap}
@@ -795,16 +798,15 @@ html:not(.js) .search-open,html:not(.js) .search-dialog{display:none}
 .blog-entry .post-date,.post-date{font-size:12px;color:var(--ink-faint)}
 .blog-entry .post-date.is-active{color:var(--gold-ink)}
 .blog-entry h3,#search-results li a{font-weight:500;font-size:15px;color:var(--ink);line-height:1.5}
-.blog-sidebar{position:sticky;top:82px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;scrollbar-width:none}
-.blog-sidebar::-webkit-scrollbar{display:none}
+.blog-sidebar{align-self:start}
 .blog-sidebar h2{font-size:19px;font-weight:600;margin-bottom:16px}
 .blog-sidebar ul{display:flex;flex-direction:column;align-items:flex-start;gap:8px;list-style:none}
-.blog-sidebar .post-tag{display:inline-block;background-color:var(--surface)}
+.blog-sidebar .post-tag{display:inline-block;padding-inline:0}
 .blog-sidebar .post-tag span{color:var(--ink-faint)}
-.all-tags-link{margin-top:18px}
+.all-tags-link{margin-bottom:18px}
 
 .tag-groups{display:flex;flex-wrap:wrap;align-items:flex-start;gap:9px;margin-top:28px}
-.tag-group{border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:13px}
+.tag-group{border-radius:6px;padding:4px 10px;font-size:13px}
 .tag-group summary{cursor:pointer;list-style:none}
 .tag-group summary::-webkit-details-marker{display:none}
 .tag-group summary span{color:var(--ink-faint)}
@@ -816,7 +818,7 @@ html:not(.js) .search-open,html:not(.js) .search-dialog{display:none}
 .article-head{margin:30px 0 38px}
 .article-head h1{margin:10px 0 13px;font-size:clamp(28px,4vw,40px);line-height:1.35;overflow-wrap:anywhere;text-wrap:pretty}
 .post-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:17px}
-.post-tag{border:1px solid var(--line);border-radius:5px;padding:2px 9px;color:var(--ink-soft);font-size:12px}
+.post-tag{border-radius:5px;padding:2px 9px;color:var(--ink-soft);font-size:12px}
 .post-neighbors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px;border-top:1px solid var(--line);margin-top:55px;padding-top:24px}
 .post-neighbor{display:block;min-width:0;margin:-12px;padding:12px;border-radius:10px;color:var(--ink);transition:background-color .16s}
 .post-neighbor.next{text-align:right;grid-column:2}

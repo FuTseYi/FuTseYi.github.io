@@ -39,7 +39,7 @@
       if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
     })();
   </script>
-<link rel="stylesheet" href="/assets/css/style.css?v=a9e739f5adc5"><script src="/assets/js/swup.umd.js?v=fc010a639ff3" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=1932db0b056d"><script src="/assets/js/swup.umd.js?v=fc010a639ff3" defer></script>
 <script src="/assets/js/site.js?v=dbd7b6084ea4" defer></script>
 <script src="/assets/js/atmosphere.js?v=a822ac798e30" defer></script>
 </head>
@@ -420,7 +420,7 @@ Gateway auth scheme = bearer
 <p>最后再次感谢 LINUX DO 上 sandleft 佬的原教程。本文只是基于原教程的一次个人实践补充，主要记录我在配置过程中遇到的坑和解决思路。</p></article></div><nav class="page-toc article-toc is-visible" aria-label="On this page"><span class="toc-title">ON THIS PAGE</span><a href="#claude-desktop-ccswitch-api" class="toc-level-1">Claude Desktop 接入 ccswitch：第三方模型 API 配置与踩坑记录</a><a href="#claude-desktop-claude-code" class="toc-level-2">先搞清楚：Claude Desktop 和 Claude Code 不是同一条链路</a><a href="#ccswitch" class="toc-level-2">开启 ccswitch 本地路由</a><a href="#claude-desktop-gateway" class="toc-level-2">配置 Claude Desktop 的 Gateway</a><a href="#inferencemodels" class="toc-level-2">最关键的一步：手动补 inferenceModels</a><a href="#reg-inferencemodels" class="toc-level-2">通过 .reg 添加 inferenceModels</a><a href="#haiku-sonnet-opus" class="toc-level-2">haiku / sonnet / opus 只是别名</a><a href="#1m" class="toc-level-2">关于模型名后缀，比如 [1m]</a><a href="#thinking-false" class="toc-level-2">thinking: false 不是必选项</a><a href="#_1" class="toc-level-2">常见报错怎么理解？</a><a href="#claude-desktop-ccswitch" class="toc-level-2">如何确认 Claude Desktop 真的走了 ccswitch？</a><a href="#_2" class="toc-level-2">最终流程总结</a><a href="#_4" class="toc-level-2">最终使用习惯</a><a href="#_5" class="toc-level-2">结论</a></nav></div><nav class="post-neighbors" aria-label="Adjacent posts"><a class="post-neighbor previous" href="/blog/fushi-zucuo-2026/"><span class="post-neighbor-label"><i class="link-arrow link-arrow-left" aria-hidden="true"></i>Previous post</span><strong>傅氏祖厝重建落成记：一生难忘，仅此一次</strong></a><a class="post-neighbor next" href="/blog/on-the-road-accumulating-choices/"><span class="post-neighbor-label">Next post<i class="link-arrow" aria-hidden="true"></i></span><strong>我们都还在路上：在不确定中攒出自己的选择权</strong></a></nav></main>
 <footer class="site-footer">
   <div class="wrap footer-utility">
-    <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Go ahead, steal it</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>
+    <a class="footer-license" href="https://github.com/FuTseYi/FuTseYi-Site/blob/main/LICENSING.md" target="_blank" rel="noopener noreferrer"><span>Yoink it.</span><span class="link-arrow" aria-hidden="true"></span><span>CC BY 4.0 &middot; Code MIT</span></a>
     <a class="footer-back-top" href="#main">Back to top <span class="link-arrow link-arrow-up" aria-hidden="true"></span></a>
   </div>
   <div class="footer-divider"><div class="wrap footer-inner">
