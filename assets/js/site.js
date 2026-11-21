@@ -47,7 +47,12 @@
   });
   const header = document.getElementById('site-header');
   if (!header) return;
-  header.classList.toggle('is-scrolled', window.scrollY > 6);
+  const syncHeaderScroll = () => {
+    if (!header.classList.contains('menu-open')) {
+      header.classList.toggle('is-scrolled', window.scrollY > 6);
+    }
+  };
+  window.addEventListener('scroll', syncHeaderScroll, { passive: true });
   const navigationProgress = document.createElement('div');
   navigationProgress.className = 'navigation-progress';
   navigationProgress.setAttribute('aria-hidden', 'true');
@@ -67,7 +72,7 @@
   window.addEventListener('pageshow', () => {
     navigationProgress.classList.remove('is-loading');
     requestAnimationFrame(() => {
-      header.classList.toggle('is-scrolled', window.scrollY > 6);
+      syncHeaderScroll();
       header.classList.remove('nav-reset');
       requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
     });
@@ -76,6 +81,7 @@
   const nav = document.getElementById('primary-navigation');
   const setOpen = (open) => {
     header.classList.toggle('menu-open', open);
+    if (!open) syncHeaderScroll();
     toggle?.setAttribute('aria-expanded', String(open));
     toggle?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
     if (nav) nav.inert = window.innerWidth <= 860 && !open;
@@ -222,7 +228,6 @@
         const remaining = document.documentElement.scrollHeight - window.innerHeight;
         readingProgress.style.transform = `scaleX(${remaining > 0 ? Math.max(0, Math.min(1, window.scrollY / remaining)) : 1})`;
       }
-      header.classList.toggle('is-scrolled', window.scrollY > 6);
       if (!targets.length) return;
       const navHeight = header.getBoundingClientRect().height;
       const probe = window.scrollY + navHeight + 28;
@@ -525,7 +530,6 @@
     const finishVisit = () => {
       root.classList.remove('is-navigating');
       navigationProgress.classList.remove('is-loading');
-      header.classList.toggle('is-scrolled', window.scrollY > 6);
     };
     swup.hooks.on('visit:abort', finishVisit);
     swup.hooks.on('content:scroll', () => {
@@ -554,7 +558,6 @@
       pendingPage = false;
       cleanupPage = initPage();
       syncNavigation();
-      header.classList.toggle('is-scrolled', window.scrollY > 6);
     });
   }
 })();
