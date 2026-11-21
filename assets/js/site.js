@@ -47,12 +47,7 @@
   });
   const header = document.getElementById('site-header');
   if (!header) return;
-  const syncHeaderScroll = () => {
-    if (!header.classList.contains('menu-open')) {
-      header.classList.toggle('is-scrolled', window.scrollY > 6);
-    }
-  };
-  window.addEventListener('scroll', syncHeaderScroll, { passive: true });
+  header.classList.toggle('is-scrolled', window.scrollY > 6);
   const navigationProgress = document.createElement('div');
   navigationProgress.className = 'navigation-progress';
   navigationProgress.setAttribute('aria-hidden', 'true');
@@ -72,7 +67,7 @@
   window.addEventListener('pageshow', () => {
     navigationProgress.classList.remove('is-loading');
     requestAnimationFrame(() => {
-      syncHeaderScroll();
+      header.classList.toggle('is-scrolled', window.scrollY > 6);
       header.classList.remove('nav-reset');
       requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
     });
@@ -81,7 +76,6 @@
   const nav = document.getElementById('primary-navigation');
   const setOpen = (open) => {
     header.classList.toggle('menu-open', open);
-    if (!open) syncHeaderScroll();
     toggle?.setAttribute('aria-expanded', String(open));
     toggle?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
     if (nav) nav.inert = window.innerWidth <= 860 && !open;
@@ -153,11 +147,6 @@
       observers.push(observer);
       return syncHint;
     };
-    const scrollExpandedIntoView = (element) => {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const overflow = element.getBoundingClientRect().bottom - (window.innerHeight - 24);
-      if (overflow > 0) window.scrollBy({ top: overflow, behavior: 'smooth' });
-    };
     const setupDisclosure = (container, toggleSelector, panelSelector, onChange) => {
       if (!container) return;
       const button = container.querySelector(toggleSelector);
@@ -170,11 +159,6 @@
       };
       setOpen(false);
       button.addEventListener('click', () => setOpen(!container.classList.contains('is-open')));
-      panel.addEventListener('transitionend', (event) => {
-        if (event.target !== panel || event.propertyName !== 'grid-template-rows' || !container.classList.contains('is-open')) return;
-        onChange?.();
-        scrollExpandedIntoView(container);
-      });
     };
     const inlineToc = document.querySelector('.article-toc-inline');
     if (inlineToc) {
@@ -228,6 +212,7 @@
         const remaining = document.documentElement.scrollHeight - window.innerHeight;
         readingProgress.style.transform = `scaleX(${remaining > 0 ? Math.max(0, Math.min(1, window.scrollY / remaining)) : 1})`;
       }
+      header.classList.toggle('is-scrolled', window.scrollY > 6);
       if (!targets.length) return;
       const navHeight = header.getBoundingClientRect().height;
       const probe = window.scrollY + navHeight + 28;
@@ -284,7 +269,7 @@
     if (location.hash) selectTarget(hashTargetId());
     else schedule();
     document.querySelectorAll('[data-expandable]').forEach((list) => {
-      const extra = [...list.querySelectorAll(':scope > .project-item')].slice(3);
+      const extra = [...list.querySelectorAll(`:scope > ${list.dataset.expandable}`)].slice(3);
       if (!extra.length) return;
       const dated = list.id === 'contribution-list';
       const yearOf = (item) => dated ? item.querySelector('time[datetime]').getAttribute('datetime').slice(0, 4) : 'all';
@@ -315,13 +300,7 @@
       button.addEventListener('click', () => {
         revealed = revealed === years.length ? 0 : revealed + 1;
         sync();
-        if (revealed > 0) requestAnimationFrame(() => scrollExpandedIntoView(list));
         releaseTarget();
-      });
-      panel.addEventListener('transitionend', (event) => {
-        if (event.target === panel && event.propertyName === 'grid-template-rows' && list.classList.contains('is-open')) {
-          scrollExpandedIntoView(list);
-        }
       });
       list.after(button);
     });
@@ -530,6 +509,7 @@
     const finishVisit = () => {
       root.classList.remove('is-navigating');
       navigationProgress.classList.remove('is-loading');
+      header.classList.toggle('is-scrolled', window.scrollY > 6);
     };
     swup.hooks.on('visit:abort', finishVisit);
     swup.hooks.on('content:scroll', () => {
@@ -558,6 +538,7 @@
       pendingPage = false;
       cleanupPage = initPage();
       syncNavigation();
+      header.classList.toggle('is-scrolled', window.scrollY > 6);
     });
   }
 })();
