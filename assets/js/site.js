@@ -138,13 +138,13 @@
       document.body.prepend(readingProgress);
     }
 
-    const addScrollHint = (content, container, isEnabled = () => true) => {
+    const addScrollHint = (content, container) => {
       const hint = document.createElement('div');
       hint.className = 'scroll-hint';
       hint.setAttribute('aria-hidden', 'true');
       container.append(hint);
       const syncHint = () => {
-        hint.classList.toggle('is-visible', isEnabled() && content.scrollHeight - content.clientHeight - content.scrollTop > 2);
+        hint.classList.toggle('is-visible', content.scrollHeight - content.clientHeight - content.scrollTop > 2);
       };
       content.addEventListener('scroll', syncHint, { passive: true });
       const observer = new ResizeObserver(syncHint);
