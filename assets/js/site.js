@@ -165,10 +165,22 @@
       setOpen(false);
       button.addEventListener('click', () => setOpen(!container.classList.contains('is-open')));
     };
+    const addScrollFade = (content) => {
+      const sync = () => {
+        content.classList.toggle('can-scroll-up', content.scrollTop > 2);
+        content.classList.toggle('can-scroll-down', content.scrollHeight - content.clientHeight - content.scrollTop > 2);
+      };
+      content.classList.add('scroll-fade');
+      listen(content, 'scroll', sync, { passive: true });
+      const observer = new ResizeObserver(sync);
+      observer.observe(content);
+      observers.push(observer);
+      return sync;
+    };
     const inlineToc = document.querySelector('.article-toc-inline');
     if (inlineToc) {
-      const syncInlineHint = addScrollHint(inlineToc.querySelector('nav'), inlineToc, () => inlineToc.classList.contains('is-open'));
-      setupDisclosure(inlineToc, '.article-toc-toggle', '.article-toc-panel', syncInlineHint);
+      const syncInlineFade = addScrollFade(inlineToc.querySelector('nav'));
+      setupDisclosure(inlineToc, '.article-toc-toggle', '.article-toc-panel', syncInlineFade);
     }
     setupDisclosure(document.querySelector('.web-evolution'), '.web-evolution-toggle', '.web-evolution-panel');
     const toc = document.querySelector('.page-toc');
@@ -177,7 +189,8 @@
       tocContent.className = 'toc-content';
       tocContent.append(...toc.childNodes);
       toc.append(tocContent);
-      addScrollHint(tocContent, toc);
+      if (toc.classList.contains('article-toc')) addScrollFade(tocContent);
+      else addScrollHint(tocContent, toc);
     }
     if (toc?.classList.contains('article-toc')) {
       const observer = new ResizeObserver(() => toc.style.setProperty('--toc-height', `${toc.offsetHeight}px`));
